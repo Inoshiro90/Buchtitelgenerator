@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+	<title>Buchtitelgenerator</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="styles/main.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- Popper.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<!-- Bootstrap JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<h1>
+			<b>
+				Buchgenerator
+			</b>
+		</h1>
+		<p>
+			Dieser Generator generiert Bücher
+		</p>
+		<!-- Filter: Setting -->
+		<button class="text-left btn btn-secondary btn-block mb-1" data-toggle="collapse" data-target="#setting">
+			Filter: Setting
+		</button>
+		<div id="setting" class="rounded content collapse mb-2 p-2 bg-light">
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-dragonlance" class="checkbox-setting" checked />
+				Drachenlanze
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-eberron" class="checkbox-setting" checked />
+				Eberron
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-exandria" class="checkbox-setting" checked />
+				Exandria
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-greyhawk" class="checkbox-setting" checked />
+				Greyhawk
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-ravenloft" class="checkbox-setting" checked />
+				Ravenloft
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-ravnica" class="checkbox-setting" checked />
+				Ravnica
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-spelljammer" class="checkbox-setting" checked />
+				Spelljammer
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-strixhaven" class="checkbox-setting" checked />
+				Strixhaven
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-theros" class="checkbox-setting" checked />
+				Theros
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-setting-forgotten-realms" class="checkbox-setting" checked />
+				Vergessene Reiche
+			</label>
+			<br />
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-select-all-setting">
+				Alle auswählen
+			</button>
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-deselect-all-setting">
+				Alle abwählen
+			</button>
+		</div>
+
+		<!-- Filter: Genre -->
+		<button class="text-left btn btn-secondary btn-block mt-2 mb-1" data-toggle="collapse" data-target="#genre">
+			Filter: Genre
+		</button>
+		<div id="genre" class="rounded content collapse mb-2 p-2 bg-light">
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-fiction" class="checkbox-genre" checked />
+				Belletristik
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-biography" class="checkbox-genre" checked />
+				Biographie
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-leisure" class="checkbox-genre" checked />
+				Freizeit
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-geography" class="checkbox-genre" checked />
+				Geographie
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-history" class="checkbox-genre" checked />
+				Geschichte
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-craft" class="checkbox-genre" checked />
+				Handwerk
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-medicine" class="checkbox-genre" checked />
+				Heilkunde
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-childrens-book" class="checkbox-genre" checked />
+				Kinderbuch
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-culinary-arts" class="checkbox-genre" checked />
+				Kochkunst
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-fine-arts" class="checkbox-genre" checked />
+				Bildende Kunst
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-performing-arts" class="checkbox-genre" checked />
+				Darstellende Kunst
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-magic" class="checkbox-genre" checked />
+				Magie
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-nature-studies" class="checkbox-genre" checked />
+				Naturkunde
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-philosophy" class="checkbox-genre" checked />
+				Philosophie
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-psychology" class="checkbox-genre" checked />
+				Psychologie
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-law" class="checkbox-genre" checked />
+				Recht
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-religion" class="checkbox-genre" checked />
+				Religion
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-sport" class="checkbox-genre" checked />
+				Sport
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-language" class="checkbox-genre" checked />
+				Sprache
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-genre-ethnology" class="checkbox-genre" checked />
+				Völkerkunde
+			</label>
+			<br />
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-select-all-genre">
+				Alle auswählen
+			</button>
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-deselect-all-genre">
+				Alle abwählen
+			</button>
+		</div>
+
+		<!-- Filter: Beschreibung -->
+		<button class="text-left btn btn-secondary btn-block mt-2 mb-1" data-toggle="collapse"
+			data-target="#description">
+			Filter: Beschreibung
+		</button>
+		<div id="description" class="mt-n5 rounded content collapse mb-2 p-2 bg-light">
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-author" class="checkbox-description" checked />
+				Autor
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-page-count" class="checkbox-description" checked />
+				Seitenzahl
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-edition" class="checkbox-description" checked />
+				Auflage
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-age" class="checkbox-description" checked />
+				Alter
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-language" class="checkbox-description" checked />
+				Sprache
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-tags" class="checkbox-description" checked />
+				Schlagwörter
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-size" class="checkbox-description" checked />
+				Buchgröße
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-page-material" class="checkbox-description" checked />
+				Seitenmaterial
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-weight" class="checkbox-description" checked />
+				Gewicht
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-condition" class="checkbox-description" checked />
+				Buchzustand
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-binding" class="checkbox-description" checked />
+				Buchbindung
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-book-value" class="checkbox-description" checked />
+				Buchwert
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-cover-material" class="checkbox-description" checked />
+				Material des Einbands
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-cover-color" class="checkbox-description" checked />
+				Farbe des Einbands
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-cover-detail" class="checkbox-description" checked />
+				Detail des Einbands
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-text-quality" class="checkbox-description" checked />
+				Textqualität
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-text-production" class="checkbox-description" checked />
+				Produktionsart des Texts
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-image-number" class="checkbox-description" checked />
+				Anzahl der Bilder
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-image-quality" class="checkbox-description" checked />
+				Qualität der Bilder
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-image-size" class="checkbox-description" checked />
+				Größe der Bilder
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-image-color" class="checkbox-description" checked />
+				Farbe der Bilder
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-image-style" class="checkbox-description" checked />
+				Stil der Bilder
+			</label>
+			<br />
+			<label class="checkbox-label">
+				<input type="checkbox" id="checkbox-description-bookmark" class="checkbox-description" checked />
+				Lesezeichen
+			</label>
+			<br />
+			<label class="checkbox-quirk">
+				<input type="checkbox" id="checkbox-description-quirk" class="checkbox-description" checked />
+				Eigenart
+			</label>
+			<br />
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-select-all-description">
+				Alle auswählen
+			</button>
+			<button class="btn btn-secondary inCollapsible mb-2" id="btn-deselect-all-description">
+				Alle abwählen
+			</button>
+		</div>
+		<!-- Inputfiled book count -->
+		<div class="row col-7">
+			<label for="input-field-book-count" class="col-form-label mt-1 mr-1">
+				Anzahl:
+			</label>
+			<div>
+				<input type="number" id="input-field-book-count" class="form-control mt-1" />
+			</div>
+		</div>
+
+		<!-- Buttons for generating, copying and deleting results-->
+		<div class="row col-7">
+			<div class="buttons mt-1">
+				<button id="btn-generate" class="btn btn-secondary mt-1">
+					Generieren
+				</button>
+				<button id="btn-copy" class="btn btn-secondary mt-1">
+					Kopieren
+				</button>
+				<button id="btn-clear" class="btn btn-secondary mt-1">
+					Löschen
+				</button>
+			</div>
+		</div>
+
+		<br>
+
+		<!-- Container for the results -->
+		<h2>
+			Generierte Buchtitel
+		</h2>
+		<div class="container mt-4" id="container-generated-books">
+		</div>
+
+		<!-- Scroll back to top button -->
+		<button type="button" class="btn btn-secondary btn-floating btn-lg mt-1" id="btn-back-to-top">
+			<b style="font-size: 24px">^</b>
+		</button>
+
+		<script src="scripts/getRandomElement.js"></script>
+		<script src="scripts/dice.js"></script>
+		<script src="scripts/clearGeneratedBooks.js"></script>
+		<script src="scripts/copyGeneratedBooks.js"></script>
+		<script src="scripts/interface/buttonBackToTop.js"></script>
+
+		<!--Scripts for toogling the setting checkboxes-->
+		<script src="scripts/interface/buttonSelectAllSetting.js"></script>
+		<script src="scripts/interface/buttonDeSelectAllSetting.js"></script>
+
+		<!--Scripts for toogling the genre checkboxes-->
+		<script src="scripts/interface/buttonSelectAllGenre.js"></script>
+		<script src="scripts/interface/buttonDeSelectAllGenre.js"></script>
+
+		<!--Scripts for toogling the description checkboxes-->
+		<script src="scripts/interface/buttonSelectAllDescription.js"></script>
+		<script src="scripts/interface/buttonDeSelectAllDescription.js"></script>
+
+		<!--Scripts for checking selection inputs -->
+		<script src="scripts/book/getSelectedSetting.js"></script>
+		<script src="scripts/book/getSelectedGenre.js"></script>
+		<script src="scripts/book/getSelectedDescription.js"></script>
+
+		<!-- Scripts for Categories -->
+		<script src="scripts/book/title/categories/classArray.js"></script>
+		<script src="scripts/book/title/categories/raceArray.js"></script>
+		<script src="scripts/book/title/categories/creatureTypeArray.js"></script>
+		<script src="scripts/book/title/categories/professionArray.js"></script>
+		<script src="scripts/book/title/categories/animalArray.js"></script>
+		<script src="scripts/book/title/categories/armourArray.js"></script>
+		<script src="scripts/book/title/categories/buildingArray.js"></script>
+		<script src="scripts/book/title/categories/eventArray.js"></script>
+		<script src="scripts/book/title/categories/metalArray.js"></script>
+		<script src="scripts/book/title/categories/adventuringGearArray.js"></script>
+		<script src="scripts/book/title/categories/terrainArray.js"></script>
+		<script src="scripts/book/title/categories/religiousArray.js"></script>
+		<script src="scripts/book/title/categories/weaponArray.js"></script>
+		<script src="scripts/book/title/categories/mountainRangeArray.js"></script>
+		<script src="scripts/book/title/categories/adjectiveCardinalDirectionArray.js"></script>
+		<script src="scripts/book/title/categories/adjectivePersonAppereanceArray.js"></script>
+
+		<!-- Scripts for Genres -->
+		<script src="scripts/book/title/genres/getGenreFictionArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreBiographyArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreLeisureArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreGeographyArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreHistoryArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreCraftArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreMedicineArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreChildrensBookArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreCulinaryArtsArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreFineArtsArray.js"></script>
+		<script src="scripts/book/title/genres/getGenrePerformingArtsArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreMagicArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreNatureStudiesArray.js"></script>
+		<script src="scripts/book/title/genres/getGenrePhilosophyArray.js"></script>
+		<script src="scripts/book/title/genres/getGenrePsychologyArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreLawArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreReligionArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreSportArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreLanguageArray.js"></script>
+		<script src="scripts/book/title/genres/getGenreEthnologyArray.js"></script>
+
+		<!--Scripts for general noun declination and element picking -->
+		<script src="scripts/book/title/getRandomNounAndDecline.js"></script>
+		<script src="scripts/book/title/declination/declineNoun.js"></script>
+		<script src="scripts/book/title/declination/declineNounCase.js"></script>
+		<script src="scripts/book/title/declination/declineLocation.js"></script>
+
+		<!--Scripts for generating masculine noun declination -->
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinum.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumStrong.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumWeak.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumMixed.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumNounifiedAdjective.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumForeign.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseMaskulinumName.js"></script>
+
+		<!--Scripts for generating feminine noun declination -->
+		<script src="scripts/book/title/declination/declineNounCaseFemininum.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseFemininumStrong.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseFemininumWeak.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseFemininumNounifiedAdjective.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseFemininumForeign.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseFemininumName.js"></script>
+
+		<!--Scripts for generating neuter noun declination -->
+		<script src="scripts/book/title/declination/declineNounCaseNeutrum.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumStrong.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumWeak.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumMixed.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumNounifiedAdjective.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumForeign.js"></script>
+		<script src="scripts/book/title/declination/declineNounCaseNeutrumName.js"></script>
+
+		<!--Scripts for general adjective declination and element picking -->
+		<script src="scripts/book/title/getRandomAdjectiveAndDecline.js"></script>
+		<script src="scripts/book/title/declination/declineAdjective.js"></script>
+		<script src="scripts/book/title/declination/declineAdjectiveCase.js"></script>
+		<script src="scripts/book/title/declination/declineAdjectiveCasePositive.js"></script>
+		<script src="scripts/book/title/declination/declineAdjectiveCaseComparative.js"></script>
+		<script src="scripts/book/title/declination/declineAdjectiveCaseSuperlative.js"></script>
+
+		<!--Scripts for possessive articles -->
+		<script src="scripts/book/title/declination/declinePossessivArticle.js"></script>
+		<script src="scripts/book/title/declination/declinePersonalPronoun.js"></script>
+
+		<!--Scripts for generating the author -->
+		<script src="scripts/book/author/generateRandomAuthorGender.js"></script>
+		<script src="scripts/book/author/generateRandomAuthorRace.js"></script>
+		<script src="scripts/book/author/generateRandomAuthorFirstName.js"></script>
+		<script src="scripts/book/author/generateRandomAuthorLastName.js"></script>
+
+		<!--Scripts for generating the author's first name -->
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameElfFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameElfMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameElfNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinary.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingFemale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingMale.js"></script>
+		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingNonBinary.js"></script>
+
+		<!--Scripts of syllables for author names -->
+		<script src="scripts/book/author/syllables_name/dragonbornNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/dwarfNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/elfNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/gnomeNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/halflingNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/halfOrcNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/humanNameSyllables.js"></script>
+		<script src="scripts/book/author/syllables_name/tieflingNameSyllables.js"></script>
+
+		<!--Scripts for generating the author's last name -->
+		<script src="scripts/book/author/last_name/generateRandomLastNameDragonborn.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameDwarf.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameElf.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameGnome.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameHalfling.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameHalfOrc.js"></script>
+		<script src="scripts/book/author/last_name/generateRandomLastNameHuman.js"></script>
+
+		<!--Scripts for generating the book description -->
+		<script src="scripts/book/description/generateRandomPageCount.js"></script>
+		<script src="scripts/book/description/generateRandomPageMaterial.js"></script>
+		<script src="scripts/book/description/generateRandomBookEdition.js"></script>
+		<script src="scripts/book/description/generateRandomBookAge.js"></script>
+		<script src="scripts/book/description/generateRandomBookHeigth.js"></script>
+		<script src="scripts/book/description/generateRandomBookLength.js"></script>
+		<script src="scripts/book/description/generateBookWidth.js"></script>
+		<script src="scripts/book/description/generateBookWeight.js"></script>
+		<script src="scripts/book/description/generateRandomBookCondition.js"></script>
+		<script src="scripts/book/description/generateRandomBookLanguage.js"></script>
+		<script src="scripts/book/description/generateRandomBookBinding.js"></script>
+		<script src="scripts/book/description/generateRandomCoverMaterial.js"></script>
+		<script src="scripts/book/description/color.js"></script>
+		<script src="scripts/book/description/generateRandomCoverColor.js"></script>
+		<script src="scripts/book/description/generateRandomCoverDetails.js"></script>
+		<script src="scripts/book/description/generateRandomTextQuality.js"></script>
+		<script src="scripts/book/description/generateRandomTextProduction.js"></script>
+		<script src="scripts/book/description/numToWords.js"></script>
+		<script src="scripts/book/description/generateRandomImageNumber.js"></script>
+		<script src="scripts/book/description/generateRandomImageSize.js"></script>
+		<script src="scripts/book/description/generateRandomImageColor.js"></script>
+		<script src="scripts/book/description/generateRandomImageStyle.js"></script>
+		<script src="scripts/book/description/generateRandomImageQuality.js"></script>
+		<script src="scripts/book/description/generateRandomBookmark.js"></script>
+		<script src="scripts/book/description/generateRandomQuirk.js"></script>
+		<script src="scripts/book/description/generateRandomBookValue.js"></script>
+
+		<!--Scripts for generating books -->
+		<script src="scripts/book/generateBooks.js"></script>
+		<script src="scripts/book/generateEmptyArrayForGeneratedBook.js"></script>
+		<script src="scripts/book/getBookCount.js"></script>
+		<script src="scripts/book/generateRandomTitle.js"></script>
+		<script src="scripts/book/generateRandomAuthor.js"></script>
+		<script src="scripts/book/generateRandomDescription.js"></script>
+		<script src="scripts/book/displayGeneratedBooks.js"></script>
+
+		<!--Scripts for buttons -->
+		<script src="scripts/interface/buttonGenerate.js"></script>
+		<script src="scripts/interface/buttonCopy.js"></script>
+		<script src="scripts/interface/buttonClear.js"></script>
+
+</body>
+
+</html>
