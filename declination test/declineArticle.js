@@ -42,6 +42,8 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 							return 'das';
 					}
 					break;
+				default:
+					console.error('Ungültiger Kasus in declineDefiniteArticle:', kasus);
 			}
 			break;
 		case 'plural':
@@ -54,7 +56,12 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 					return 'den';
 				case 'akkusativ':
 					return 'die';
+				default:
+					console.error('Ungültiger Kasus in declineDefiniteArticle:', kasus);
 			}
+			break;
+		default:
+			console.error('Ungültiger Numerus in declineDefiniteArticle:', numerus);
 	}
 }
 
@@ -100,5 +107,74 @@ function declineIndefiniteArticle(kasus, genus) {
 					return 'ein';
 			}
 			break;
+		default:
+			console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+	}
+}
+
+function declineNegativeArticle(numerus, kasus, genus) {
+	switch (numerus) {
+		case 'singular':
+			switch (kasus) {
+				case 'nominativ':
+					switch (genus) {
+						case 'maskulinum':
+							return 'kein';
+						case 'femininum':
+							return 'keine';
+						case 'neutrum':
+							return 'kein';
+					}
+					break;
+				case 'genitiv':
+					switch (genus) {
+						case 'maskulinum':
+							return 'keines';
+						case 'femininum':
+							return 'keiner';
+						case 'neutrum':
+							return 'keines';
+					}
+					break;
+				case 'dativ':
+					switch (genus) {
+						case 'maskulinum':
+							return 'keinem';
+						case 'femininum':
+							return 'keiner';
+						case 'neutrum':
+							return 'keines';
+					}
+					break;
+				case 'akkusativ':
+					switch (genus) {
+						case 'maskulinum':
+							return 'keinen';
+						case 'femininum':
+							return 'keine';
+						case 'neutrum':
+							return 'kein';
+					}
+					break;
+				default:
+					console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+			}
+			break;
+		case 'plural':
+			switch (kasus) {
+				case 'nominativ':
+					return 'keine';
+				case 'genitiv':
+					return 'keiner';
+				case 'dativ':
+					return 'keinen';
+				case 'akkusativ':
+					return 'keine';
+				default:
+					console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+			}
+			break;
+		default:
+			console.error('Ungültiger Numerus in declineNegativeArticle:', numerus);
 	}
 }

@@ -18,7 +18,9 @@ function declineNoun(
 		return declineDefiniteArticle(numerus, kasus, genus);
 	} else if (attribute === ein_eine) {
 		return declineIndefiniteArticle(kasus, genus);
-	} else {
+	}	else if (attribute === kein_keine) {
+		return declineNegativeArticle(numerus, kasus, genus);
+	}  else {
 		switch (numerus) {
 			case 'singular':
 				declinedNoun = declineNounSingular(
