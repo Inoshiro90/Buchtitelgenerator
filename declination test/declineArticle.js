@@ -43,7 +43,7 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 					}
 					break;
 				default:
-					console.error('Ungültiger Kasus in declineDefiniteArticle:', kasus);
+					console.error('Ungültiger Kasus:', kasus);
 			}
 			break;
 		case 'plural':
@@ -57,11 +57,11 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 				case 'akkusativ':
 					return 'die';
 				default:
-					console.error('Ungültiger Kasus in declineDefiniteArticle:', kasus);
+					console.error('Ungültiger Kasus:', kasus);
 			}
 			break;
 		default:
-			console.error('Ungültiger Numerus in declineDefiniteArticle:', numerus);
+			console.error('Ungültiger Numerus:', numerus);
 	}
 }
 
@@ -108,7 +108,7 @@ function declineIndefiniteArticle(kasus, genus) {
 			}
 			break;
 		default:
-			console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+			console.error('Ungültiger Kasus:', kasus);
 	}
 }
 
@@ -157,7 +157,7 @@ function declineNegativeArticle(numerus, kasus, genus) {
 					}
 					break;
 				default:
-					console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+					console.error('Ungültiger Kasus:', kasus);
 			}
 			break;
 		case 'plural':
@@ -171,10 +171,10 @@ function declineNegativeArticle(numerus, kasus, genus) {
 				case 'akkusativ':
 					return 'keine';
 				default:
-					console.error('Ungültiger Kasus in declineIndefiniteArticle:', kasus);
+					console.error('Ungültiger Kasus:', kasus);
 			}
 			break;
 		default:
-			console.error('Ungültiger Numerus in declineNegativeArticle:', numerus);
+			console.error('Ungültiger Numerus:', numerus);
 	}
 }
