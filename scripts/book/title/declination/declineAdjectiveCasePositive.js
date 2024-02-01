@@ -12,6 +12,7 @@ function declineAdjectiveCasePositive(numerus, kasus, attribute, genus, adjectiv
 	function endsWithE(value) {
 		return value.endsWith('e');
 	}
+	
 	switch (numerus) {
 		case 'singular':
 			switch (kasus) {
@@ -197,7 +198,7 @@ function declineAdjectiveCasePositive(numerus, kasus, attribute, genus, adjectiv
 			}
 			break;
 	}
-	
+
 	// console.log('kasus in declineAdjectiveCasePositive ist', kasus);
 	// console.log('return für', numerus, kasus, attribute, genus, ':', return);
 }
