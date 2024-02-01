@@ -43,7 +43,7 @@ function declineNoun(
 				);
 				declinedAdjective = declinedAdjective('plural', kasus, attribute, adjective);
 			default:
-				console.error('Ungültiger Numerus in declineNoun:', numerus);
+				console.error('Ungültiger Numerus:', numerus);
 		}
 		return prefix ? prefix : '', declinedAdjective, declinedNoun, suffix ? suffix : '';
 	}
