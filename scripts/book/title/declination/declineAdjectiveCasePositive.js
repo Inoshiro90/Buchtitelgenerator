@@ -1,4 +1,5 @@
 function declineAdjectivePositive(numerus, kasus, attribute, genus, adjective) {
+	
 	adjective = ensureEndsWithE(adjective);
 
 	function ensureEndsWithE(adjective) {
