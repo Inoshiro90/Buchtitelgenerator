@@ -30,8 +30,6 @@ function declineNounSingularNominativMaskulinum(
 			return declineNounSingularNominativMaskulinumName(noun, declinationPattern);
 		default:
 			console.error(
-				'Ungültige Deklinationsregel in declineNounSingularNominativMaskulinum:',
-				declinationRule
-			);
+				'Ungültige Deklinationsregel:',declinationRule);
 	}
 }

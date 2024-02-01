@@ -6,11 +6,7 @@ function declineNounSingularNominativFemininum(
 ) {
 	switch (declinationRule) {
 		case 'starkeDeklination':
-			return declineNounSingularNominativFemininumStrong(
-				attribute,
-				noun,
-				declinationPattern
-			);
+			return declineNounSingularNominativFemininumStrong(attribute, noun, declinationPattern);
 		case 'schwacheDeklination':
 			return declineNounSingularNominativFemininumWeak(noun, declinationPattern);
 		case 'gemischteDeklination':
@@ -29,9 +25,6 @@ function declineNounSingularNominativFemininum(
 		case 'eigenName':
 			return declineNounSingularNominativFemininumName(noun, declinationPattern);
 		default:
-			console.error(
-				'Ungültige Deklinationsregel in declineNounSingularNominativFemininum:',
-				declinationRule
-			);
+			console.error('Ungültige Deklinationsregel:', declinationRule);
 	}
 }
