@@ -15,27 +15,27 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 				case 'genitiv':
 					switch (genus) {
 						case 'maskulinum':
-							return 'der';
+							return 'des';
 						case 'femininum':
-							return 'die';
+							return 'der';
 						case 'neutrum':
-							return 'das';
+							return 'des';
 					}
 					break;
 				case 'dativ':
 					switch (genus) {
 						case 'maskulinum':
-							return 'der';
+							return 'dem';
 						case 'femininum':
-							return 'die';
+							return 'der';
 						case 'neutrum':
-							return 'das';
+							return 'dem';
 					}
 					break;
 				case 'akkusativ':
 					switch (genus) {
 						case 'maskulinum':
-							return 'der';
+							return 'den';
 						case 'femininum':
 							return 'die';
 						case 'neutrum':
@@ -47,45 +47,13 @@ function declineDefiniteArticle(numerus, kasus, genus) {
 		case 'plural':
 			switch (kasus) {
 				case 'nominativ':
-					switch (genus) {
-						case 'maskulinum':
-							return 'der';
-						case 'femininum':
-							return 'die';
-						case 'neutrum':
-							return 'das';
-					}
-					break;
+					return 'die';
 				case 'genitiv':
-					switch (genus) {
-						case 'maskulinum':
-							return 'der';
-						case 'femininum':
-							return 'die';
-						case 'neutrum':
-							return 'das';
-					}
-					break;
+					return 'der';
 				case 'dativ':
-					switch (genus) {
-						case 'maskulinum':
-							return 'der';
-						case 'femininum':
-							return 'die';
-						case 'neutrum':
-							return 'das';
-					}
-					break;
+					return 'den';
 				case 'akkusativ':
-					switch (genus) {
-						case 'maskulinum':
-							return 'der';
-						case 'femininum':
-							return 'die';
-						case 'neutrum':
-							return 'das';
-					}
-					break;
+					return 'die';
 			}
 	}
 }
@@ -105,27 +73,27 @@ function declineIndefiniteArticle(kasus, genus) {
 		case 'genitiv':
 			switch (genus) {
 				case 'maskulinum':
-					return 'ein';
+					return 'eines';
 				case 'femininum':
-					return 'eine';
+					return 'einer';
 				case 'neutrum':
-					return 'ein';
+					return 'eines';
 			}
 			break;
 		case 'dativ':
 			switch (genus) {
 				case 'maskulinum':
-					return 'ein';
+					return 'einem';
 				case 'femininum':
-					return 'eine';
+					return 'einer';
 				case 'neutrum':
-					return 'ein';
+					return 'eines';
 			}
 			break;
 		case 'akkusativ':
 			switch (genus) {
 				case 'maskulinum':
-					return 'ein';
+					return 'einen';
 				case 'femininum':
 					return 'eine';
 				case 'neutrum':
