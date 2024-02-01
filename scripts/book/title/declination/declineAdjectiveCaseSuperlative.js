@@ -1,14 +1,10 @@
-function declineAdjectiveCaseSuperlative(
+function declineAdjectiveSuperlative(
 	numerus,
 	kasus,
 	attribute,
 	genus,
 	adjective,
-	campaignSetting,
-	tags
 ) {
-	let declinedAdjective;
-
 	switch (numerus) {
 		case 'singular':
 			switch (kasus) {
@@ -17,40 +13,31 @@ function declineAdjectiveCaseSuperlative(
 						case 'schwach':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'femininum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'neutrum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 							}
 							break;
 						case 'stark':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'r';
-									break;
+									return adjective + 'r';
 								case 'femininum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'neutrum':
-									declinedAdjective = adjective + 's';
-									break;
+									return adjective + 's';
 							}
 							break;
 						case 'nullartikel':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'r';
-									break;
+									return adjective + 'r';
 								case 'femininum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'neutrum':
-									declinedAdjective = adjective + 's';
-									break;
+									return adjective + 's';
 							}
 							break;
 					}
@@ -60,40 +47,31 @@ function declineAdjectiveCaseSuperlative(
 						case 'schwach':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 						case 'stark':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 						case 'nullartikel':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'r';
-									break;
+									return adjective + 'r';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 					}
@@ -103,40 +81,31 @@ function declineAdjectiveCaseSuperlative(
 						case 'schwach':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 						case 'stark':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 						case 'nullartikel':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'm';
-									break;
+									return adjective + 'm';
 								case 'femininum':
-									declinedAdjective = adjective + 'r';
-									break;
+									return adjective + 'r';
 								case 'neutrum':
-									declinedAdjective = adjective + 'm';
-									break;
+									return adjective + 'm';
 							}
 							break;
 					}
@@ -146,40 +115,31 @@ function declineAdjectiveCaseSuperlative(
 						case 'schwach':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'neutrum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 							}
 							break;
 						case 'stark':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + '';
-									break;
+									return adjective;
 								case 'neutrum':
-									declinedAdjective = adjective + 's';
-									break;
+									return adjective + 's';
 							}
 							break;
 						case 'nullartikel':
 							switch (genus) {
 								case 'maskulinum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'femininum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 								case 'neutrum':
-									declinedAdjective = adjective + 'n';
-									break;
+									return adjective + 'n';
 							}
 							break;
 					}
@@ -191,61 +151,44 @@ function declineAdjectiveCaseSuperlative(
 				case 'nominativ':
 					switch (attribute) {
 						case 'schwach':
-							declinedAdjective = adjective + 'n';
-							break;
+							return adjective + 'n';
 						case 'stark':
-							declinedAdjective = adjective + 'n';
-							break;
-
+							return adjective + 'n';
 						case 'nullartikel':
-							declinedAdjective = adjective + '';
-							break;
+							return adjective;
 					}
 					break;
 				case 'genitiv':
 					switch (attribute) {
 						case 'schwach':
-							declinedAdjective = adjective + 'n';
-							break;
+							return adjective + 'n';
 						case 'stark':
-							declinedAdjective = adjective + 'n';
-							break;
-
+							return adjective + 'n';
 						case 'nullartikel':
-							declinedAdjective = adjective + 'r';
-							break;
+							return adjective + 'r';
 					}
 					break;
 				case 'dativ':
 					switch (attribute) {
 						case 'schwach':
-							declinedAdjective = adjective + 'n';
-							break;
+							return adjective + 'n';
 						case 'stark':
-							declinedAdjective = adjective + 'n';
-							break;
-
+							return adjective + 'n';
 						case 'nullartikel':
-							declinedAdjective = adjective + 'n';
-							break;
+							return adjective + 'n';
 					}
 					break;
 				case 'akkusativ':
 					switch (attribute) {
 						case 'schwach':
-							declinedAdjective = adjective + 'n';
-							break;
+							return adjective + 'n';
 						case 'stark':
-							declinedAdjective = adjective + 'n';
-							break;
-
+							return adjective + 'n';
 						case 'nullartikel':
-							declinedAdjective = adjective + '';
-							break;
+							return adjective;
 					}
 					break;
 			}
 			break;
 	}
-	return declinedAdjective;
 }

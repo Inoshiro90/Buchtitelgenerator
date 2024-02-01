@@ -7,160 +7,120 @@ function declineAdjectiveCase(
 	adjectivePositive,
 	adjectiveComparative,
 	adjectiveSuperlative,
-	campaignSetting,
-	tags
 ) {
-	let declinedAdjective;
-
 	switch (numerus) {
 		case 'singular':
 			switch (kasus) {
 				case 'nominativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'singular',
 								'nominativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'singular',
 								'nominativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'singular',
 								'nominativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'genitiv':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'singular',
 								'genitiv',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'singular',
 								'genitiv',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'singular',
 								'genitiv',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'dativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'singular',
 								'dativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'singular',
 								'dativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'singular',
 								'dativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'akkusativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'singular',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'singular',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'singular',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 			}
@@ -170,154 +130,117 @@ function declineAdjectiveCase(
 				case 'nominativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'plural',
 								'nominativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'plural',
 								'nominativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'plural',
 								'nominativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'genitiv':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'plural',
 								'genitiv',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'plural',
 								'genitiv',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'plural',
 								'genitiv',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'dativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'plural',
 								'dativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'plural',
 								'dativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'plural',
 								'dativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 				case 'akkusativ':
 					switch (comparison) {
 						case 'positiv':
-							declinedAdjective = declineAdjectiveCasePositive(
+							return declineAdjectivePositive(
 								'plural',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectivePositive,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'komparativ':
-							declinedAdjective = declineAdjectiveCaseComparative(
+							return declineAdjectiveComparative(
 								'plural',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectiveComparative,
-								campaignSetting,
-								tags
 							);
-							break;
 						case 'superlativ':
-							declinedAdjective = declineAdjectiveCaseSuperlative(
+							return declineAdjectiveSuperlative(
 								'plural',
 								'akkusativ',
 								attribute,
 								genus,
 								adjectiveSuperlative,
-								campaignSetting,
-								tags
 							);
-							break;
 					}
 					break;
 			}
 			break;
 	}
 	// console.log('kasus in declineAdjectiveCase ist', kasus);
-	return declinedAdjective;
 }

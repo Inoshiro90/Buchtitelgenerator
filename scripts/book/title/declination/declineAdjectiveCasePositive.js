@@ -1,5 +1,4 @@
-function declineAdjectiveCasePositive(numerus, kasus, attribute, genus, adjective) {
-	
+function declineAdjectivePositive(numerus, kasus, attribute, genus, adjective) {
 	adjective = ensureEndsWithE(adjective);
 
 	function ensureEndsWithE(adjective) {
@@ -12,7 +11,7 @@ function declineAdjectiveCasePositive(numerus, kasus, attribute, genus, adjectiv
 	function endsWithE(value) {
 		return value.endsWith('e');
 	}
-	
+
 	switch (numerus) {
 		case 'singular':
 			switch (kasus) {
@@ -45,7 +44,8 @@ function declineAdjectiveCasePositive(numerus, kasus, attribute, genus, adjectiv
 								case 'femininum':
 									return adjective;
 								case 'neutrum':
-									return adjective + 's';							}
+									return adjective + 's';
+							}
 							break;
 					}
 					break;
