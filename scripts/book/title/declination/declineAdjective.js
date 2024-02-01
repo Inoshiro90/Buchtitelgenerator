@@ -240,6 +240,7 @@ function declineAdjective(
 					}
 					break;
 			}
-			break;
+			default:
+				console.error('Ungültiger Numerus in declineAdjective:', numerus)
 	}
 }
