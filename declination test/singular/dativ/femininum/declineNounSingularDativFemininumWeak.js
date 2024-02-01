@@ -1,4 +1,4 @@
-function declineNounSingularNominativFemWeak(noun, declinationPattern) {
+function declineNounSingularDativFemWeak(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'W1':
 			return noun;

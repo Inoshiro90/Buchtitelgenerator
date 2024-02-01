@@ -1,4 +1,4 @@
-function declineNounSingularNominativNeutrumMixed(noun, declinationPattern) {
+function declineNounSingularGenitivNeutrumMixed(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'W3':
 			return noun;
