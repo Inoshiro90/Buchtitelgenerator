@@ -1,4 +1,4 @@
-function declineNounSingularNominativMaskulinumName(noun, declinationPattern) {
+function declineNounSingularNominativFemininumName(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'eigenName':
 			return noun;

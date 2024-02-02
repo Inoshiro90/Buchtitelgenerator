@@ -1,4 +1,4 @@
-function declineNounPluralNominativMaskulinumMixed(noun, declinationPattern) {
+function declineNounPluralGenitivMaskulinumMixed(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'W3':
 			return noun;

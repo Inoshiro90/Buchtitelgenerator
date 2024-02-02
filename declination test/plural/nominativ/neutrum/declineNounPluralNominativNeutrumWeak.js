@@ -1,4 +1,4 @@
-function declineNounPluralNominativFemininumWeak(noun, declinationPattern) {
+function declineNounPluralNominativNeutrumWeak(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'W1':
 			return noun;

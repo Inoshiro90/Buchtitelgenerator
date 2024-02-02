@@ -1,4 +1,4 @@
-function declineNounSingularAkkusativMaskulinumForeign(noun, declinationPattern) {
+function declineNounSingularAkkusativFemininumForeign(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'fremdWort':
 			return noun;
