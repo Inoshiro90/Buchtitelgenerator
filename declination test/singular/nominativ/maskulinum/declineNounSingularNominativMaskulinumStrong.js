@@ -4,8 +4,6 @@ function declineNounSingularNominativMaskulinumStrong(noun, declinationPattern) 
 			return noun;
 		case 'S2':
 			return noun;
-		case 'S3':
-			return noun;
 		case 'S4':
 			return noun;
 		case 'S5':

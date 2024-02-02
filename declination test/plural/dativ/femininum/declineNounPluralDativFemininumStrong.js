@@ -1,18 +1,10 @@
 function declineNounPluralDativFemininumStrong(noun, declinationPattern) {
 	switch (declinationPattern) {
-		case 'S1':
-			return noun;
-		case 'S2':
-			return noun;
 		case 'S3':
-			return noun;
-		case 'S4':
-			return noun;
+			return noun + 'n';
 		case 'S5':
-			return noun;
-		case 'S6':
-			return noun;
-			default:
-				console.error('Ungültiges Deklinationsmuster:', declinationPattern)
+			return noun + 'n';
+		default:
+			console.error('Ungültiges Deklinationsmuster:', declinationPattern);
 	}
 }

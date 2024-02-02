@@ -4,6 +4,14 @@ function declineNounSingularGenitivMaskulinum(
 	declinationRule,
 	declinationPattern
 ) {
+
+	const sonorantSounds = ['s', 'ß', 'z', 'x', 'ch', 'sch', 'f', 'v', 'd'];
+	const lastChar = noun.charAt(noun.length - 1);
+
+	if (sonorantSounds.includes(lastChar)) {
+		noun += 'e';
+	}
+
 	switch (declinationRule) {
 		case 'starkeDeklination':
 			return declineNounSingularGenitivMaskulinumStrong(

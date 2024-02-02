@@ -1,5 +1,7 @@
 function declineNounPluralGenitivNeutrumWeak(noun, declinationPattern) {
 	switch (declinationPattern) {
+
+		
 		case 'W1':
 			return noun;
 		case 'W2':

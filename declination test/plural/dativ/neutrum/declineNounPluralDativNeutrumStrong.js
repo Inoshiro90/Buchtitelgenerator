@@ -1,18 +1,16 @@
 function declineNounPluralDativNeutrumStrong(noun, declinationPattern) {
 	switch (declinationPattern) {
 		case 'S1':
-			return noun;
+			return noun + 'n';
 		case 'S2':
-			return noun;
-		case 'S3':
-			return noun;
+			return noun + 'n';
 		case 'S4':
-			return noun;
+			return noun + 'n';
 		case 'S5':
-			return noun;
+			return noun + 'n';
 		case 'S6':
-			return noun;
-			default:
-				console.error('Ungültiges Deklinationsmuster:', declinationPattern)
+			return noun + 'n';
+		default:
+			console.error('Ungültiges Deklinationsmuster:', declinationPattern);
 	}
 }
