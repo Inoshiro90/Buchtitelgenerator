@@ -18,9 +18,9 @@ function declineNoun(
 		return declineDefiniteArticle(numerus, kasus, genus);
 	} else if (attribute === ein_eine) {
 		return declineIndefiniteArticle(kasus, genus);
-	}	else if (attribute === kein_keine) {
+	} else if (attribute === kein_keine) {
 		return declineNegativeArticle(numerus, kasus, genus);
-	}  else {
+	} else {
 		switch (numerus) {
 			case 'singular':
 				declinedNoun = declineNounSingular(
@@ -31,7 +31,7 @@ function declineNoun(
 					declinationRule,
 					declinationPattern
 				);
-				declinedAdjective = declinedAdjective('singular', kasus, attribute, adjective);
+				declinedAdjective = declineAdjective('singular', kasus, attribute, adjective);
 			case 'plural':
 				declinedNoun = declineNounPlural(
 					kasus,
@@ -41,7 +41,7 @@ function declineNoun(
 					declinationRule,
 					declinationPattern
 				);
-				declinedAdjective = declinedAdjective('plural', kasus, attribute, adjective);
+				declinedAdjective = declineAdjective('plural', kasus, attribute, adjective);
 			default:
 				console.error('Ungültiger Numerus:', numerus);
 		}

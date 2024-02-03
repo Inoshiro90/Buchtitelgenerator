@@ -25,8 +25,8 @@ function getGenreCulinaryArtsArray(category) {
 			tags: 
 			`Rezepte,Völker,
 			${category.Volk().tags},
-			${category.adjektivHimmelsrichtung().tags},
-			${category.adjektivPersonAussehen().tags}`,
+			${category.adjektivHimmelsrichtung('tags').tags},
+			${category.adjektivPersonAussehen('tags').tags}`,
 		},
 	];
 }

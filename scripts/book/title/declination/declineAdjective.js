@@ -240,7 +240,11 @@ function declineAdjective(
 					}
 					break;
 			}
+			break;
+			case 'tags':
+				return;
+				
 			default:
-				console.error('Ungültiger Numerus in declineAdjective:', numerus)
+				console.error('Ungültiger Numerus für ', positive, ' in declineAdjective:', numerus)
 	}
 }
