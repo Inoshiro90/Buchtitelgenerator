@@ -66,7 +66,7 @@ function declineNounCaseNeutrum(
 				declinationPattern
 			);
 
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounCaseNeutrumName(
 				numerus,
 				kasus,

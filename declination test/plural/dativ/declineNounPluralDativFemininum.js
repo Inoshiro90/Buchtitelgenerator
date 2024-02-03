@@ -13,8 +13,6 @@ function declineNounPluralDativFemininum(
 			);
 		case 'schwacheDeklination':
 			return declineNounPluralDativFemininumWeak(noun, declinationPattern);
-		case 'gemischteDeklination':
-			return declineNounPluralDativFemininumMixed(noun, declinationPattern);
 		case 'substantiviertesAdjektiv':
 			return declineAdjective(
 				'plural',
@@ -26,7 +24,7 @@ function declineNounPluralDativFemininum(
 			);
 		case 'fremdWort':
 			return declineNounPluralDativFemininumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounPluralDativFemininumName(noun, declinationPattern);
 		default:
 			console.error(

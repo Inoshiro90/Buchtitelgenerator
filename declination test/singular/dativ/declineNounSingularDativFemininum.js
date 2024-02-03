@@ -13,8 +13,6 @@ function declineNounSingularDativFemininum(
 			);
 		case 'schwacheDeklination':
 			return declineNounSingularDativFemininumWeak(noun, declinationPattern);
-		case 'gemischteDeklination':
-			return declineNounSingularDativFemininumMixed(noun, declinationPattern);
 		case 'substantiviertesAdjektiv':
 			return declineAdjective(
 				'singular',
@@ -26,7 +24,7 @@ function declineNounSingularDativFemininum(
 			);
 		case 'fremdWort':
 			return declineNounSingularDativFemininumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounSingularDativFemininumName(noun, declinationPattern);
 		default:
 			console.error(

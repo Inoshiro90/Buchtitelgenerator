@@ -4,21 +4,15 @@ function declineNounSingularGenitivMaskulinum(
 	declinationRule,
 	declinationPattern
 ) {
-
 	const sonorantSounds = ['s', 'ß', 'z', 'x', 'ch', 'sch', 'f', 'v', 'd'];
 	const lastChar = noun.charAt(noun.length - 1);
 
-	if (sonorantSounds.includes(lastChar)) {
-		noun += 'e';
-	}
-
 	switch (declinationRule) {
 		case 'starkeDeklination':
-			return declineNounSingularGenitivMaskulinumStrong(
-				attribute,
-				noun,
-				declinationPattern
-			);
+			if (sonorantSounds.includes(lastChar)) {
+				noun += 'e';
+			}
+			return declineNounSingularGenitivMaskulinumStrong(attribute, noun, declinationPattern);
 		case 'schwacheDeklination':
 			return declineNounSingularGenitivMaskulinumWeak(noun, declinationPattern);
 		case 'gemischteDeklination':
@@ -34,7 +28,7 @@ function declineNounSingularGenitivMaskulinum(
 			);
 		case 'fremdWort':
 			return declineNounSingularGenitivMaskulinumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounSingularGenitivMaskulinumName(noun, declinationPattern);
 		default:
 			console.error(

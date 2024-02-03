@@ -11,8 +11,6 @@ function declineNounSingularDativNeutrum(
 				noun,
 				declinationPattern
 			);
-		case 'schwacheDeklination':
-			return declineNounSingularDativNeutrumWeak(noun, declinationPattern);
 		case 'gemischteDeklination':
 			return declineNounSingularDativNeutrumMixed(noun, declinationPattern);
 		case 'substantiviertesAdjektiv':
@@ -26,7 +24,7 @@ function declineNounSingularDativNeutrum(
 			);
 		case 'fremdWort':
 			return declineNounSingularDativNeutrumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounSingularDativNeutrumName(noun, declinationPattern);
 		default:
 			console.error(

@@ -19,7 +19,7 @@ function declineNounCaseNeutrumName(
 		return endsWithSxZ;
 	}
 	switch (declinationPattern) {
-		case 'eigenName':
+		case 'eigenname':
 			switch (numerus) {
 				case 'singular':
 					endsWithE = checkIfNounEndsWithSxZ(noun);

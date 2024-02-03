@@ -11,8 +11,6 @@ function declineNounPluralAkkusativNeutrum(
 				noun,
 				declinationPattern
 			);
-		case 'schwacheDeklination':
-			return declineNounPluralAkkusativNeutrumWeak(noun, declinationPattern);
 		case 'gemischteDeklination':
 			return declineNounPluralAkkusativNeutrumMixed(noun, declinationPattern);
 		case 'substantiviertesAdjektiv':
@@ -26,7 +24,7 @@ function declineNounPluralAkkusativNeutrum(
 			);
 		case 'fremdWort':
 			return declineNounPluralAkkusativNeutrumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounPluralAkkusativNeutrumName(noun, declinationPattern);
 		default:
 			console.error(

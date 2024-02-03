@@ -26,7 +26,7 @@ function declineNounPluralDativMaskulinum(
 			);
 		case 'fremdWort':
 			return declineNounPluralDativMaskulinumForeign(noun, declinationPattern);
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounPluralDativMaskulinumName(noun, declinationPattern);
 		default:
 			console.error(

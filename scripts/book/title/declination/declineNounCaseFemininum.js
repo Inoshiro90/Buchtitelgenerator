@@ -54,7 +54,7 @@ function declineNounCaseFemininum(
 				declinationPattern
 			);
 
-		case 'eigenName':
+		case 'eigenname':
 			return declineNounCaseFemininumName(
 				numerus,
 				kasus,

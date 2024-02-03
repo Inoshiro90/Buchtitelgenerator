@@ -18,7 +18,7 @@ function declineNounCaseFemininumName(
 	}
 
 	switch (declinationPattern) {
-		case 'eigenName':
+		case 'eigenname':
 			switch (numerus) {
 				case 'singular':
 					endsWithSxZ = checkIfNounEndsWithSxZ(noun);
