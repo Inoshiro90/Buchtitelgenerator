@@ -6,7 +6,7 @@ function declineAdjective(
 	genus,
 	positive,
 	comparative,
-	superlative,
+	superlative
 ) {
 	switch (numerus) {
 		case 'singular':
@@ -19,7 +19,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -27,7 +27,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -35,7 +35,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -47,7 +47,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -55,7 +55,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -63,7 +63,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -75,7 +75,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -83,7 +83,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -91,7 +91,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -103,7 +103,7 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -111,7 +111,7 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -119,7 +119,7 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -135,7 +135,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -143,7 +143,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -151,7 +151,7 @@ function declineAdjective(
 								'nominativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -163,7 +163,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -171,7 +171,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -179,7 +179,7 @@ function declineAdjective(
 								'genitiv',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -191,7 +191,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -199,7 +199,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -207,7 +207,7 @@ function declineAdjective(
 								'dativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
@@ -219,7 +219,7 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								positive,
+								positive
 							);
 						case 'komparativ':
 							return declineAdjectiveComparative(
@@ -227,7 +227,7 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								comparative,
+								comparative
 							);
 						case 'superlativ':
 							return declineAdjectiveSuperlative(
@@ -235,16 +235,15 @@ function declineAdjective(
 								'akkusativ',
 								attribute,
 								genus,
-								superlative,
+								superlative
 							);
 					}
 					break;
 			}
 			break;
-			case 'tags':
-				return;
-				
-			default:
-				console.error('Ungültiger Numerus für ', positive, ' in declineAdjective:', numerus)
+		case 'tags':
+			return;
+		default:
+			console.error('Ungültiger Numerus für ', positive, ' in declineAdjective:', numerus);
 	}
 }
