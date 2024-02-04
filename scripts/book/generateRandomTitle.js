@@ -16,7 +16,7 @@ function generateRandomTitle(i, selectedSettings, selectedGenres) {
 	const randomMountainRange = getRandomNoun(mountainRangeArray, selectedSettings);
 	function Gebirge(kasus, attribute) {
 		numerus = randomMountainRange.nounNumber;
-		result = declineRandomLocation(numerus, kasus, attribute, 'Gebirge', randomMountainRange);
+		result = declineRandomLocation(numerus, kasus, attribute, randomMountainRange);
 		return result;
 	}
 
@@ -85,14 +85,14 @@ function generateRandomTitle(i, selectedSettings, selectedGenres) {
 	const randomCardinalDirection = getRandomAdjective(adjectiveCardinalDirectionArray, selectedSettings)
 	function adjektivHimmelsrichtung(numerus, kasus, comparison, attribute, genus) {
 		// Hier den Code einfügen, um die Flexion für das Volk je nach den übergebenen Argumenten zu bestimmen
-		result = declineRandomAdjective(numerus, kasus, comparison, attribute, genus, 'Himmelsrichtung', randomCardinalDirection);
+		result = declineRandomAdjective(numerus, kasus, comparison, attribute, genus, randomCardinalDirection);
 		return result;
 	}
 
 	const randomPersonAppereance = getRandomAdjective(adjectivePersonAppearanceArray, selectedSettings)
 	function adjektivPersonAussehen(numerus, kasus, comparison, attribute, genus) {
 		// Hier den Code einfügen, um die Flexion für das Volk je nach den übergebenen Argumenten zu bestimmen
-		result = declineRandomAdjective(numerus, kasus, comparison, attribute, genus, 'Himmelsrichtung', randomPersonAppereance);
+		result = declineRandomAdjective(numerus, kasus, comparison, attribute, genus, randomPersonAppereance);
 		return result;
 	}
 

@@ -6,8 +6,19 @@ function declineAdjective(
 	genus,
 	positive,
 	comparative,
-	superlative
+	superlative,
+	tags
 ) {
+	
+	if (numerus === 'tags') {
+        return tags;
+    } else if (numerus === 'positiv') {
+        return positive;
+    } else if (numerus === 'komparativ') {
+        return comparative;
+	} else if (numerus === 'superlativ') {
+        return superlative;
+    } else {
 	switch (numerus) {
 		case 'singular':
 			switch (kasus) {
@@ -246,4 +257,5 @@ function declineAdjective(
 		default:
 			console.error('Ungültiger Numerus für ', positive, ' in declineAdjective:', numerus);
 	}
+}
 }
