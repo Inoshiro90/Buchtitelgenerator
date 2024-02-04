@@ -31,8 +31,24 @@ function declineNoun(
 					declinationRule,
 					declinationPattern
 				);
-				adjective ? declinedAdjective = declineAdjective('singular', kasus, 'positiv', attribute, genus, adjective, adjective, adjective) : declinedAdjective = '';
-				return (prefix ? prefix + ' ': '') + (adjective ? declinedAdjective + ' ': '') + declinedNoun + (suffix ? suffix : '');
+				adjective
+					? (declinedAdjective = declineAdjective(
+							'singular',
+							kasus,
+							'positiv',
+							attribute,
+							genus,
+							adjective,
+							adjective,
+							adjective
+					  ))
+					: (declinedAdjective = '');
+				return (
+					(prefix ? prefix + ' ' : '') +
+					(adjective ? declinedAdjective + ' ' : '') +
+					declinedNoun +
+					(suffix ? ' ' + suffix : '')
+				);
 			case 'plural':
 				declinedNoun = declineNounPlural(
 					kasus,
@@ -42,12 +58,27 @@ function declineNoun(
 					declinationRule,
 					declinationPattern
 				);
-				adjective ? declinedAdjective = declineAdjective('plural', kasus, 'positiv', attribute, genus, adjective, adjective, adjective): declinedAdjective = '';
-				console.log('return aus declineNoun mit case plural:', (prefix ? prefix + ' ': '') + (adjective ? declinedAdjective + ' ': '') + declinedNoun + (suffix ? suffix : ''))
-				return (prefix ? prefix + ' ': '') + (adjective ? declinedAdjective + ' ': '') + declinedNoun + (suffix ? suffix : '');
+				adjective
+					? (declinedAdjective = declineAdjective(
+							'plural',
+							kasus,
+							'positiv',
+							attribute,
+							genus,
+							adjective,
+							adjective,
+							adjective
+					  ))
+					: (declinedAdjective = '');
+				// console.log('return aus declineNoun mit case plural:', (prefix ? prefix + ' ': '') + (adjective ? declinedAdjective + ' ': '') + declinedNoun + (suffix ? suffix : ''))
+				return (
+					(prefix ? prefix + ' ' : '') +
+					(adjective ? declinedAdjective + ' ' : '') +
+					declinedNoun +
+					(suffix ? ' ' + suffix : '')
+				);
 			default:
 				console.error('Ungültiger Numerus für', nounSingular, ' :', numerus);
-				
 		}
 	}
 }

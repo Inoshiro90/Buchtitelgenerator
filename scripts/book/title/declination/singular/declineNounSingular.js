@@ -1,5 +1,5 @@
 function declineNounSingular(kasus, attribute, noun, genus, declinationRule, declinationPattern) {
-	console.log('Noun:', noun)
+	// console.log('Noun:', noun)
 	switch (kasus) {
 		case 'nominativ':
 			return declineNounSingularNominativ(attribute, noun, genus, declinationRule, declinationPattern);

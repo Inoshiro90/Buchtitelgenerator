@@ -13,12 +13,12 @@ function generateRandomTitle(i, selectedSettings, selectedGenres) {
 		return result;
 	}
 
-	// const randomMountainRange = getRandomNoun(mountainRangeArray, selectedSettings);
-	// function Gebirge(kasus, attribute) {
-	// 	numerus = randomMountainRange.nounNumber;
-	// 	result = declineRandomNoun(numerus, kasus, attribute, 'Gebirge', randomMountainRange);
-	// 	return result;
-	// }
+	const randomMountainRange = getRandomNoun(mountainRangeArray, selectedSettings);
+	function Gebirge(kasus, attribute) {
+		numerus = randomMountainRange.nounNumber;
+		result = declineRandomLocation(numerus, kasus, attribute, 'Gebirge', randomMountainRange);
+		return result;
+	}
 
 	// console.log(Gebirge('dativ', 'der_die_das').noun, Gebirge('dativ', 'schwach').noun)
 	// console.log('randomMountainRange in generateRandomTitle:', 'noun:', randomMountainRange.nounSingular, 'genus:', randomMountainRange.nounGender, 'numerus:', Gebirge().numerus)
@@ -115,7 +115,7 @@ function generateRandomTitle(i, selectedSettings, selectedGenres) {
 		// Terrain,
 		// Religiöses,
 		// Waffe,
-		// Gebirge,
+		Gebirge,
 		adjektivHimmelsrichtung,
 		adjektivPersonAussehen,
 	};

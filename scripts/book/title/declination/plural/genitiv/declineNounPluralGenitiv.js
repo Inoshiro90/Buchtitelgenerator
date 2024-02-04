@@ -1,5 +1,5 @@
 function declineNounPluralGenitiv(attribute, noun, genus, declinationRule, declinationPattern) {
-	console.log('noun', noun)
+	// console.log('noun', noun)
 	switch (genus) {
 		case 'maskulinum':
 			return declineNounPluralGenitivMaskulinum(attribute, noun, declinationRule, declinationPattern);

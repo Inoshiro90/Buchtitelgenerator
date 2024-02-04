@@ -1,5 +1,5 @@
 function declineNounPluralGenitivMaskulinumWeak(noun, declinationPattern) {
-	console.log ('noun:', noun)
+	// console.log ('noun:', noun)
 	switch (declinationPattern) {
 		case 'W1':
 			return noun;

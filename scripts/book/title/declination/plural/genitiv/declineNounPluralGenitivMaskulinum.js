@@ -4,7 +4,7 @@ function declineNounPluralGenitivMaskulinum(
 	declinationRule,
 	declinationPattern
 ) {
-	console.log('noun;', noun)
+	// console.log('noun;', noun)
 	switch (declinationRule) {
 		case 'starkeDeklination':
 			return declineNounPluralGenitivMaskulinumStrong(

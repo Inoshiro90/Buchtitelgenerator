@@ -22,7 +22,7 @@ function getGenreCulinaryArtsArray(category) {
 					).genus
 				).adjective
 			} 
-			${category.Volk('plural', 'genitiv', 'schwach').noun} gehören ${personalpronomen('dativ', 'er_sie_es', category.Volk('plural', 'genitiv', 'schwach').genus)}`,
+			${category.Volk('plural', 'genitiv', 'schwach').noun} aus ${category.Gebirge('dativ', 'der_die_das').noun} ${category.Gebirge('dativ', 'schwach').noun} gehören ${personalpronomen('dativ', 'er_sie_es', category.Volk('plural', 'genitiv', 'schwach').genus)}`,
 			tags: 
 			`Rezepte,Völker,
 			${category.Volk('plural', 'genitiv', 'schwach').tags},

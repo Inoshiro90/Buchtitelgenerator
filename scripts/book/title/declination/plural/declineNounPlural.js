@@ -1,5 +1,5 @@
 function declineNounPlural(kasus, attribute, noun, genus, declinationRule, declinationPattern) {
-	console.log('noun', noun)
+	// console.log('noun', noun)
 	switch (kasus) {
 		case 'nominativ':
 			return declineNounPluralNominativ(attribute, noun, genus, declinationRule, declinationPattern);
