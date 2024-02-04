@@ -7,7 +7,6 @@ function declineNounPluralGenitivMaskulinum(
 	switch (declinationRule) {
 		case 'starkeDeklination':
 			return declineNounPluralGenitivMaskulinumStrong(
-				attribute,
 				noun,
 				declinationPattern
 			);

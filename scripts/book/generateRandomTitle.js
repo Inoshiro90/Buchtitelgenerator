@@ -1,19 +1,22 @@
 function generateRandomTitle(i, selectedSettings, selectedGenres) {
 	// Klasse(numerus,kasus, attribute) = getRandomNounAndDecline(numerus, kasus, attribute, 'Klasse', classArray, selectedSettings);
 	
+	const randomRace = getRandomNoun(raceArray, selectedSettings);
 
-
-	const randomRace = getRandomNoun(raceArray, selectedSettings)
 	function Volk(numerus, kasus, attribute) {
+		// console.log('randomRace in function Volk:', randomRace);
+		// console.log('numerus in function Volk:', numerus);
+		// console.log('kasus in function Volk:', kasus);
+		// console.log('attribute in function Volk:', attribute);
 		// Hier den Code einfügen, um die Flexion für das Volk je nach den übergebenen Argumenten zu bestimmen
-		result = declineRandomNoun(numerus, kasus, attribute, 'Volk', randomRace);
+		result = declineRandomNoun(numerus, kasus, attribute, randomRace);
 		return result;
 	}
 
 	// const randomMountainRange = getRandomNoun(mountainRangeArray, selectedSettings);
 	// function Gebirge(kasus, attribute) {
 	// 	numerus = randomMountainRange.nounNumber;
-	// 	result = declineRandomLocation(numerus, kasus, attribute, 'Gebirge', randomMountainRange);
+	// 	result = declineRandomNoun(numerus, kasus, attribute, 'Gebirge', randomMountainRange);
 	// 	return result;
 	// }
 

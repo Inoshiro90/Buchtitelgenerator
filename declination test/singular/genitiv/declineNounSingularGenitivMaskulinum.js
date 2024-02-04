@@ -12,7 +12,7 @@ function declineNounSingularGenitivMaskulinum(
 			if (sonorantSounds.includes(lastChar)) {
 				noun += 'e';
 			}
-			return declineNounSingularGenitivMaskulinumStrong(attribute, noun, declinationPattern);
+			return declineNounSingularGenitivMaskulinumStrong(noun, declinationPattern);
 		case 'schwacheDeklination':
 			return declineNounSingularGenitivMaskulinumWeak(noun, declinationPattern);
 		case 'gemischteDeklination':
