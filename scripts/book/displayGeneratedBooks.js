@@ -59,7 +59,7 @@ function displayGeneratedBooks(generatedBooks, selectedDescription) {
 				? `<b>Material des Einbands:</b> ${book.description.cover.material}<br>`
 				: '') +
 			(selectedDescription.includes('Farbe des Einbands')
-				? `<b>Farbe des Einbands:</b> ${book.description.cover.color.name}/${book.description.cover.color.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${book.description.cover.color.hex};"></span><br>`
+				? `<b>Farbe des Einbands:</b> ${book.description.cover.color.name} (${book.description.cover.color.hue})/${book.description.cover.color.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${book.description.cover.color.hex};"></span><br>`
 				: '') +
 			(selectedDescription.includes('Detail des Einbands')
 				? `<b>Detail des Einbands:</b> ${book.description.cover.detail}<br>`

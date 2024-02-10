@@ -3,5 +3,6 @@ function generateRandomCoverColor() {
     return {
         name: coverColor.name,
         hex: coverColor.hex,
+        hue: coverColor.hue,
     };
 }

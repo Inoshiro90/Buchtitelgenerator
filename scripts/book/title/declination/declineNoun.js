@@ -21,6 +21,8 @@ function declineNoun(
         return numerus;
     } else if (numerus === 'genus') {
         return genus;
+	} else if (numerus === 'eigenname' && declinationRule === 'eigenname') {
+		return true;
     } else if (attribute === 'der_die_das') {
 		return declineDefiniteArticle(numerus, kasus, genus);
 	} else if (attribute === 'ein_eine') {

@@ -11,7 +11,7 @@ function generateRandomTextProduction(pageMaterial) {
 			textProduction = `hangeschrieben mit gewöhnlicher Tinte, blau/#000F55 <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: #000F55;"></span>`;
 		} else if (randomNumber <= 12) {
 			const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `handgeschrieben mit gewöhnlicher Tinte, ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `handgeschrieben mit gewöhnlicher Tinte, ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		} else if (randomNumber <= 13) {
 			textProduction = 'handgeschrieben mit Humanoidenblut';
 		} else if (randomNumber <= 15) {
@@ -20,13 +20,13 @@ function generateRandomTextProduction(pageMaterial) {
 			textProduction = 'handgeschrieben mit Monsterblut';
 		} else if (randomNumber <= 17) {
 			const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `handgeschrieben mit magischer Tinte, ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `handgeschrieben mit magischer Tinte, ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		} else if (randomNumber <= 19) {
 			const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `gemalt in ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `gemalt in ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		} else {
             const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `gedruckt in ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `gedruckt in ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		}
 	} else {
 		if (randomNumber <= 1) {
@@ -35,7 +35,7 @@ function generateRandomTextProduction(pageMaterial) {
 			textProduction = `hangeschrieben mit gewöhnlicher Tinte, blau/#000F55 <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: #000F55;"></span>`;
 		} else if (randomNumber <= 11) {
 			const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `handgeschrieben mit gewöhnlicher Tinte, ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `handgeschrieben mit gewöhnlicher Tinte, ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		} else if (randomNumber <= 12) {
 			textProduction = 'handgeschrieben mit Humanoidenblut';
 		} else if (randomNumber <= 13) {
@@ -44,13 +44,13 @@ function generateRandomTextProduction(pageMaterial) {
 			textProduction = 'handgeschrieben mit Monsterblut';
 		} else if (randomNumber <= 17) {
             const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `handgeschrieben mit magischer Tinte, ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;;
+			textProduction = `handgeschrieben mit magischer Tinte, ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;;
 		} else if (randomNumber <= 19) {
 			const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `gemalt in ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `gemalt in ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		} else {
             const randomInkColor = color[Math.floor(Math.random() * color.length)];
-			textProduction = `gedruckt in ${randomInkColor.name}/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
+			textProduction = `gedruckt in ${randomInkColor.name} (${randomInkColor.hue})/${randomInkColor.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomInkColor.hex};"></span>`;
 		}
 	}
 

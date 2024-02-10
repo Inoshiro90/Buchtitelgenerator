@@ -5,7 +5,7 @@ function generateRandomImageColor() {
 		imageColor = 'einfarbig in schwarz und weiß';
 	} else if (randomNumber <= 17) {
 		const randomImageColor = color[Math.floor(Math.random() * color.length)];
-		imageColor = `einfarbig in ${randomImageColor.name}/${randomImageColor.hex}  <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomImageColor.hex};"></span>`;
+		imageColor = `einfarbig in ${randomImageColor.name} (${randomImageColor.hue})/${randomImageColor.hex}  <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${randomImageColor.hex};"></span>`;
 	} else if (randomNumber <= 18) {
 		const randomColor1 = color[Math.floor(Math.random() * color.length)];
 		let randomColor2 = color[Math.floor(Math.random() * color.length)];
