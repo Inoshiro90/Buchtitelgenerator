@@ -1,6 +1,6 @@
 function generateRandomAuthorLastName(race, region) {
 	let lastName;
-	console.log('Region des Authors:', region)
+	// console.log('Region des Authors:', region)
 	switch (race) {
 		case 'Mensch':
 			lastName = generateRandomLastNameHuman(region);

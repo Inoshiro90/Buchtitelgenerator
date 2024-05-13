@@ -7,7 +7,7 @@ function declineNounPluralDativMaskulinumStrong(noun, declinationPattern) {
 		case 'S4':
 			return noun + 'n';
 		case 'S5':
-			return noun;
+			return noun + 'n';
 		case 'S6':
 			return noun + 'n';
 			default:

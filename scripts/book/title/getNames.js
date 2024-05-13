@@ -1,8 +1,12 @@
+function getNames() {
+	let name = {};
 
-//Namenserstellung für den Titel
-	//Vornamen
-	const VornameMenschMännlich = generateRandomFirstNameHumanMale(region);
-	const VornameMenschWeiblich = generateRandomFirstNameHumanFemale(region);
+	const region1 = generateRandomAuthorRegion();
+	const region2 = generateRandomAuthorRegion();
+	const region3 = generateRandomAuthorRegion();
+
+	const VornameMenschMännlich = generateRandomFirstNameHumanMale(region1);
+	const VornameMenschWeiblich = generateRandomFirstNameHumanFemale(region1);
 	const VornameZwergMännlich = generateRandomFirstNameDwarfMale();
 	const VornameZwergWeiblich = generateRandomFirstNameDwarfFemale();
 	const VornameElfMännlich = generateRandomFirstNameElfMale();
@@ -11,22 +15,22 @@
 	const VornameHalblingWeiblich = generateRandomFirstNameHalflingFemale();
 	const VornameGnomMännlich = generateRandomFirstNameGnomeMale();
 	const VornameGnomWeiblich = generateRandomFirstNameGnomeFemale();
-	const VornameHalbelfMännlich = generateRandomFirstNameHalfelfMale();
-	const VornameHalbelfWeiblich = generateRandomFirstNameHalfelfFemale();
+	const VornameHalbelfMännlich = generateRandomFirstNameHalfelfMale(region1);
+	const VornameHalbelfWeiblich = generateRandomFirstNameHalfelfFemale(region1);
 
-	function generateRandomFirstNameHalfelfMale() {
+	function generateRandomFirstNameHalfelfMale(region1) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanMale();
+			return generateRandomFirstNameHumanMale(region1);
 		} else {
 			return generateRandomFirstNameElfMale();
 		}
 	}
 
-	function generateRandomFirstNameHalfelfFemale() {
+	function generateRandomFirstNameHalfelfFemale(region1) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanFemale();
+			return generateRandomFirstNameHumanFemale(region1);
 		} else {
 			return generateRandomFirstNameElfFemale();
 		}
@@ -36,8 +40,8 @@
 	const VornameHalborkWeiblich = generateRandomFirstNameHalfOrcFemale();
 	const VornameDrachenblütigerMännlich = generateRandomFirstNameDragonbornMale();
 	const VornameDrachenblütigerWeiblich = generateRandomFirstNameDragonbornFemale();
-	const VornameTieflingMännlich = generateRandomFirstNameTieflingMale();
-	const VornameTieflingWeiblich = generateRandomFirstNameTieflingFemale();
+	const VornameTieflingMännlich = generateRandomFirstNameTieflingMale(region1);
+	const VornameTieflingWeiblich = generateRandomFirstNameTieflingFemale(region1);
 
 	const firstNames = [
 		VornameMenschMännlich,
@@ -60,8 +64,8 @@
 		VornameTieflingWeiblich,
 	];
 
-	const VornameMenschMännlich2 = generateRandomFirstNameHumanMale();
-	const VornameMenschWeiblich2 = generateRandomFirstNameHumanFemale();
+	const VornameMenschMännlich2 = generateRandomFirstNameHumanMale(region2);
+	const VornameMenschWeiblich2 = generateRandomFirstNameHumanFemale(region2);
 	const VornameZwergMännlich2 = generateRandomFirstNameDwarfMale();
 	const VornameZwergWeiblich2 = generateRandomFirstNameDwarfFemale();
 	const VornameElfMännlich2 = generateRandomFirstNameElfMale();
@@ -70,22 +74,22 @@
 	const VornameHalblingWeiblich2 = generateRandomFirstNameHalflingFemale();
 	const VornameGnomMännlich2 = generateRandomFirstNameGnomeMale();
 	const VornameGnomWeiblich2 = generateRandomFirstNameGnomeFemale();
-	const VornameHalbelfMännlich2 = generateRandomFirstNameHalfelfMale();
-	const VornameHalbelfWeiblich2 = generateRandomFirstNameHalfelfFemale();
+	const VornameHalbelfMännlich2 = generateRandomFirstNameHalfelfMale(region2);
+	const VornameHalbelfWeiblich2 = generateRandomFirstNameHalfelfFemale(region2);
 
-	function generateRandomFirstNameHalfelfMale() {
+	function generateRandomFirstNameHalfelfMale(region2) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanMale();
+			return generateRandomFirstNameHumanMale(region2);
 		} else {
 			return generateRandomFirstNameElfMale();
 		}
 	}
 
-	function generateRandomFirstNameHalfelfFemale() {
+	function generateRandomFirstNameHalfelfFemale(region2) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanFemale();
+			return generateRandomFirstNameHumanFemale(region2);
 		} else {
 			return generateRandomFirstNameElfFemale();
 		}
@@ -95,8 +99,8 @@
 	const VornameHalborkWeiblich2 = generateRandomFirstNameHalfOrcFemale();
 	const VornameDrachenblütigerMännlich2 = generateRandomFirstNameDragonbornMale();
 	const VornameDrachenblütigerWeiblich2 = generateRandomFirstNameDragonbornFemale();
-	const VornameTieflingMännlich2 = generateRandomFirstNameTieflingMale();
-	const VornameTieflingWeiblich2 = generateRandomFirstNameTieflingFemale();
+	const VornameTieflingMännlich2 = generateRandomFirstNameTieflingMale(region2);
+	const VornameTieflingWeiblich2 = generateRandomFirstNameTieflingFemale(region2);
 
 	const firstNames2 = [
 		VornameMenschMännlich2,
@@ -119,8 +123,8 @@
 		VornameTieflingWeiblich2,
 	];
 
-	const VornameMenschMännlich3 = generateRandomFirstNameHumanMale();
-	const VornameMenschWeiblich3 = generateRandomFirstNameHumanFemale();
+	const VornameMenschMännlich3 = generateRandomFirstNameHumanMale(region3);
+	const VornameMenschWeiblich3 = generateRandomFirstNameHumanFemale(region3);
 	const VornameZwergMännlich3 = generateRandomFirstNameDwarfMale();
 	const VornameZwergWeiblich3 = generateRandomFirstNameDwarfFemale();
 	const VornameElfMännlich3 = generateRandomFirstNameElfMale();
@@ -129,22 +133,22 @@
 	const VornameHalblingWeiblich3 = generateRandomFirstNameHalflingFemale();
 	const VornameGnomMännlich3 = generateRandomFirstNameGnomeMale();
 	const VornameGnomWeiblich3 = generateRandomFirstNameGnomeFemale();
-	const VornameHalbelfMännlich3 = generateRandomFirstNameHalfelfMale();
-	const VornameHalbelfWeiblich3 = generateRandomFirstNameHalfelfFemale();
+	const VornameHalbelfMännlich3 = generateRandomFirstNameHalfelfMale(region3);
+	const VornameHalbelfWeiblich3 = generateRandomFirstNameHalfelfFemale(region3);
 
-	function generateRandomFirstNameHalfelfMale() {
+	function generateRandomFirstNameHalfelfMale(region3) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanMale();
+			return generateRandomFirstNameHumanMale(region3);
 		} else {
 			return generateRandomFirstNameElfMale();
 		}
 	}
 
-	function generateRandomFirstNameHalfelfFemale() {
+	function generateRandomFirstNameHalfelfFemale(region3) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomFirstNameHumanFemale();
+			return generateRandomFirstNameHumanFemale(region3);
 		} else {
 			return generateRandomFirstNameElfFemale();
 		}
@@ -154,8 +158,8 @@
 	const VornameHalborkWeiblich3 = generateRandomFirstNameHalfOrcFemale();
 	const VornameDrachenblütigerMännlich3 = generateRandomFirstNameDragonbornMale();
 	const VornameDrachenblütigerWeiblich3 = generateRandomFirstNameDragonbornFemale();
-	const VornameTieflingMännlich3 = generateRandomFirstNameTieflingMale();
-	const VornameTieflingWeiblich3 = generateRandomFirstNameTieflingFemale();
+	const VornameTieflingMännlich3 = generateRandomFirstNameTieflingMale(region3);
+	const VornameTieflingWeiblich3 = generateRandomFirstNameTieflingFemale(region3);
 
 	const firstNames3 = [
 		VornameMenschMännlich3,
@@ -179,17 +183,17 @@
 	];
 
 	//Nachnamen
-	const NachnameMensch = generateRandomLastNameHuman();
+	const NachnameMensch = generateRandomLastNameHuman(region1);
 	const NachnameZwerg = generateRandomLastNameDwarf();
 	const NachnameElf = generateRandomLastNameElf();
 	const NachnameHalbling = generateRandomLastNameHalfling();
 	const NachnameGnom = generateRandomLastNameGnome();
-	const NachnameHalbelf = generateRandomLastNameHalfelf();
+	const NachnameHalbelf = generateRandomLastNameHalfelf(region1);
 
-	function generateRandomLastNameHalfelf() {
+	function generateRandomLastNameHalfelf(region1) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomLastNameHuman();
+			return generateRandomLastNameHuman(region1);
 		} else {
 			return generateRandomLastNameElf();
 		}
@@ -197,7 +201,7 @@
 
 	const NachnameHalbork = generateRandomLastNameHalfOrc();
 	const NachnameDrachenblütiger = generateRandomLastNameDragonborn();
-	const NachnameTiefling = generateRandomLastNameHuman();
+	const NachnameTiefling = generateRandomLastNameHuman(region1);
 
 	const lastNames = [
 		NachnameMensch,
@@ -211,17 +215,17 @@
 		NachnameTiefling,
 	];
 
-	const NachnameMensch2 = generateRandomLastNameHuman();
+	const NachnameMensch2 = generateRandomLastNameHuman(region2);
 	const NachnameZwerg2 = generateRandomLastNameDwarf();
 	const NachnameElf2 = generateRandomLastNameElf();
 	const NachnameHalbling2 = generateRandomLastNameHalfling();
 	const NachnameGnom2 = generateRandomLastNameGnome();
-	const NachnameHalbelf2 = generateRandomLastNameHalfelf();
+	const NachnameHalbelf2 = generateRandomLastNameHalfelf(region2);
 
-	function generateRandomLastNameHalfelf() {
+	function generateRandomLastNameHalfelf(region2) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomLastNameHuman();
+			return generateRandomLastNameHuman(region2);
 		} else {
 			return generateRandomLastNameElf();
 		}
@@ -229,7 +233,7 @@
 
 	const NachnameHalbork2 = generateRandomLastNameHalfOrc();
 	const NachnameDrachenblütiger2 = generateRandomLastNameDragonborn();
-	const NachnameTiefling2 = generateRandomLastNameHuman();
+	const NachnameTiefling2 = generateRandomLastNameHuman(region2);
 
 	const lastNames2 = [
 		NachnameMensch2,
@@ -243,17 +247,17 @@
 		NachnameTiefling2,
 	];
 
-	const NachnameMensch3 = generateRandomLastNameHuman();
+	const NachnameMensch3 = generateRandomLastNameHuman(region3);
 	const NachnameZwerg3 = generateRandomLastNameDwarf();
 	const NachnameElf3 = generateRandomLastNameElf();
 	const NachnameHalbling3 = generateRandomLastNameHalfling();
 	const NachnameGnom3 = generateRandomLastNameGnome();
-	const NachnameHalbelf3 = generateRandomLastNameHalfelf();
+	const NachnameHalbelf3 = generateRandomLastNameHalfelf(region3);
 
-	function generateRandomLastNameHalfelf() {
+	function generateRandomLastNameHalfelf(region3) {
 		let humanSociety = Math.random() < 0.5;
 		if (humanSociety) {
-			return generateRandomLastNameHuman();
+			return generateRandomLastNameHuman(region3);
 		} else {
 			return generateRandomLastNameElf();
 		}
@@ -261,7 +265,7 @@
 
 	const NachnameHalbork3 = generateRandomLastNameHalfOrc();
 	const NachnameDrachenblütiger3 = generateRandomLastNameDragonborn();
-	const NachnameTiefling3 = generateRandomLastNameHuman();
+	const NachnameTiefling3 = generateRandomLastNameHuman(region3);
 
 	const lastNames3 = [
 		NachnameMensch3,
@@ -275,12 +279,10 @@
 		NachnameTiefling3,
 	];
 
-	//Noch einmal überarbeiten, da nicht der gleiche Name bei 'zufällig' ausgewählt wird, wenn die Funktion zwei mal in dem Titel vorkommt
-
 	let previousGenus = null;
 	let previousRace = null;
 
-	function generateRandomFirstName(genus, race, kasus) {
+	function Vorname(genus, race, kasus) {
 		const races = [
 			'Mensch',
 			'Zwerg',
@@ -331,7 +333,7 @@
 		return getRandomFirstName(genus, race, kasus, firstNames);
 	}
 
-	function generateRandomLastName(race, kasus) {
+	function Nachname(race, kasus) {
 		if (race === 'zufällig') {
 			// Wenn es bereits einen vorherigen Wert für race gibt, verwende ihn
 			if (previousRace !== null) {
@@ -352,7 +354,7 @@
 	let previousGenus2 = null;
 	let previousRace2 = null;
 
-	function generateRandomFirstName2(genus, race, kasus) {
+	function Vorname2(genus, race, kasus) {
 		const races = [
 			'Mensch',
 			'Zwerg',
@@ -403,7 +405,7 @@
 		return getRandomFirstName(genus, race, kasus, firstNames2);
 	}
 
-	function generateRandomLastName2(race, kasus) {
+	function Nachname2(race, kasus) {
 		if (race === 'zufällig') {
 			// Wenn es bereits einen vorherigen Wert für race gibt, verwende ihn
 			if (previousRace2 !== null) {
@@ -424,7 +426,7 @@
 	let previousGenus3 = null;
 	let previousRace3 = null;
 
-	function generateRandomFirstName3(genus, race, kasus) {
+	function Vorname3(genus, race, kasus) {
 		const races = [
 			'Mensch',
 			'Zwerg',
@@ -475,7 +477,7 @@
 		return getRandomFirstName(genus, race, kasus, firstNames);
 	}
 
-	function generateRandomLastName3(race, kasus) {
+	function Nachname3(race, kasus) {
 		if (race === 'zufällig') {
 			// Wenn es bereits einen vorherigen Wert für race gibt, verwende ihn
 			if (previousRace3 !== null) {
@@ -493,3 +495,15 @@
 
 		return getRandomLastName(race, kasus, lastNames3);
 	}
+
+	name = {
+		Vorname,
+		Vorname2,
+		Vorname3,
+		Nachname,
+		Nachname2,
+		Nachname3,
+	};
+
+	return name;
+}

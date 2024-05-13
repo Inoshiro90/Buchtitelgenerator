@@ -4,7 +4,6 @@ function declineNounSingularGenitivMaskulinum(
 	declinationRule,
 	declinationPattern
 ) {
-	console.log('noun', noun)
 	const sonorantSounds = ['s', 'ß', 'z', 'x', 'ch', 'sch', 'f', 'v', 'd'];
 	const lastChar = noun.charAt(noun.length - 1);
 

@@ -341,7 +341,8 @@
 				Anzahl:
 			</label>
 			<div>
-				<input type="number" id="input-field-book-count" class="form-control mt-1" />
+				<input type="number" class="form-control small-dropdown" id="input-field-book-count" min="1" max="100"
+					value="1" onKeyUp="if(this.value>100){this.value='100';} else if(this.value<0){this.value='0';}">
 			</div>
 		</div>
 
@@ -438,161 +439,282 @@
 		<script src="scripts/book/title/genres/getGenreEthnologyArray.js"></script>
 
 		<!--Scripts for general noun declination and element picking -->
+		<script src="scripts/book/title/getNouns.js"></script>
+		<script src="scripts/book/title/getLocations.js"></script>
+		<script src="scripts/book/title/getAdjectives.js"></script>
+		<script src="scripts/book/title/getNames.js"></script>
 		<script src="scripts/book/title/getRandomNoun.js"></script>
 		<script src="scripts/book/title/declineRandomNoun.js"></script>
 		<script src="scripts/book/title/declineRandomLocation.js"></script>
 		<script src="scripts/book/title/declination/declineNoun.js"></script>
-		<!-- <script src="scripts/book/title/declination/declineNounCase.js"></script> -->
 		<script src="scripts/book/title/declination/declineLocation.js"></script>
 		<script src="scripts/book/title/declination/declineArticle.js"></script>
+		<script src="scripts/book/title/sentenceCase.js"></script>
+		<script src="scripts/book/title/lowerCase.js"></script>
+		<script src="scripts/book/title/compoundWords.js"></script>
 
 		<!-- New declination functions -->
 		<script src="scripts/book/title/declination/plural/declineNounPlural.js"></script>
 		<script src="scripts/book/title/declination/singular/declineNounSingular.js"></script>
+		<script src="scripts/book/title/declination/plural/akkusativ/declineNounPluralAkkusativ.js"></script>
 		<script src="scripts/book/title/declination/plural/akkusativ/declineNounPluralAkkusativFemininum.js"></script>
 		<script src="scripts/book/title/declination/plural/akkusativ/declineNounPluralAkkusativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/plural/akkusativ/declineNounPluralAkkusativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/femininum/declineNounPluralAkkusativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/maskulinum/declineNounPluralAkkusativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/akkusativ/neutrum/declineNounPluralAkkusativNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/declineNounPluralDativ.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/declineNounPluralDativFemininum.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/declineNounPluralDativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/declineNounPluralDativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/femininum/declineNounPluralDativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/maskulinum/declineNounPluralDativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumMixed.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumStrong.js"></script>
 		<script src="scripts/book/title/declination/plural/dativ/neutrum/declineNounPluralDativNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/plural/genitiv/declineNounPluralGenitiv.js"></script>
 		<script src="scripts/book/title/declination/plural/genitiv/declineNounPluralGenitivFemininum.js"></script>
 		<script src="scripts/book/title/declination/plural/genitiv/declineNounPluralGenitivMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/plural/genitiv/declineNounPluralGenitivNeutrum.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumName.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/femininum/declineNounPluralGenitivFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/maskulinum/declineNounPluralGenitivMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/genitiv/neutrum/declineNounPluralGenitivNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/plural/nominativ/declineNounPluralNominativ.js"></script>
 		<script src="scripts/book/title/declination/plural/nominativ/declineNounPluralNominativFemininum.js"></script>
 		<script src="scripts/book/title/declination/plural/nominativ/declineNounPluralNominativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/plural/nominativ/declineNounPluralNominativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/femininum/declineNounPluralNominativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/maskulinum/declineNounPluralNominativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/plural/nominativ/neutrum/declineNounPluralNominativNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/singular/declineNounSingular.js"></script>
 		<script src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativ.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativFemininum.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativMaskulinum.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativFemininum.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/singular/akkusativ/declineNounSingularAkkusativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/femininum/declineNounSingularAkkusativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/maskulinum/declineNounSingularAkkusativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/akkusativ/neutrum/declineNounSingularAkkusativNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/singular/dativ/declineNounSingularDativ.js"></script>
 		<script src="scripts/book/title/declination/singular/dativ/declineNounSingularDativFemininum.js"></script>
 		<script src="scripts/book/title/declination/singular/dativ/declineNounSingularDativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/singular/dativ/declineNounSingularDativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/femininum/declineNounSingularDativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/maskulinum/declineNounSingularDativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/dativ/neutrum/declineNounSingularDativNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/singular/genitiv/declineNounSingularGenitiv.js"></script>
 		<script src="scripts/book/title/declination/singular/genitiv/declineNounSingularGenitivFemininum.js"></script>
 		<script src="scripts/book/title/declination/singular/genitiv/declineNounSingularGenitivMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/singular/genitiv/declineNounSingularGenitivNeutrum.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumName.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/femininum/declineNounSingularGenitivFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/maskulinum/declineNounSingularGenitivMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/genitiv/neutrum/declineNounSingularGenitivNeutrumWeak.js"></script>
 		<script src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativ.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativFemininum.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativMaskulinum.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativFemininum.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativMaskulinum.js"></script>
 		<script src="scripts/book/title/declination/singular/nominativ/declineNounSingularNominativNeutrum.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumName.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumName.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumWeak.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumForeign.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumMixed.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumName.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumStrong.js"></script>
-		<script src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/femininum/declineNounSingularNominativFemininumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/maskulinum/declineNounSingularNominativMaskulinumWeak.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumForeign.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumMixed.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumName.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumStrong.js"></script>
+		<script
+			src="scripts/book/title/declination/singular/nominativ/neutrum/declineNounSingularNominativNeutrumWeak.js"></script>
 
 		<!--Scripts for general adjective declination and element picking -->
 		<script src="scripts/book/title/getRandomAdjective.js"></script>
@@ -605,7 +727,7 @@
 		<!-- Scripts for name generation -->
 		<script src="scripts/book/title/getRandomFirstName.js"></script>
 		<script src="scripts/book/title/getRandomLastName.js"></script>
-		
+
 
 		<!--Scripts for possessive articles -->
 		<script src="scripts/book/title/declination/declinePossessivArticle.js"></script>
@@ -660,7 +782,6 @@
 		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleRomanesque.js"></script>
 		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleScandinavian.js"></script>
 		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleSlavic.js"></script>
-
 
 		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleArabic.js"></script>
 		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleBantu.js"></script>
@@ -765,6 +886,9 @@
 		<script src="scripts/book/generateRandomAuthor.js"></script>
 		<script src="scripts/book/generateRandomDescription.js"></script>
 		<script src="scripts/book/displayGeneratedBooks.js"></script>
+		<script src="scripts/book/title/nounMapping.js"></script>
+		<script src="scripts/book/title/adjectiveMapping.js"></script>
+		<script src="scripts/book/title/locationMapping.js"></script>
 
 		<!--Scripts for buttons -->
 		<script src="scripts/interface/buttonGenerate.js"></script>

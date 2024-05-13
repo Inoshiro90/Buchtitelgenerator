@@ -70,6 +70,6 @@ function getRandomLastName(race, kasus, lastNames) {
 			lastName.name += 's';
 		}
 	}
-	console.log(race, lastName.name);
+	// console.log(race, lastName.name);
 	return lastName;
 }

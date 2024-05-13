@@ -160,7 +160,7 @@ function declineAdjectivePositive(numerus, kasus, attribute, genus, adjective) {
 						case 'schwach':
 							return adjective + 'n';
 						case 'stark':
-							return adjective + 'n';
+							return adjective;
 						case 'nullartikel':
 							return adjective;
 					}
@@ -170,7 +170,7 @@ function declineAdjectivePositive(numerus, kasus, attribute, genus, adjective) {
 						case 'schwach':
 							return adjective + 'n';
 						case 'stark':
-							return adjective + 'n';
+							return adjective + 'r';
 						case 'nullartikel':
 							return adjective + 'r';
 					}
@@ -190,7 +190,7 @@ function declineAdjectivePositive(numerus, kasus, attribute, genus, adjective) {
 						case 'schwach':
 							return adjective + 'n';
 						case 'stark':
-							return adjective + 'n';
+							return adjective;
 						case 'nullartikel':
 							return adjective;
 					}

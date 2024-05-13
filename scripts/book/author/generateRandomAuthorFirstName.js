@@ -1,7 +1,7 @@
 function generateRandomAuthorFirstName(gender, race, region) {
 	let firstName;
 
-	console.log ('Region in generateRandomAuthorFirstName', region)
+	// console.log ('Region in generateRandomAuthorFirstName', region)
 	switch (gender) {
 		case 'männlich':
 			switch (race) {
