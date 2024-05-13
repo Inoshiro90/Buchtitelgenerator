@@ -1,8 +1,26 @@
+// Funktion für einen d3-Würfel
+function d3(quantity = 1) {
+	let result = 0;
+	for (let i = 0; i < quantity; i++) {
+		result += Math.floor(Math.random() * 3) + 1;
+	}
+	return result;
+}
+
 // Funktion für einen d4-Würfel
 function d4(quantity = 1) {
 	let result = 0;
 	for (let i = 0; i < quantity; i++) {
 		result += Math.floor(Math.random() * 4) + 1;
+	}
+	return result;
+}
+
+// Funktion für einen d5-Würfel
+function d5(quantity = 1) {
+	let result = 0;
+	for (let i = 0; i < quantity; i++) {
+		result += Math.floor(Math.random() * 5) + 1;
 	}
 	return result;
 }

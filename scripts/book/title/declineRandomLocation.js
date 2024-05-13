@@ -60,5 +60,6 @@ function declineRandomLocation(numerus, kasus, attribute, randomNoun) {
 		randomNoun.declinationRule,
 		randomNoun.declinationPattern,
 		randomNoun.tags,
+		'Ort'
 	)
 }

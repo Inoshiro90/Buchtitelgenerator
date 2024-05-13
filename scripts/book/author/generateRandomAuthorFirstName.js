@@ -1,11 +1,12 @@
-function generateRandomAuthorFirstName(gender, race) {
+function generateRandomAuthorFirstName(gender, race, region) {
 	let firstName;
 
+	console.log ('Region in generateRandomAuthorFirstName', region)
 	switch (gender) {
 		case 'männlich':
 			switch (race) {
 				case 'Mensch':
-					firstName = generateRandomFirstNameHumanMale();
+					firstName = generateRandomFirstNameHumanMale(region);
 					break;
 				case 'Zwerg':
 					firstName = generateRandomFirstNameDwarfMale();
@@ -22,7 +23,7 @@ function generateRandomAuthorFirstName(gender, race) {
 				case 'Halbelf':
 					let humanSociety = Math.random() < 0.5;
 					if (humanSociety) {
-						firstName = generateRandomFirstNameHumanMale();
+						firstName = generateRandomFirstNameHumanMale(region);
 					} else {
 						firstName = generateRandomFirstNameElfMale();
 					}
@@ -43,7 +44,7 @@ function generateRandomAuthorFirstName(gender, race) {
 		case 'weiblich':
 			switch (race) {
 				case 'Mensch':
-					firstName = generateRandomFirstNameHumanFemale();
+					firstName = generateRandomFirstNameHumanFemale(region);
 					break;
 				case 'Zwerg':
 					firstName = generateRandomFirstNameDwarfFemale();
@@ -60,7 +61,7 @@ function generateRandomAuthorFirstName(gender, race) {
 				case 'Halbelf':
 					let humanSociety = Math.random() < 0.5;
 					if (humanSociety) {
-						firstName = generateRandomFirstNameHumanFemale();
+						firstName = generateRandomFirstNameHumanFemale(region);
 					} else {
 						firstName = generateRandomFirstNameElfFemale();
 					}
@@ -81,7 +82,7 @@ function generateRandomAuthorFirstName(gender, race) {
 		case 'nicht-binär':
 			switch (race) {
 				case 'Mensch':
-					firstName = generateRandomFirstNameHumanNonBinary();
+					firstName = generateRandomFirstNameHumanNonBinary(region);
 					break;
 				case 'Zwerg':
 					firstName = generateRandomFirstNameDwarfNonBinary();
@@ -98,7 +99,7 @@ function generateRandomAuthorFirstName(gender, race) {
 				case 'Halbelf':
 					let humanSociety = Math.random() < 0.5;
 					if (humanSociety) {
-						firstName = generateRandomFirstNameHumanNonBinary();
+						firstName = generateRandomFirstNameHumanNonBinary(region);
 					} else {
 						firstName = generateRandomFirstNameElfNonBinary();
 					}

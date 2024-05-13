@@ -111,7 +111,7 @@ function generateRandomBookValue(
 			conditionModifier = d10(1);
 			break;
 		case 'schrecklich':
-			conditionModifier = d10(1) + 10 ;
+			conditionModifier = d10(1) + 10;
 			break;
 		case 'mangelhaft':
 			conditionModifier = d10(1) + 20;
@@ -272,6 +272,12 @@ function generateRandomBookValue(
 	// Buchwert berechnen
 	bookValue = calculateBookValue(detailedValue, valueModifierSum, conditionModifier);
 
+	// Wenn der Buchwert 0 ist, generiere einen zufälligen Wert zwischen 0 und 1 mit maximal zwei Dezimalstellen
+	if (bookValue === 0) {
+		bookValue = Math.random().toFixed(2); // Zufälliger Wert zwischen 0 und 1 mit maximal zwei Dezimalstellen
+		bookValue = parseFloat(bookValue).toLocaleString(undefined, {minimumFractionDigits: 2}); // Ändere Punkt zu Komma und formatiere auf zwei Dezimalstellen
+	}
+	
 	// console.log('Der Grundwert liegt bei', detailedValue);
 	// console.log('Der Modifikationswert für die Bindung liegt bei', valueModifier_binding);
 	// console.log('Der Modifikationswert für die Buchausgabe liegt bei', valueModifier_edition);
@@ -294,10 +300,10 @@ function generateRandomBookValue(
 
 function calculateBookValue(detailedValue, valueModifierSum, conditionModifier) {
 	if (valueModifierSum > 0) {
-	  return Math.round((detailedValue * valueModifierSum) * conditionModifier/100);
+		return Math.round((detailedValue * valueModifierSum * conditionModifier) / 100);
 	} else if (valueModifierSum === 0) {
-	  return Math.round(detailedValue * conditionModifier/100);
+		return Math.round((detailedValue * conditionModifier) / 100);
 	} else if (valueModifierSum < 0) {
-	  return Math.round((detailedValue / (valueModifierSum * -1) ) * conditionModifier/100);
+		return Math.round(((detailedValue / (valueModifierSum * -1)) * conditionModifier) / 100);
 	}
-  }
+}

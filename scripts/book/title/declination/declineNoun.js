@@ -10,7 +10,8 @@ function declineNoun(
 	genus,
 	declinationRule,
 	declinationPattern,
-	tags
+	tags,
+	type
 ) {
 	let declinedNoun;
 	let declinedAdjective;
@@ -22,6 +23,7 @@ function declineNoun(
     } else if (numerus === 'genus') {
         return genus;
 	} else if (numerus === 'eigenname' && declinationRule === 'eigenname') {
+		//Überprüfen ob das so stimmt und ob nicht noch "&& type === 'Ort'" hinzugefügt werden muss
 		return true;
     } else if (attribute === 'der_die_das') {
 		return declineDefiniteArticle(numerus, kasus, genus);
