@@ -6,18 +6,18 @@ function declineRandomLocation(numerus, kasus, attribute, randomNoun) {
 	// 		numerus,
 	// 		kasus,
 	// 		attribute,
-	// 		randomNoun.nounSingular,
-	// 		randomNoun.nounPlural,
+	// 		randomNoun.singular,
+	// 		randomNoun.plural,
 	// 		randomNoun.adjective,
 	// 		randomNoun.prefix,
 	// 		randomNoun.suffix,
-	// 		randomNoun.nounGender,
+	// 		randomNoun.gender,
 	// 		randomNoun.declinationRule,
 	// 		randomNoun.declinationPattern
 	// 	),
-    //     genus: randomNoun.nounGender,
+    //     genus: randomNoun.gender,
     //     tags: randomNoun.tags,
-    //     numerus: randomNoun.nounNumber
+    //     numerus: randomNoun.number
 	// };
 
 	// // console.log(
@@ -28,19 +28,19 @@ function declineRandomLocation(numerus, kasus, attribute, randomNoun) {
 	// // 	kasus,
 	// // 	'attribute:',
 	// // 	attribute,
-	// // 	randomNoun.nounSingular,
-	// // 	randomNoun.nounPlural,
+	// // 	randomNoun.singular,
+	// // 	randomNoun.plural,
 	// // 	randomNoun.adjective,
 	// // 	randomNoun.prefix,
 	// // 	randomNoun.suffix,
-	// // 	randomNoun.nounGender,
+	// // 	randomNoun.gender,
 	// // 	randomNoun.declinationRule,
 	// // 	randomNoun.declinationPattern,
 	// // 	randomNoun.campaignSetting,
 	// // 	randomNoun.tags
 	// // );
 
-	// // console.log(`\t\t ${randomNoun.nounSingular} wurde dekliniert.`);
+	// // console.log(`\t\t ${randomNoun.singular} wurde dekliniert.`);
 
 	// // console.log('declinedNoun in getRandomNounandDecline', declinedNoun);
 	// // console.log('declinedNoun.tags in getRandomNounandDecline', declinedNoun.tags);
@@ -51,12 +51,12 @@ function declineRandomLocation(numerus, kasus, attribute, randomNoun) {
 		numerus,
 		kasus,
 		attribute,
-		randomNoun.nounSingular,
-		randomNoun.nounPlural,
+		randomNoun.singular,
+		randomNoun.plural,
 		randomNoun.adjective,
 		randomNoun.prefix,
 		randomNoun.suffix,
-		randomNoun.nounGender,
+		randomNoun.gender,
 		randomNoun.declinationRule,
 		randomNoun.declinationPattern,
 		randomNoun.tags,

@@ -9,7 +9,7 @@ function getRandomLocationFromArray(array, selectedSettings, usedLocations) {
 
 function createLocationFunction(array) {
 	return function (kasus, attribute) {
-		return declineRandomNoun(array.nounNumber, kasus, attribute, array);
+		return declineRandomNoun(array.number, kasus, attribute, array);
 	};
 }
 

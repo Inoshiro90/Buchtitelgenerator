@@ -2,8 +2,8 @@ function declineNoun(
 	numerus,
 	kasus,
 	attribute,
-	nounSingular,
-	nounPlural,
+	singular,
+	plural,
 	adjective,
 	prefix,
 	suffix,
@@ -26,7 +26,7 @@ function declineNoun(
 				declinedNoun = declineNounSingular(
 					kasus,
 					attribute,
-					nounSingular,
+					singular,
 					genus,
 					declinationRule,
 					declinationPattern
@@ -36,7 +36,7 @@ function declineNoun(
 				declinedNoun = declineNounPlural(
 					kasus,
 					attribute,
-					nounPlural,
+					plural,
 					genus,
 					declinationRule,
 					declinationPattern

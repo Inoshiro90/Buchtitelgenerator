@@ -2,52 +2,52 @@ function Komposition(determiner) {
 	let compound;
 	// n-Fugenlaut
 	if (
-		// determiner.nounSingular.endsWith('e') &&
+		// determiner.singular.endsWith('e') &&
 		(determiner.declinationRule === 'schwacheDeklination' ||
-			// determiner.nounSingular.endsWith('e') &&
+			// determiner.singular.endsWith('e') &&
 			determiner.declinationRule === 'gemischteDeklination') &&
-		!determiner.nounSingular.endsWith('vent')
+		!determiner.singular.endsWith('vent')
 	) {
-		compound = determiner.nounPlural;
+		compound = determiner.plural;
 	} else if (determiner.declinationRule === 'substantiviertesAdjektiv') {
-		compound = determiner.nounPlural + 'n';
+		compound = determiner.plural + 'n';
 	} else if (
 		// s-Fugenlaut
-		(determiner.nounSingular.endsWith('en') ||
-			determiner.nounSingular.endsWith('heit') ||
-			determiner.nounSingular.endsWith('ion') ||
-			determiner.nounSingular.endsWith('keit') ||
-			determiner.nounSingular.endsWith('schaft') ||
-			determiner.nounSingular.endsWith('sicht') ||
-			determiner.nounSingular.endsWith('tät') ||
-			determiner.nounSingular.endsWith('ung') ||
-			(determiner.nounSingular.endsWith('ar') && determiner.nounGender === 'maskulinum') || // (wenn das Vorderwort maskulinum ist)
-			(determiner.nounSingular.endsWith('ch') && determiner.nounGender === 'maskulinum') || // (wenn das Vorderwort maskulinum ist)
-			determiner.nounSingular.endsWith('vent') || // (seltene Worte wie Advent, Konvent)
-			(determiner.nounSingular.endsWith('at') && determiner.nounGender !== 'femininum') || // (wenn das Vorderwort maskulinum oder neutrum ist)
-			(determiner.nounSingular.endsWith('tum') && determiner.nounGender !== 'femininum') || // (wenn Vorderwort maskulinum oder neutrum ist)
-			(determiner.nounSingular.endsWith('ling') && determiner.nounGender !== 'femininum') || // (wenn Vorderwort maskulinum oder neutrum ist)
-			determiner.nounSingular.startsWith('Be') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Ge') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Ent') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Er') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Ver') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Wider') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-			determiner.nounSingular.startsWith('Zer')) && // (falls das Vorderwort aus einem Verbstamm gebildet wird)
-		!determiner.nounSingular.endsWith('s') &&
-		!determiner.nounSingular.endsWith('ß') &&
-		!determiner.nounSingular.endsWith('z') &&
-		!determiner.nounSingular.endsWith('er') &&
-		!determiner.nounSingular.endsWith('ir') &&
-		!determiner.nounSingular.endsWith('or') &&
-		!determiner.nounSingular.endsWith('ur') &&
+		(determiner.singular.endsWith('en') ||
+			determiner.singular.endsWith('heit') ||
+			determiner.singular.endsWith('ion') ||
+			determiner.singular.endsWith('keit') ||
+			determiner.singular.endsWith('schaft') ||
+			determiner.singular.endsWith('sicht') ||
+			determiner.singular.endsWith('tät') ||
+			determiner.singular.endsWith('ung') ||
+			(determiner.singular.endsWith('ar') && determiner.gender === 'maskulinum') || // (wenn das Vorderwort maskulinum ist)
+			(determiner.singular.endsWith('ch') && determiner.gender === 'maskulinum') || // (wenn das Vorderwort maskulinum ist)
+			determiner.singular.endsWith('vent') || // (seltene Worte wie Advent, Konvent)
+			(determiner.singular.endsWith('at') && determiner.gender !== 'femininum') || // (wenn das Vorderwort maskulinum oder neutrum ist)
+			(determiner.singular.endsWith('tum') && determiner.gender !== 'femininum') || // (wenn Vorderwort maskulinum oder neutrum ist)
+			(determiner.singular.endsWith('ling') && determiner.gender !== 'femininum') || // (wenn Vorderwort maskulinum oder neutrum ist)
+			determiner.singular.startsWith('Be') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Ge') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Ent') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Er') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Ver') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Wider') || // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+			determiner.singular.startsWith('Zer')) && // (falls das Vorderwort aus einem Verbstamm gebildet wird)
+		!determiner.singular.endsWith('s') &&
+		!determiner.singular.endsWith('ß') &&
+		!determiner.singular.endsWith('z') &&
+		!determiner.singular.endsWith('er') &&
+		!determiner.singular.endsWith('ir') &&
+		!determiner.singular.endsWith('or') &&
+		!determiner.singular.endsWith('ur') &&
 		!determiner.declinationPattern === 'S1'
 	) {
 		// s-Fugenlaut
-		compound = determiner.nounSingular + 's';
+		compound = determiner.singular + 's';
 	} else {
 		// Nullfuge
-		compound = determiner.nounSingular;
+		compound = determiner.singular;
 	}
 
 	// Ersetze Leerzeichen durch Bindestriche
