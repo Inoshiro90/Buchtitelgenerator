@@ -10,9 +10,7 @@ function getGenreBiographyArray(noun, adjective, name, location) {
 			tags: `Biographien, Klassen, Völker, ${noun.Klasse('tags')}, ${noun.Volk('tags')}`,
 		},
 		{
-			title: `${name.Vorname('zufällig', 'zufällig', 'nominativ').name} ${
-				name.Nachname('zufällig', 'nominativ').name
-			}: Die Lebensreise eines ${noun.Klasse('singular', 'genitiv', 'schwach')}`,
+			title: `${name.Vorname('zufällig', 'zufällig', 'nominativ').name} ${name.Nachname('zufällig', 'nominativ').name}: Die Lebensreise eines ${noun.Klasse('singular', 'genitiv', 'schwach')}`,
 			tags: `Biographie, Klassen, ${noun.Klasse('tags')}`,
 		},
 		{

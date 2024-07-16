@@ -1,6 +1,6 @@
 let generatedBook;
 
-function generateBooks(selectedSetting, selectedGenre) {
+async function generateBooks(selectedSetting, selectedGenre) {
 	function getBookCount() {
 		let inputField = document.getElementById('input-field-book-count');
 
@@ -77,7 +77,7 @@ function generateBooks(selectedSetting, selectedGenre) {
 			// console.error("Fehler: Das Genre-Array ist leer. Bitte füge Genres hinzu.");
 		}
 
-		let randomTitle = generateRandomTitle(i, selectedSetting, selectedGenre);
+		let randomTitle = await generateRandomTitle(i, selectedSetting, selectedGenre);
 		let randomAuthor = generateRandomAuthor();
 		let randomDescription = generateRandomDescription(randomAuthor.race);
 		

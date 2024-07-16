@@ -42,7 +42,7 @@ function getGenreCulinaryArtsArray(noun, adjective, name, location) {
 }
 
 // {
-// 	title: `${possessivArtikel('plural', 'nominativ', 'ich', 'neutrum')}
+// 	title: `${Possessivartikel('plural', 'nominativ', 'ich', 'neutrum')}
 // 	${d20(5)}
 // 	${adjective.PersonAussehen('plural', 'nominativ', 'positiv', 'stark', 'neutrum')}
 // 	Rezepte
@@ -75,7 +75,7 @@ function getGenreCulinaryArtsArray(noun, adjective, name, location) {
 
 // 	return [
 // 		{
-// 			title: `${possessivArtikel(
+// 			title: `${Possessivartikel(
 // 				'plural',
 // 				'nominativ',
 // 				'ich',

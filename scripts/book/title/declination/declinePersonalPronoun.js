@@ -133,4 +133,4 @@ function declinePersonalPronoun(kasus, person, genus) {
 	return personalPronoun;
 }
 
-const personalpronomen = declinePersonalPronoun;
+const Personalpronomen = declinePersonalPronoun;

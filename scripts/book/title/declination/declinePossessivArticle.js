@@ -592,4 +592,4 @@ function declinePossessiveArticle(numerus, kasus, person, subjectGenus, objectGe
 	return declinedPossessiveArticle;
 }
 
-const possessivArtikel = declinePossessiveArticle;
+const Possessivartikel = declinePossessiveArticle;

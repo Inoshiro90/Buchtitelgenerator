@@ -1,3 +1,44 @@
+// const fs = require('fs');
+// const path = require('path');
+// const csv = require('csv-parser');
+
+// function loadCSV(filePath) {
+//     return new Promise((resolve, reject) => {
+//         const results = [];
+//         fs.createReadStream(filePath)
+//             .pipe(csv())
+//             .on('data', (data) => results.push(data))
+//             .on('end', () => {
+//                 resolve(results);
+//             })
+//             .on('error', (error) => {
+//                 reject(error);
+//             });
+//     });
+// }
+
+// async function getGenreHistoryArray(noun, adjective, name, location) {
+//     const filePath = path.join(__dirname, '/files/csv/genre/genreHistory.csv');
+//     const csvData = await loadCSV(filePath);
+    
+//     return csvData.map(row => ({
+//         title: eval('`' + row.title + '`'), // Use template literals to inject variables
+//         tags: eval('`' + row.tags + '`')
+//     }));
+// }
+
+// // Beispielaufruf
+// getGenreHistoryArray(noun, adjective, name, location)
+//     .then(result => {
+//         console.log(result);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//     });
+
+// // Beispiel der Verwendung:
+
+
 function getGenreHistoryArray(noun, adjective, name, location) {
 	return [
 		{
