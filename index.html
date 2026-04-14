@@ -82,7 +82,7 @@
           </div>
 
           <!-- Filter: Setting -->
-          <div class="filter-panel is-open" id="panel-setting">
+          <div class="filter-panel is-closed" id="panel-setting">
             <div class="filter-panel-header" data-panel="panel-setting">
               <span class="filter-panel-label">Setting</span>
               <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -140,7 +140,7 @@
           </div>
 
           <!-- Filter: Genre -->
-          <div class="filter-panel is-open" id="panel-genre">
+          <div class="filter-panel is-closed" id="panel-genre">
             <div class="filter-panel-header" data-panel="panel-genre">
               <span class="filter-panel-label">Genre</span>
               <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -238,7 +238,7 @@
           </div>
 
           <!-- Filter: Beschreibung -->
-          <div class="filter-panel is-open" id="panel-description">
+          <div class="filter-panel is-closed" id="panel-description">
             <div class="filter-panel-header" data-panel="panel-description">
               <span class="filter-panel-label">Beschreibung</span>
               <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -365,9 +365,10 @@
               </div>
               <div class="action-buttons">
                 <button id="btn-generate" class="btn btn-blue">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path
-                      d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-play-icon lucide-play">
+                    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
                   </svg>
                   Generieren
                 </button>
@@ -398,7 +399,17 @@
             </div>
 
             <div class="results-empty" id="results-empty">
-              <span class="results-empty-icon">📚</span>
+              <span class="results-empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="lucide lucide-book-open-text-icon lucide-book-open-text">
+                  <path d="M12 7v14" />
+                  <path d="M16 12h2" />
+                  <path d="M16 8h2" />
+                  <path
+                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
+                  <path d="M6 12h2" />
+                  <path d="M6 8h2" />
+                </svg></span>
               <p class="results-empty-text">Noch keine Bücher generiert.<br>Wähle deine Filter und klicke auf
                 „Generieren".</p>
             </div>
