@@ -1,9 +1,23 @@
 function getRandomNounFromArray(array, selectedSettings, usedNouns) {
-	let randomNoun;
+	var MAX_ATTEMPTS = 50;
+	var attempts = 0;
+	var randomNoun;
+
 	do {
+		if (attempts >= MAX_ATTEMPTS) {
+			console.warn(
+				'[getRandomNounFromArray] Kein eindeutiges Substantiv nach ' + MAX_ATTEMPTS + ' Versuchen.' +
+				' Array-Größe: ' + array.length + ', Benutzte Einträge: ' + usedNouns.length + '.' +
+				' Duplikat wird akzeptiert.'
+			);
+			break;
+		}
 		randomNoun = getRandomNoun(array, selectedSettings);
-	} while (usedNouns.some((noun) => noun.singular === randomNoun.singular));
-	// console.log(randomNoun.singular)
+		attempts++;
+	} while (randomNoun === null || usedNouns.some(function (noun) {
+		return noun.singular === randomNoun.singular;
+	}));
+
 	return randomNoun;
 }
 
@@ -15,14 +29,15 @@ function createNounFunction(array) {
 
 function getNouns(selectedSettings, nounMapping) {
 	const noun = {};
-	nounMapping.forEach((mapping) => {
+	nounMapping.forEach(function (mapping) {
+		// mapping.array is now a direct array reference — no eval() needed
 		const randomNoun = getRandomNounFromArray(
-			eval(mapping.array),
+			mapping.array,
 			selectedSettings,
 			Object.values(noun)
 		);
 		noun[mapping.english] = randomNoun;
-		noun[mapping.german] = createNounFunction(randomNoun);
+		noun[mapping.german]  = createNounFunction(randomNoun);
 	});
 	return noun;
 }

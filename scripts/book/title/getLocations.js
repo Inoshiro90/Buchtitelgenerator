@@ -1,9 +1,20 @@
 function getRandomLocationFromArray(array, selectedSettings, usedLocations) {
-	let randomLocation;
+	var MAX_ATTEMPTS = 50;
+	var attempts = 0;
+	var randomLocation;
+
 	do {
+		if (attempts >= MAX_ATTEMPTS) {
+			console.warn(
+				'[getRandomLocationFromArray] Kein eindeutiger Ort nach ' + MAX_ATTEMPTS + ' Versuchen.' +
+				' Duplikat wird akzeptiert.'
+			);
+			break;
+		}
 		randomLocation = getRandomNoun(array, selectedSettings);
-	} while (usedLocations.includes(randomLocation));
-	// console.log(randomLocation);
+		attempts++;
+	} while (randomLocation === null || usedLocations.includes(randomLocation));
+
 	return randomLocation;
 }
 
@@ -15,15 +26,15 @@ function createLocationFunction(array) {
 
 function getLocations(selectedSettings, locationMapping) {
 	const locations = {};
-	locationMapping.forEach((mapping) => {
+	locationMapping.forEach(function (mapping) {
+		// mapping.array is now a direct array reference — no eval() needed
 		const randomLocation = getRandomLocationFromArray(
-			eval(mapping.array),
+			mapping.array,
 			selectedSettings,
 			Object.values(locations)
 		);
 		locations[mapping.english] = randomLocation;
-		locations[mapping.german] = createLocationFunction(randomLocation);
+		locations[mapping.german]  = createLocationFunction(randomLocation);
 	});
-
 	return locations;
 }

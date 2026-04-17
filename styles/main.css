@@ -12,3 +12,32 @@ html {
 #container-generated-books {
 	padding-left: 0px;
 }
+#app-error-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 14px;
+	margin-bottom: 10px;
+	background-color: #fff3cd;
+	border: 1px solid #ffc107;
+	border-left: 4px solid #e67e00;
+	border-radius: 4px;
+	font-size: 14px;
+	color: #5c3d00;
+}
+
+#app-error-banner button {
+	background: none;
+	border: none;
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+	color: #5c3d00;
+	padding: 0 4px;
+	flex-shrink: 0;
+}
+
+#app-error-banner button:hover {
+	opacity: 0.7;
+}

@@ -21,6 +21,9 @@
   --badge-bg:   #f2f9ff;
   --badge-text: #097fe8;
 
+  --app-error-banner-bg: rgba (221, 91, 0, 0.08);
+  --app-error-banner-border: rgba(221, 91, 0, 0.25);
+
   /* Semantic aliases — Light Mode */
   --bg-page:    var(--color-white);
   --bg-surface: var(--color-white);
@@ -403,7 +406,7 @@ body {
 /* .form-check */
 .form-check {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   cursor: pointer;
   padding: 3px 0;
@@ -780,3 +783,33 @@ body {
 
 @media (min-width: 600px)  { .app-nav { padding-inline: var(--space-5); } }
 @media (min-width: 1080px) { .app-nav { padding-inline: var(--space-6); } }
+/* =========================================================
+   ERROR BANNER (Sprint 2)
+   ========================================================= */
+#app-error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  /* margin-bottom: var(--space-4); */
+  background-color: var(--app-error-banner-bg);
+  border: 1px solid var(--app-error-banner-border);
+  border-left: 4px solid var(--color-orange);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-caption);
+  color: var(--text-primary);
+}
+#app-error-banner button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+#app-error-banner button:hover {
+  color: var(--text-primary);
+}

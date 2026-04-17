@@ -1,12 +1,22 @@
 function getRandomAdjectiveFromArray(array, selectedSettings, usedAdjectives) {
-	let randomAdjective;
+	var MAX_ATTEMPTS = 50;
+	var attempts = 0;
+	var randomAdjective;
+
 	do {
+		if (attempts >= MAX_ATTEMPTS) {
+			console.warn(
+				'[getRandomAdjectiveFromArray] Kein eindeutiges Adjektiv nach ' + MAX_ATTEMPTS + ' Versuchen.' +
+				' Duplikat wird akzeptiert.'
+			);
+			break;
+		}
 		randomAdjective = getRandomAdjective(array, selectedSettings);
-	} while (usedAdjectives.some(adjective => adjective.positive === randomAdjective.positive));
-	// console.log(randomAdjective.positive);
+		attempts++;
+	} while (randomAdjective === null || usedAdjectives.some(function (adj) { return adj.positive === randomAdjective.positive; }));
+
 	return randomAdjective;
 }
-
 
 function createAdjectiveFunction(adjectiveArray) {
 	return function (numerus, kasus, comparison, attribute, genus) {
@@ -36,36 +46,3 @@ function getAdjectives(selectedSettings, adjectiveMapping) {
 
 	return adjectives;
 }
-
-// function createAdjectiveFunction(adjectiveArray, selectedSettings) {
-// 	let usedAdjectives = [];
-
-// 	return function (numerus, kasus, comparison, attribute, genus) {
-// 		let randomAdjective;
-// 		do {
-// 			randomAdjective = getRandomAdjective(adjectiveArray, selectedSettings);
-// 		} while (usedAdjectives.includes(randomAdjective));
-// 		usedAdjectives.push(randomAdjective);
-// 		console.log(randomAdjective);
-// 		return declineRandomAdjective(
-// 			numerus,
-// 			kasus,
-// 			comparison,
-// 			attribute,
-// 			genus,
-// 			randomAdjective
-// 		);
-// 	};
-// }
-
-// function getAdjectives(selectedSettings, adjectiveMapping) {
-// 	const adjectives = {};
-
-// 	adjectiveMapping.forEach((mapping) => {
-// 		const randomAdjective = getRandomAdjective(mapping.array, selectedSettings);
-// 		adjectives[mapping.english] = randomAdjective;
-// 		adjectives[mapping.german] = createAdjectiveFunction(mapping.array, selectedSettings);
-// 	});
-
-// 	return adjectives;
-// }

@@ -1,99 +1,69 @@
-function displayGeneratedBooks(generatedBooks, selectedDescription) {
-	// Überprüfe, ob das Array selectedGenre mindestens einen Eintrag hat, falls nicht stoppe den Prozess
-	if (selectedGenre.length === 0) {
-		// Wenn das Array leer ist, Fehlermeldung anzeigen
-		return;
+export function displaySingleBook(book, selectedFields, container) {
+	const card = document.createElement('div');
+	card.className = 'ds-card';
+
+	let metaRows = '';
+
+	function row(key, value) {
+		return `<div class="card-meta-row">
+			<span class="card-meta-key">${key}</span>
+			<span class="card-meta-value">${value}</span>
+		</div>`;
 	}
 
-	// Container-Element abrufen
-	const container = document.getElementById('container-generated-books');
+	const inc = (f) => selectedFields.includes(f);
 
-	// Den Container leeren, bevor neue Bücher hinzugefügt werden
-	container.innerHTML = '';
+	if (inc('Autor'))
+		metaRows += row(
+			'Autor',
+			`${book.author.first_name} ${book.author.last_name}, ${book.author.gender}er ${book.author.race}`,
+		);
 
-	generatedBooks.forEach(function (book) {
-		// HTML-Inhalt erstellen mit den Details des Buches
-		const htmlContent =
-			`<p>` +
-			`<b style="font-size: 1.25rem">${book.title}</b> <br>` +
-			(selectedDescription.includes('Autor')
-				? `<b>Autor:</b> ${book.author.first_name} ${book.author.last_name}, ${book.author.gender}er ${book.author.race}<br>`
-				: '') +
-			(selectedDescription.includes('Seitenanzahl')
-				? `<b>Seitenanzahl:</b> ${book.description.page_count} Seiten<br>`
-				: '') +
-			(selectedDescription.includes('Auflage')
-				? `<b>Auflage:</b> ${book.description.book_edition}<br>`
-				: '') +
-			(selectedDescription.includes('Alter')
-				? `<b>Alter:</b> ${book.description.book_age}<br>`
-				: '') +
-			(selectedDescription.includes('Sprache')
-				? `<b>Sprache:</b> ${book.description.book_language}<br>`
-				: '') +
-			(selectedDescription.includes('Schlagwörter')
-				? `<b>Schlagwörter:</b> ${book.book_tags}<br>`
-				: '') +
-			(selectedDescription.includes('Buchgröße')
-				? `<b>Buchgröße:</b> ${book.description.book_size.height} x ${book.description.book_size.length} x ${book.description.book_size.width} cm<br>`
-				: '') +
-			(selectedDescription.includes('Seitenmaterial')
-				? `<b>Seitenmaterial:</b> ${book.description.page_material}<br>`
-				: '') +
-			(selectedDescription.includes('Gewicht')
-				? `<b>Gewicht:</b> ${book.description.book_weight.gram} g / ~ ${book.description.book_weight.kilogram} kg / ~ ${book.description.book_weight.pound} lb<br>`
-				: '') +
-			(selectedDescription.includes('Buchzustand')
-				? `<b>Buchzustand:</b> ${book.description.book_condition}<br>`
-				: '') +
-			(selectedDescription.includes('Buchpreis')
-				? `<b>Buchpreis:</b> ${book.description.book_value}<br>`
-				: '') +
-			(selectedDescription.includes('Buchbindung')
-				? `<b>Buchbindung:</b> ${book.description.book_binding}<br>`
-				: '') +
-			(selectedDescription.includes('Buchwert')
-				? `<b>Buchwert:</b> ${book.description.book_value} Goldmünzen<br>`
-				: '') +
-			(selectedDescription.includes('Material des Einbands')
-				? `<b>Material des Einbands:</b> ${book.description.cover.material}<br>`
-				: '') +
-			(selectedDescription.includes('Farbe des Einbands')
-				? `<b>Farbe des Einbands:</b> ${book.description.cover.color.name} (${book.description.cover.color.hue})/${book.description.cover.color.hex} <span style="margin-bottom: 3pt; vertical-align: middle; display: inline-block; width: 12pt; height: 12pt; border-radius: 50%; background-color: ${book.description.cover.color.hex};"></span><br>`
-				: '') +
-			(selectedDescription.includes('Detail des Einbands')
-				? `<b>Detail des Einbands:</b> ${book.description.cover.detail}<br>`
-				: '') +
-			(selectedDescription.includes('Textqualität')
-				? `<b>Textqualität:</b> ${book.description.text_quality}<br>`
-				: '') +
-			(selectedDescription.includes('Produktionsart des Texts')
-				? `<b>Produktionsart des Texts:</b> ${book.description.text_production}<br>`
-				: '') +
-			(selectedDescription.includes('Anzahl der Bilder')
-				? `<b>Anzahl der Bilder:</b > ${book.description.image.number}<br>`
-				: '') +
-			(selectedDescription.includes('Qualität der Bilder')
-				? `<b>Qualität der Bilder:</b > ${book.description.image.quality}<br>`
-				: '') +
-			(selectedDescription.includes('Größe der Bilder')
-				? `<b>Größe der Bilder:</b> ${book.description.image.size}<br>`
-				: '') +
-			(selectedDescription.includes('Farbe der Bilder')
-				? `<b>Farbe der Bilder:</b> ${book.description.image.color}<br>`
-				: '') +
-			(selectedDescription.includes('Stil der Bilder')
-				? `<b>Stil der Bilder:</b> ${book.description.image.style}<br>`
-				: '') +
-			(selectedDescription.includes('Lesezeichen')
-				? `<b>Lesezeichen:</b> ${book.description.bookmark}<br>`
-				: '') +
-			(selectedDescription.includes('Eigenart')
-				? `<b>Eigenart:</b> ${book.description.quirk}<br>`
-				: '') +
-			`</p>`;
+	if (inc('Seitenanzahl'))
+		metaRows += row('Seitenanzahl', `${book.description.page_count} Seiten`);
 
-		// HTML-Inhalt zum Container hinzufügen
-		container.innerHTML += htmlContent;
-	});
+	if (inc('Auflage')) metaRows += row('Auflage', book.description.book_edition);
+	if (inc('Alter')) metaRows += row('Alter', book.description.book_age);
+	if (inc('Sprache')) metaRows += row('Sprache', book.description.book_language);
+	if (inc('Schlagwörter')) metaRows += row('Schlagwörter', book.book_tags);
+	if (inc('Buchgröße'))
+		metaRows += row(
+			'Buchgröße',
+			`${book.description.book_size.height} × ${book.description.book_size.length} × ${book.description.book_size.width} cm`,
+		);
+	if (inc('Seitenmaterial')) metaRows += row('Seitenmaterial', book.description.page_material);
+	if (inc('Gewicht'))
+		metaRows += row(
+			'Gewicht',
+			`${book.description.book_weight.gram} g / ~${book.description.book_weight.pound} lb`,
+		);
+	if (inc('Buchzustand')) metaRows += row('Buchzustand', book.description.book_condition);
+	if (inc('Buchbindung')) metaRows += row('Buchbindung', book.description.book_binding);
+	if (inc('Buchwert')) metaRows += row('Buchwert', `${book.description.book_value} Goldmünzen`);
+	if (inc('Material des Einbands')) metaRows += row('Einband', book.description.cover.material);
+	if (inc('Farbe des Einbands'))
+		metaRows += row(
+			'Einbandfarbe',
+			`${book.description.cover.color.name} <span class="card-color-swatch" style="background-color:${book.description.cover.color.hex}"></span>`,
+		);
+	if (inc('Detail des Einbands')) metaRows += row('Einbanddetail', book.description.cover.detail);
+	if (inc('Textqualität')) metaRows += row('Textqualität', book.description.text_quality);
+	if (inc('Produktionsart des Texts'))
+		metaRows += row('Produktion', book.description.text_production);
+	if (inc('Anzahl der Bilder')) metaRows += row('Bilder', book.description.image.number);
+	if (inc('Qualität der Bilder')) metaRows += row('Bildqualität', book.description.image.quality);
+	if (inc('Größe der Bilder')) metaRows += row('Bildgröße', book.description.image.size);
+	if (inc('Farbe der Bilder')) metaRows += row('Bildfarbe', book.description.image.color);
+	if (inc('Stil der Bilder')) metaRows += row('Bildstil', book.description.image.style);
+	if (inc('Lesezeichen')) metaRows += row('Lesezeichen', book.description.bookmark);
+	if (inc('Eigenart')) metaRows += row('Eigenart', book.description.quirk);
+
+	card.innerHTML =
+		'<div class="card-spine"></div>' +
+		'<div class="card-body">' +
+		`<div class="card-title">${book.title}</div>` +
+		(metaRows ? `<div class="card-meta">${metaRows}</div>` : '') +
+		'</div>';
+
+	container.appendChild(card);
 }

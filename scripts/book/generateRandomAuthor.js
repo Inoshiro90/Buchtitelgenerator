@@ -1,24 +1,8 @@
-function generateRandomAuthor() {
-	const randomAuthor = {};
-	randomAuthor.gender = generateRandomAuthorGender();
-	// console.log('Geschlecht des Autors:', randomAuthor.gender);
-	randomAuthor.race = generateRandomAuthorRace();
-	// console.log('Volk des Autors:', randomAuthor.race);
-	randomAuthor.region = generateRandomAuthorRegion()
-	// console.log('Region des Autors:', randomAuthor.region);
-	randomAuthor.first_name = generateRandomAuthorFirstName(randomAuthor.gender, randomAuthor.race, randomAuthor.region);
-	// console.log(
-	// 	'Vorname des Autors basierend auf dem Geschlecht',
-	// 	randomAuthor.gender,
-	// 	'und dem Volk',
-	// 	randomAuthor.race + ':',
-	// 	randomAuthor.first_name
-	// );
-	randomAuthor.last_name = generateRandomAuthorLastName(randomAuthor.race, randomAuthor.region);
-	// console.log(
-	// 	'Nachname des Autors basierend auf dem Volk',
-	// 	randomAuthor.race + ':',
-	// 	randomAuthor.last_name
-	// );	
-	return randomAuthor;
+export function generateRandomAuthor() {
+	const gender     = generateRandomAuthorGender();
+	const race       = generateRandomAuthorRace();
+	const region     = generateRandomAuthorRegion();
+	const first_name = generateRandomAuthorFirstName(gender, race, region);
+	const last_name  = generateRandomAuthorLastName(race, region);
+	return { gender, race, region, first_name, last_name };
 }

@@ -29,5 +29,4 @@ const adjectiveMapping = [
 		german: 'PersonAussehen3',
 		array: adjectivePersonAppearanceArray,
 	},
-	// Add more adjective mappings here as needed
 ];
