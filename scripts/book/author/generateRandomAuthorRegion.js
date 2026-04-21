@@ -1,19 +1,21 @@
 function generateRandomAuthorRegion() {
 	const randomNumber = Math.floor(Math.random() * 100) + 1;
 
+	let region;
+
 	// Region basierend auf dem definierten Zahlenbereich auswählen
 	if (randomNumber <= 40) {
-		return 'germanisch';
+		region = 'germanisch';
 	} else if (randomNumber <= 55) {
-		return 'slawisch';
+		region = 'slawisch';
 	} else if (randomNumber <= 70) {
-		return 'romanisch';
+		region = 'romanisch';
 	} else if (randomNumber <= 80) {
-		return 'skandinavisch';
+		region = 'skandinavisch';
 	} else if (randomNumber <= 85) {
-		return 'keltisch';
+		region = 'keltisch';
 	} else {
-		return getRandomElement([
+		region =  getRandomElement([
 			'griechisch',
 			'arabisch',
 			'persisch',
@@ -26,4 +28,6 @@ function generateRandomAuthorRegion() {
 			'japanisch',
 		]);
 	}
+	return region;
+	console.log(`Zufalls-Region: ${region} (Zahl: ${randomNumber})`);
 }

@@ -1,25 +1,27 @@
 function generateRandomAuthorRace() {
 	// Zufallszahl zwischen 1 und 100 generieren
 	const randomNumber = Math.floor(Math.random() * 100) + 1;
-  
+	let race;
+
 	// Volk basierend auf dem definierten Zahlenbereich auswählen
 	if (randomNumber <= 49) {
-	  return 'Mensch';
+		race = 'Mensch';
 	} else if (randomNumber <= 59) {
-	  return 'Zwerg';
+		race = 'Zwerg';
 	} else if (randomNumber <= 69) {
-	  return 'Elf';
+		race = 'Elf';
 	} else if (randomNumber <= 74) {
-	  return 'Halbling';
+		race = 'Halbling';
 	} else if (randomNumber <= 79) {
-	  return 'Gnom';
+		race = 'Gnom';
 	} else if (randomNumber <= 84) {
-	  return 'Halbelf';
+		race = 'Halbelf';
 	} else if (randomNumber <= 89) {
-	  return 'Halbork';
+		race = 'Halbork';
 	} else if (randomNumber <= 94) {
-	  return 'Drachenblütiger';
+		race = 'Drachenblütiger';
 	} else {
-	  return 'Tiefling';
+		race = 'Tiefling';
 	}
-  }
+	return race;
+}
