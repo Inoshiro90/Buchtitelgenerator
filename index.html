@@ -191,7 +191,7 @@
                 </label>
                 <label class="form-check">
                   <input type="checkbox" id="checkbox-genre-performing-arts" class="checkbox-genre" checked>
-                  <span class="form-check-label">Darstellende Kunst</span>
+                  <span class="form-check-label">Darst. Kunst</span>
                 </label>
                 <label class="form-check">
                   <input type="checkbox" id="checkbox-genre-magic" class="checkbox-genre" checked>
@@ -449,29 +449,12 @@
 		<script src="scripts/book/title/categories/mountainRangeArray.js"></script>
 		<script src="scripts/book/title/categories/adjectiveCardinalDirectionArray.js"></script>
 		<script src="scripts/book/title/categories/adjectivePersonAppereanceArray.js"></script>
-		<script src="scripts/book/title/getNouns.js"></script>
-		<script src="scripts/book/title/getLocations.js"></script>
-		<script src="scripts/book/title/getAdjectives.js"></script>
-		<script src="scripts/book/title/getNames.js"></script>
-		<script src="scripts/book/title/getRandomNoun.js"></script>
-		<script src="scripts/book/title/declineRandomNoun.js"></script>
-		<script src="scripts/book/title/declineRandomLocation.js"></script>
-		<script src="scripts/book/title/declination/declineNoun.js"></script>
-		<script src="scripts/book/title/declination/declineArticle.js"></script>
-		<script src="scripts/book/title/sentenceCase.js"></script>
-		<script src="scripts/book/title/lowerCase.js"></script>
-		<script src="scripts/book/title/compoundWords.js"></script>
-		<script src="scripts/book/title/declension-table.js"></script>
-		<script src="scripts/book/title/getRandomAdjective.js"></script>
-		<script src="scripts/book/title/declineRandomAdjective.js"></script>
-		<script src="scripts/book/title/declination/declineAdjective.js"></script>
-		<script src="scripts/book/title/declination/declineAdjectivePositive.js"></script>
-		<script src="scripts/book/title/declination/declineAdjectiveComparative.js"></script>
-		<script src="scripts/book/title/declination/declineAdjectiveSuperlative.js"></script>
-		<script src="scripts/book/title/getRandomFirstName.js"></script>
-		<script src="scripts/book/title/getRandomLastName.js"></script>
-		<script src="scripts/book/title/declination/declinePossessivArticle.js"></script>
-		<script src="scripts/book/title/declination/declinePersonalPronoun.js"></script>
+		<!-- ═══════════════════════════════════════════════════════════
+		     Morphologie-DSL Engine  (ersetzt alle alten Grammatikdateien)
+		     Ladereihenfolge: engine → data  (kein templates.js — Templates leben in genre.csv)
+		     ═══════════════════════════════════════════════════════════ -->
+		<script src="scripts/book/title/dsl/engine.js"></script>
+		<script src="scripts/book/title/dsl/data.js"></script>
 		<script src="scripts/book/author/generateRandomAuthorGender.js"></script>
 		<script src="scripts/book/author/generateRandomAuthorRace.js"></script>
 		<script src="scripts/book/author/generateRandomAuthorRegion.js"></script>
@@ -603,9 +586,10 @@
 		<script src="scripts/book/description/generateRandomBookmark.js"></script>
 		<script src="scripts/book/description/generateRandomQuirk.js"></script>
 		<script src="scripts/book/description/generateRandomBookValue.js"></script>
-		<script src="scripts/book/title/nounMapping.js"></script>
-		<script src="scripts/book/title/adjectiveMapping.js"></script>
-		<script src="scripts/book/title/locationMapping.js"></script>
+		<!-- nounMapping / adjectiveMapping / locationMapping werden nicht mehr
+		     benötigt — Lemma-Bindung erfolgt nun über SLOT_DEFINITIONS in
+		     generateRandomTitle.js und LEMMA_MAP in dsl/data.js. -->
+		<!-- generateRandomTitle.js ist ein ES-Modul; wird über generateBooks.js importiert -->
 		<!-- ES Module entry point — imports all architecture-layer modules -->
 		<script type="module" src="scripts/main.js"></script>
 
