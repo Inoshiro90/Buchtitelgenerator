@@ -34,6 +34,13 @@ function normalizeGenus(genus) {
 	}
 }
 
+function extractSlotIndex(key) {
+	if (!key) return null;
+
+	const match = key.match(/\d+$/);
+	return match ? match[0] : null;
+}
+
 const _DEF = {
 	sgl: {
 		msk: {nom: 'der', gen: 'des', dat: 'dem', akk: 'den'},
@@ -908,6 +915,10 @@ function parseNAMToken(rawInner) {
 			token.genus = f;
 			continue;
 		}
+		if (f.startsWith('ref:')) {
+			token.ref = f.split(':')[1];
+			continue;
+		}
 		if (_KNOWN_VOLK_VALUES.has(f)) {
 			token.volk = f;
 			continue;
@@ -1006,7 +1017,7 @@ function resolveRenderOverride(override, cN, cK, cG, variableMap) {
 function resolveNOM(token, activeSettings, variableMap) {
 	let wordData;
 
-	// 🔧 NORMALISIERUNG
+	// NORMALISIERUNG
 	const lemmaKey = norm(token.lemma);
 
 	if (_isVariable(lemmaKey) && variableMap?.[lemmaKey]) {
@@ -1217,62 +1228,222 @@ function _resolveAutoKomposition(w) {
 	return compound.charAt(0).toUpperCase() + compound.slice(1);
 }
 
+function resolveReference(value) {
+	if (nameContextStore[value]) {
+		return nameContextStore[value];
+	}
+	return null;
+}
+
+const nameContextStore = {};
+
+// function getOrCreateNameContext(token) {
+// 	const slotIndex = extractSlotIndex(token.key);
+
+// 	if (!slotIndex) return createFreshContext(token);
+
+// 	// Falls bereits vorhanden → wiederverwenden
+// 	if (nameContextStore[slotIndex]) {
+// 		return nameContextStore[slotIndex];
+// 	}
+
+// 	// Sonst neu erzeugen
+// 	const context = createFreshContext(token);
+
+// 	nameContextStore[slotIndex] = context;
+
+// 	return context;
+// }
+
+/**
+ * Gibt den gespeicherten Kontext für einen NAM-Slot zurück oder erstellt ihn neu.
+ *
+ * Beim ersten Auftreten eines Slots (z.B. "Vorname1") innerhalb eines render()-Aufrufs
+ * wird ein frischer Kontext per createFreshContext() angelegt und gespeichert.
+ * Nachname-Tokens können über ref: auf denselben Slot verweisen und erhalten so
+ * identische Rasse + Region → konsistentes Namenspaar.
+ */
+function getOrCreateNameContext(token) {
+	const key = token.subtype; // z.B. "Vorname1"
+	if (!nameContextStore[key]) {
+		nameContextStore[key] = createFreshContext(token);
+	}
+	return nameContextStore[key];
+}
+
+function mapGenusToGender(genus) {
+	if (genus === 'fem') return 'weiblich';
+	if (genus === 'neu') return 'nicht-binär';
+	return 'männlich'; // msk + fallback
+}
+
+function createFreshContext(token) {
+	const gender =
+		token.genus === 'rnd' ? generateRandomAuthorGender() : mapGenusToGender(token.genus);
+	const race = token.volk === 'rnd' ? generateRandomAuthorRace() : token.volk;
+	const region = token.region === 'rnd' ? generateRandomAuthorRegion() : token.region;
+	return {gender, race, region};
+}
+
 /**
  * resolveNAM
  * KORREKTUR: genus='rnd' → zufälliges Geschlecht via generateRandomAuthorGender().
  * Fallback: 50/50 wenn Funktion nicht verfügbar.
  */
+// function resolveNAM(token) {
+// 	let gender;
+// 	const kasus = token.kasus;
+
+// 	if (token.genus === 'rnd') {
+// 		gender =
+// 			typeof generateRandomAuthorGender === 'function'
+// 				? generateRandomAuthorGender()
+// 				: Math.random() < 0.5
+// 					? 'männlich'
+// 					: 'weiblich';
+// 	} else {
+// 		gender = token.genus === 'fem' ? 'weiblich' : 'männlich';
+// 	}
+
+// 	const race = token.volk === 'rnd' ? generateRandomAuthorRace() : token.volk;
+
+// 	let region;
+// 	if (token.region === 'rnd') {
+// 		const rndRegion =
+// 			typeof generateRandomAuthorRegion === 'function'
+// 				? generateRandomAuthorRegion()
+// 				: undefined;
+
+// 		region = rndRegion ?? 'Default-Region'; // oder sinnvoller Wert
+// 	} else {
+// 		region = token.region;
+// 	}
+
+// 	//console.log('INPUT →', {gender, race, region});
+
+// 	const name = generateRandomAuthorFirstName(gender, race, region);
+// 	const eSXZ = (s) => /[sxzß]$/.test(s);
+// 	if (kasus === 'gen') return eSXZ(name) ? name + "'" : name + 's';
+// 	// console.log('OUTPUT →', name);
+
+// 	return name ?? '[Vorname?]';
+
+// 	if (typeof generateRandomAuthorFirstName === 'function' && token.subtype === 'Vorname') {
+// 		try {
+// 			return generateRandomAuthorFirstName(gender, race, region) ?? '[Vorname?]';
+// 		} catch (e) {
+// 			return '[Vorname?]';
+// 		}
+// 	}
+// 	if (typeof generateRandomAuthorLastName === 'function' && token.subtype === 'Nachname') {
+// 		const race = token.volk === 'rnd' ? undefined : token.volk;
+// 		try {
+// 			return generateRandomAuthorLastName(race, region) ?? '[Nachname?]';
+// 		} catch (e) {
+// 			return '[Nachname?]';
+// 		}
+// 	}
+// 	return '[' + token.subtype + '?]';
+// }
+
+// function resolveNAM(token) {
+// 	const {gender, race, region} = getOrCreateNameContext(token);
+
+// 	const kasus = token.kasus;
+
+// 	let name;
+// 	console.log('token:', token);
+
+// 	if (token.subtype.startsWith('Vorname')) {
+// 		try {
+// 			name = generateRandomAuthorFirstName(gender, race, region);
+// 		} catch {
+// 			return '[Vorname?]';
+// 		}
+// 	}
+
+// 	if (token.subtype.startsWith('Nachname')) {
+// 		try {
+// 			name = generateRandomAuthorLastName(race, region);
+// 		} catch {
+// 			return '[Nachname?]';
+// 		}
+// 	}
+
+// 	if (!name) return `[${token.subtype}?]`;
+
+// 	if (!name) {
+// 		console.warn('Name fehlgeschlagen:', {gender, race, region});
+// 		name = generateRandomAuthorFirstName(gender, race, 'germanisch') || 'Unbekannt';
+// 	}
+
+// 		// Kasus-Handling
+// 	const eSXZ = (s) => /[sxzß]$/.test(s);
+// 	if (kasus === 'gen') return eSXZ(name) ? name + "'" : name + 's';
+
+// 	console.log('NAM DEBUG:', {
+// 		subtype: token.subtype,
+// 		gender,
+// 		race,
+// 		region,
+// 	});
+
+// 	console.log('NAME RESULT:', name, 'Volk:', race, 'Region:', region);
+// 	return name;
+// }
+
+// function resolveNAM(token) {
+// 	let context;
+
+// 	// Prüfe ob Referenz
+// 	const ref = resolveReference(token.volk);
+
+// 	if (ref) {
+// 		context = ref;
+// 	} else {
+// 		context = getOrCreateNameContext(token);
+// 	}
+
+// 	const {gender, race, region} = context;
+
+// 	let name;
+
+// 	if (token.subtype.startsWith('Vorname')) {
+// 		name = generateRandomAuthorFirstName(gender, race, region);
+// 	} else if (token.subtype.startsWith('Nachname')) {
+// 		name = generateRandomAuthorLastName(race, region);
+// 	}
+
+// 	return name || `[${token.subtype}?]`;
+// }
+
 function resolveNAM(token) {
-	let gender;
-	if (token.genus === 'rnd') {
-		gender =
-			typeof generateRandomAuthorGender === 'function'
-				? generateRandomAuthorGender()
-				: Math.random() < 0.5
-					? 'männlich'
-					: 'weiblich';
+	let context;
+	const kasus = token.kasus;
+
+	if (token.ref && nameContextStore[token.ref]) {
+		context = nameContextStore[token.ref];
 	} else {
-		gender = token.genus === 'fem' ? 'weiblich' : 'männlich';
+		context = getOrCreateNameContext(token);
 	}
 
-	const race = token.volk === 'rnd' ? generateRandomAuthorRace() : token.volk;
+	const {gender, race, region} = context;
+	console.log('resolveNAM Kontext:', 'gender', gender, 'race', race, 'region', region, 'kasus', kasus);
+	let name;
 
-	let region;
-	if (token.region === 'rnd') {
-		const rndRegion =
-			typeof generateRandomAuthorRegion === 'function'
-				? generateRandomAuthorRegion()
-				: undefined;
-
-		region = rndRegion ?? 'Default-Region'; // oder sinnvoller Wert
-	} else {
-		region = token.region;
+	if (token.subtype.startsWith('Vorname')) {
+		name = generateRandomAuthorFirstName(gender, race, region);
+		console.log('resolveNAM Vorname:', 'name', name, 'race', race, 'region', region, 'gender', gender,'kasus', kasus);
+	} else if (token.subtype.startsWith('Nachname')) {
+		name = generateRandomAuthorLastName(race, region, gender);
+		console.log('resolveNAM Nachname:', 'name', name, 'race', race, 'region', region, 'gender', gender, 'kasus', kasus);
 	}
 
-	//console.log('INPUT →', {gender, race, region});
+	// Kasus-Handling
+	const eSXZ = (s) => /[sxzß]$/.test(s);
+	if (kasus === 'gen') return eSXZ(name) ? name + "'" : name + 's';
 
-	const name = generateRandomAuthorFirstName(gender, race, region);
-
-	// console.log('OUTPUT →', name);
-
-	return name ?? '[Vorname?]';
-
-	if (typeof generateRandomAuthorFirstName === 'function' && token.subtype === 'Vorname') {
-		try {
-			return generateRandomAuthorFirstName(gender, race, region) ?? '[Vorname?]';
-		} catch (e) {
-			return '[Vorname?]';
-		}
-	}
-	if (typeof generateRandomAuthorLastName === 'function' && token.subtype === 'Nachname') {
-		const race = token.volk === 'rnd' ? undefined : token.volk;
-		try {
-			return generateRandomAuthorLastName(race, region) ?? '[Nachname?]';
-		} catch (e) {
-			return '[Nachname?]';
-		}
-	}
-	return '[' + token.subtype + '?]';
+	return name || `[${token.subtype}?]`;
 }
 
 function resolveFUN(fn, arg) {
@@ -1361,6 +1532,9 @@ function selectRandom(arr, activeSettings) {
  * @returns {string}
  */
 function render(template, variableMap, activeSettings) {
+	// Store vor jedem neuen Template zurücksetzen, damit jeder Titel
+	// einen eigenen Namens-Kontext erhält (Vorname1/Nachname1 pro Titel).
+	Object.keys(nameContextStore).forEach((k) => delete nameContextStore[k]);
 	const vMap = variableMap ?? {};
 	const settings = activeSettings ?? ['Universal'];
 	const elements = tokenize(template);

@@ -1,5 +1,16 @@
+function normalizeGender(gender) {
+	switch (gender) {
+		case 'msk': return 'männlich';
+		case 'fem': return 'weiblich';
+		case 'neu': return 'nicht-binär';
+		default: return gender;
+	}
+}
+
+
 function generateRandomAuthorFirstName(gender, race, region) {
 	let firstName;
+	gender = normalizeGender(gender);
 
 	// console.log ('Region in generateRandomAuthorFirstName', region)
 	switch (gender) {

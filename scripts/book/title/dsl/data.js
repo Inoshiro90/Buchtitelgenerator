@@ -13,26 +13,28 @@
  */
 
 (function registerLemmaMap() {
+	// ── Substantive ───────────────────────────────────────────────────────
+	LEMMA_MAP['Volk'] = {type: 'noun', arrays: raceArray};
+	LEMMA_MAP['Klasse'] = {type: 'noun', arrays: classArray};
+	LEMMA_MAP['Terrain'] = {type: 'noun', arrays: terrainArray};
+	LEMMA_MAP['Waffe'] = {type: 'noun', arrays: weaponArray};
+	LEMMA_MAP['Kreaturtyp'] = {type: 'noun', arrays: creatureTypeArray};
+	LEMMA_MAP['Abenteuerausrüstung'] = {type: 'noun', arrays: adventuringGearArray};
+	LEMMA_MAP['Beruf'] = {type: 'noun', arrays: professionArray};
+	LEMMA_MAP['Gebäude'] = {type: 'noun', arrays: buildingArray};
+	LEMMA_MAP['Tier'] = {type: 'noun', arrays: animalArray};
+	LEMMA_MAP['Metall'] = {type: 'noun', arrays: metalArray};
+	LEMMA_MAP['Ereignis'] = {type: 'noun', arrays: eventArray};
+	LEMMA_MAP['Rüstung'] = {type: 'noun', arrays: armourArray};
 
-  // ── Substantive ───────────────────────────────────────────────────────
-  LEMMA_MAP['Volk']       = { type: 'noun', arrays: raceArray            };
-  LEMMA_MAP['Klasse']     = { type: 'noun', arrays: classArray           };
-  LEMMA_MAP['Terrain']    = { type: 'noun', arrays: terrainArray         };
-  LEMMA_MAP['Waffe']      = { type: 'noun', arrays: weaponArray          };
-  LEMMA_MAP['Kreaturtyp'] = { type: 'noun', arrays: creatureTypeArray    };
-  LEMMA_MAP['Abenteuerausrüstung'] = { type: 'noun', arrays: adventuringGearArray };
-  LEMMA_MAP['Beruf']      = { type: 'noun', arrays: professionArray      };
-  LEMMA_MAP['Gebäude']    = { type: 'noun', arrays: buildingArray        };
-  LEMMA_MAP['Tier']       = { type: 'noun', arrays: animalArray          };
-  LEMMA_MAP['Metall']     = { type: 'noun', arrays: metalArray           };
-  LEMMA_MAP['Ereignis']   = { type: 'noun', arrays: eventArray           };
-  LEMMA_MAP['Rüstung']    = { type: 'noun', arrays: armourArray          };
+	// Locations: Einträge mit number:'plural'/'singular' (fixedNumerus)
+	LEMMA_MAP['Ort'] = {type: 'noun', arrays: mountainRangeArray};
 
-  // Locations: Einträge mit number:'plural'/'singular' (fixedNumerus)
-  LEMMA_MAP['Ort']        = { type: 'noun', arrays: mountainRangeArray   };
+	// ── Adjektive ─────────────────────────────────────────────────────────
+	LEMMA_MAP['PersonAussehen'] = {type: 'adj', arrays: adjectivePersonAppearanceArray};
+	LEMMA_MAP['Himmelsrichtung'] = {type: 'adj', arrays: adjectiveCardinalDirectionArray};
 
-  // ── Adjektive ─────────────────────────────────────────────────────────
-  LEMMA_MAP['PersonAussehen']  = { type: 'adj', arrays: adjectivePersonAppearanceArray  };
-  LEMMA_MAP['Himmelsrichtung'] = { type: 'adj', arrays: adjectiveCardinalDirectionArray };
-
+	// Namen
+	LEMMA_MAP['Vorname'] = {type: 'name'};
+	LEMMA_MAP['Nachname'] = {type: 'name'};
 })();

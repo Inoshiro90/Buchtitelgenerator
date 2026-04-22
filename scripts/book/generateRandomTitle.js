@@ -26,7 +26,10 @@
 
 /** Gecachte Genre-Map: genre → [{title, tags}, ...] */
 let _cachedGenreData = null;
-
+function resetNameContextStore() {
+	Object.keys(nameContextStore).forEach((k) => delete nameContextStore[k]);
+}
+resetNameContextStore();
 /**
  * Lädt und parst genre.csv einmalig. Nachfolgende Aufrufe nutzen den Cache.
  * Wirft einen Fehler wenn die CSV nicht erreichbar ist oder Spalten fehlen.
@@ -112,6 +115,16 @@ const SLOT_DEFINITIONS = [
 	{key: 'Ort1', lemma: 'Ort'},
 	{key: 'Ort2', lemma: 'Ort'},
 	{key: 'Ort3', lemma: 'Ort'},
+	{key: 'Vorname1', lemma: 'Vorname'},
+	{key: 'Vorname2', lemma: 'Vorname'},
+	{key: 'Vorname3', lemma: 'Vorname'},
+	{key: 'Vorname4', lemma: 'Vorname'},
+	{key: 'Vorname5', lemma: 'Vorname'},
+	{key: 'Nachname1', lemma: 'Nachname'},
+	{key: 'Nachname2', lemma: 'Nachname'},
+	{key: 'Nachname3', lemma: 'Nachname'},
+	{key: 'Nachname4', lemma: 'Nachname'},
+	{key: 'Nachname5', lemma: 'Nachname'},
 ];
 
 // ─── Variablen-Selektion ────────────────────────────────────────────────────
@@ -130,6 +143,11 @@ function buildVariableMap(activeSettings) {
 	for (const slot of SLOT_DEFINITIONS) {
 		const lemmaKey = norm(slot.lemma);
 		const key = norm(slot.key);
+		let token = {
+			key: slot.key,
+			lemma: slot.lemma,
+			subtype: slot.lemma,
+		};
 
 		const entry = LEMMA_MAP[lemmaKey];
 		if (!entry) {
