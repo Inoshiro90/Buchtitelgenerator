@@ -430,7 +430,7 @@ function _applyNounTable(numerus, kasus, genus, rule, pattern, stem) {
 	)
 		return pattern === 'S2' || pattern === 'S4' ? stem + 'es' : stem + 's';
 
-	if (rule === 'eigenname' && kasus === 'gen') return eSXZ(stem) ? stem + "'" : stem + 's';
+	// if (rule === 'eigenname' && kasus === 'gen') return eSXZ(stem) ? stem + "'" : stem + 's';
 
 	if (rule === 'gemischteDeklination' && pattern === 'W4' && kasus === 'dat') {
 		if (eE(stem)) return stem + 'n';
