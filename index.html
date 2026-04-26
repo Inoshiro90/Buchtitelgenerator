@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="de" data-theme="light">
-
 <head>
-  <title>Buchtitelgenerator</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buchgenerator</title>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Einziger Script-Einstiegspunkt — lädt alle Module dynamisch -->
+  <script type="module" src="core/loader.js"></script>
 </head>
 
 <body>
@@ -18,43 +22,27 @@
   <header class="app-nav">
     <div class="nav-brand">
       <div class="nav-logo">
-        <!-- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="3 6 5 6 21 6" />
-          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-          <path d="M10 11v6M14 11v6" />
-        </svg> -->
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-book-open-text-icon lucide-book-open-text">
-          <path d="M12 7v14" />
-          <path d="M16 12h2" />
-          <path d="M16 8h2" />
-          <path
-            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
-          <path d="M6 12h2" />
-          <path d="M6 8h2" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 7v14"/>
+          <path d="M16 12h2"/><path d="M16 8h2"/>
+          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+          <path d="M6 12h2"/><path d="M6 8h2"/>
         </svg>
       </div>
       Buchgenerator
     </div>
     <div class="nav-actions">
       <button class="theme-toggle" id="theme-toggle" aria-label="Dark Mode umschalten">
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <circle cx="12" cy="12" r="5" />
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
       </button>
     </div>
@@ -64,8 +52,7 @@
   <section class="hero-section">
     <div class="container">
       <h1 class="hero-title">Buchgenerator</h1>
-      <p class="hero-desc">Generiere zufällige Bücher für deine Kampagne mit Titeln, Autoren und detaillierten
-        Beschreibungen.</p>
+      <p class="hero-desc">Generiere zufällige Bücher für deine Kampagne mit Titeln, Autoren und detaillierten Beschreibungen.</p>
     </div>
   </section>
 
@@ -81,56 +68,24 @@
             <div class="filter-sidebar-subtitle">Einstellungen anpassen</div>
           </div>
 
-          <!-- Filter: Setting -->
+          <!-- Panel: Setting -->
           <div class="filter-panel is-closed" id="panel-setting">
             <div class="filter-panel-header" data-panel="panel-setting">
               <span class="filter-panel-label">Setting</span>
-              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
+              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
             </div>
             <div class="filter-panel-body">
               <div class="checkbox-grid checkbox-grid-single">
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-dragonlance" class="checkbox-setting" checked>
-                  <span class="form-check-label">Drachenlanze</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-eberron" class="checkbox-setting" checked>
-                  <span class="form-check-label">Eberron</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-exandria" class="checkbox-setting" checked>
-                  <span class="form-check-label">Exandria</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-greyhawk" class="checkbox-setting" checked>
-                  <span class="form-check-label">Greyhawk</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-ravenloft" class="checkbox-setting" checked>
-                  <span class="form-check-label">Ravenloft</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-ravnica" class="checkbox-setting" checked>
-                  <span class="form-check-label">Ravnica</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-spelljammer" class="checkbox-setting" checked>
-                  <span class="form-check-label">Spelljammer</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-strixhaven" class="checkbox-setting" checked>
-                  <span class="form-check-label">Strixhaven</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-theros" class="checkbox-setting" checked>
-                  <span class="form-check-label">Theros</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-setting-forgotten-realms" class="checkbox-setting" checked>
-                  <span class="form-check-label">Vergessene Reiche</span>
-                </label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Drachenlanze" checked><span class="form-check-label">Drachenlanze</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Eberron" checked><span class="form-check-label">Eberron</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Exandria" checked><span class="form-check-label">Exandria</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Greyhawk" checked><span class="form-check-label">Greyhawk</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Ravenloft" checked><span class="form-check-label">Ravenloft</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Ravnica" checked><span class="form-check-label">Ravnica</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Spelljammer" checked><span class="form-check-label">Spelljammer</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Strixhaven" checked><span class="form-check-label">Strixhaven</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Theros" checked><span class="form-check-label">Theros</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-setting" data-value="Vergessene Reiche" checked><span class="form-check-label">Vergessene Reiche</span></label>
               </div>
               <div class="filter-panel-actions">
                 <button class="btn btn-ghost" id="btn-select-all-setting">Alle</button>
@@ -139,96 +94,34 @@
             </div>
           </div>
 
-          <!-- Filter: Genre -->
+          <!-- Panel: Genre -->
           <div class="filter-panel is-closed" id="panel-genre">
             <div class="filter-panel-header" data-panel="panel-genre">
               <span class="filter-panel-label">Genre</span>
-              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
+              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
             </div>
             <div class="filter-panel-body">
               <div class="checkbox-grid">
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-fiction" class="checkbox-genre" checked>
-                  <span class="form-check-label">Belletristik</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-biography" class="checkbox-genre" checked>
-                  <span class="form-check-label">Biographie</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-leisure" class="checkbox-genre" checked>
-                  <span class="form-check-label">Freizeit</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-geography" class="checkbox-genre" checked>
-                  <span class="form-check-label">Geographie</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-history" class="checkbox-genre" checked>
-                  <span class="form-check-label">Geschichte</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-craft" class="checkbox-genre" checked>
-                  <span class="form-check-label">Handwerk</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-medicine" class="checkbox-genre" checked>
-                  <span class="form-check-label">Heilkunde</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-childrens-book" class="checkbox-genre" checked>
-                  <span class="form-check-label">Kinderbuch</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-culinary-arts" class="checkbox-genre" checked>
-                  <span class="form-check-label">Kochkunst</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-fine-arts" class="checkbox-genre" checked>
-                  <span class="form-check-label">Bildende Kunst</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-performing-arts" class="checkbox-genre" checked>
-                  <span class="form-check-label">Darst. Kunst</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-magic" class="checkbox-genre" checked>
-                  <span class="form-check-label">Magie</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-nature-studies" class="checkbox-genre" checked>
-                  <span class="form-check-label">Naturkunde</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-philosophy" class="checkbox-genre" checked>
-                  <span class="form-check-label">Philosophie</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-psychology" class="checkbox-genre" checked>
-                  <span class="form-check-label">Psychologie</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-law" class="checkbox-genre" checked>
-                  <span class="form-check-label">Recht</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-religion" class="checkbox-genre" checked>
-                  <span class="form-check-label">Religion</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-sport" class="checkbox-genre" checked>
-                  <span class="form-check-label">Sport</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-language" class="checkbox-genre" checked>
-                  <span class="form-check-label">Sprache</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-genre-ethnology" class="checkbox-genre" checked>
-                  <span class="form-check-label">Völkerkunde</span>
-                </label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Belletristik" checked><span class="form-check-label">Belletristik</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Biographie" checked><span class="form-check-label">Biographie</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Freizeit" checked><span class="form-check-label">Freizeit</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Geographie" checked><span class="form-check-label">Geographie</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Geschichte" checked><span class="form-check-label">Geschichte</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Handwerk" checked><span class="form-check-label">Handwerk</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Heilkunde" checked><span class="form-check-label">Heilkunde</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Kinderbuch" checked><span class="form-check-label">Kinderbuch</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Kochkunst" checked><span class="form-check-label">Kochkunst</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Bildende Kunst" checked><span class="form-check-label">Bildende Kunst</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Darstellende Kunst" checked><span class="form-check-label">Darst. Kunst</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Magie" checked><span class="form-check-label">Magie</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Naturkunde" checked><span class="form-check-label">Naturkunde</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Philosophie" checked><span class="form-check-label">Philosophie</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Psychologie" checked><span class="form-check-label">Psychologie</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Recht" checked><span class="form-check-label">Recht</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Religion" checked><span class="form-check-label">Religion</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Sport" checked><span class="form-check-label">Sport</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Sprache" checked><span class="form-check-label">Sprache</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-genre" data-value="Völkerkunde" checked><span class="form-check-label">Völkerkunde</span></label>
               </div>
               <div class="filter-panel-actions">
                 <button class="btn btn-ghost" id="btn-select-all-genre">Alle</button>
@@ -237,116 +130,42 @@
             </div>
           </div>
 
-          <!-- Filter: Beschreibung -->
+          <!-- Panel: Beschreibung -->
           <div class="filter-panel is-closed" id="panel-description">
             <div class="filter-panel-header" data-panel="panel-description">
               <span class="filter-panel-label">Beschreibung</span>
-              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
+              <svg class="filter-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
             </div>
             <div class="filter-panel-body">
               <div class="checkbox-grid">
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-author" class="checkbox-description" checked>
-                  <span class="form-check-label">Autor</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-page-count" class="checkbox-description" checked>
-                  <span class="form-check-label">Seitenzahl</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-edition" class="checkbox-description" checked>
-                  <span class="form-check-label">Auflage</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-age" class="checkbox-description" checked>
-                  <span class="form-check-label">Alter</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-language" class="checkbox-description" checked>
-                  <span class="form-check-label">Sprache</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-tags" class="checkbox-description" checked>
-                  <span class="form-check-label">Schlagwörter</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-size" class="checkbox-description" checked>
-                  <span class="form-check-label">Buchgröße</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-page-material" class="checkbox-description" checked>
-                  <span class="form-check-label">Seitenmaterial</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-weight" class="checkbox-description" checked>
-                  <span class="form-check-label">Gewicht</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-condition" class="checkbox-description" checked>
-                  <span class="form-check-label">Buchzustand</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-binding" class="checkbox-description" checked>
-                  <span class="form-check-label">Buchbindung</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-book-value" class="checkbox-description" checked>
-                  <span class="form-check-label">Buchwert</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-cover-material" class="checkbox-description" checked>
-                  <span class="form-check-label">Einband-Material</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-cover-color" class="checkbox-description" checked>
-                  <span class="form-check-label">Einband-Farbe</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-cover-detail" class="checkbox-description" checked>
-                  <span class="form-check-label">Einband-Detail</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-text-quality" class="checkbox-description" checked>
-                  <span class="form-check-label">Textqualität</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-text-production" class="checkbox-description" checked>
-                  <span class="form-check-label">Produktionsart</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-image-number" class="checkbox-description" checked>
-                  <span class="form-check-label">Bilder-Anzahl</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-image-quality" class="checkbox-description" checked>
-                  <span class="form-check-label">Bilder-Qualität</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-image-size" class="checkbox-description" checked>
-                  <span class="form-check-label">Bilder-Größe</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-image-color" class="checkbox-description" checked>
-                  <span class="form-check-label">Bilder-Farbe</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-image-style" class="checkbox-description" checked>
-                  <span class="form-check-label">Bilder-Stil</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-bookmark" class="checkbox-description" checked>
-                  <span class="form-check-label">Lesezeichen</span>
-                </label>
-                <label class="form-check">
-                  <input type="checkbox" id="checkbox-description-quirk" class="checkbox-description" checked>
-                  <span class="form-check-label">Eigenart</span>
-                </label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Autor" checked><span class="form-check-label">Autor</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Seitenanzahl" checked><span class="form-check-label">Seitenzahl</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Auflage" checked><span class="form-check-label">Auflage</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Alter" checked><span class="form-check-label">Alter</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Sprache" checked><span class="form-check-label">Sprache</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Schlagwörter" checked><span class="form-check-label">Schlagwörter</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Buchgröße" checked><span class="form-check-label">Buchgröße</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Seitenmaterial" checked><span class="form-check-label">Seitenmaterial</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Gewicht" checked><span class="form-check-label">Gewicht</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Buchzustand" checked><span class="form-check-label">Buchzustand</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Buchbindung" checked><span class="form-check-label">Buchbindung</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Buchwert" checked><span class="form-check-label">Buchwert</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Material des Einbands" checked><span class="form-check-label">Einband-Material</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Farbe des Einbands" checked><span class="form-check-label">Einband-Farbe</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Detail des Einbands" checked><span class="form-check-label">Einband-Detail</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Textqualität" checked><span class="form-check-label">Textqualität</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Produktionsart des Texts" checked><span class="form-check-label">Produktionsart</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Anzahl der Bilder" checked><span class="form-check-label">Bilder-Anzahl</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Qualität der Bilder" checked><span class="form-check-label">Bilder-Qualität</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Größe der Bilder" checked><span class="form-check-label">Bilder-Größe</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Farbe der Bilder" checked><span class="form-check-label">Bilder-Farbe</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Stil der Bilder" checked><span class="form-check-label">Bilder-Stil</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Lesezeichen" checked><span class="form-check-label">Lesezeichen</span></label>
+                <label class="form-check"><input type="checkbox" class="checkbox-field" data-value="Eigenart" checked><span class="form-check-label">Eigenart</span></label>
               </div>
               <div class="filter-panel-actions">
-                <button class="btn btn-ghost" id="btn-select-all-description">Alle</button>
-                <button class="btn btn-ghost" id="btn-deselect-all-description">Keine</button>
+                <button class="btn btn-ghost" id="btn-select-all-field">Alle</button>
+                <button class="btn btn-ghost" id="btn-deselect-all-field">Keine</button>
               </div>
             </div>
           </div>
@@ -360,30 +179,29 @@
             <div class="controls-row">
               <div class="form-group">
                 <label class="form-label" for="input-field-book-count">Anzahl</label>
-                <input type="number" class="form-input" id="input-field-book-count" min="1" max="1000" value="1"
-                  onKeyUp="if(this.value>1000){this.value='1000';} else if(this.value<0){this.value='0';}">
+                <input type="number" class="form-input" id="input-field-book-count"
+                       min="1" max="1000" value="1">
               </div>
               <div class="action-buttons">
-                <button id="btn-generate" class="btn btn-blue">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-play-icon lucide-play">
-                    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+                <button id="btn-generate" class="btn btn-blue" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/>
                   </svg>
                   Generieren
                 </button>
                 <button id="btn-copy" class="btn btn-secondary">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                   </svg>
                   Kopieren
                 </button>
                 <button id="btn-clear" class="btn btn-secondary">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                    <path d="M10 11v6M14 11v6" />
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                    <path d="M10 11v6M14 11v6"/>
                   </svg>
                   Löschen
                 </button>
@@ -399,19 +217,19 @@
             </div>
 
             <div class="results-empty" id="results-empty">
-              <span class="results-empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" class="lucide lucide-book-open-text-icon lucide-book-open-text">
-                  <path d="M12 7v14" />
-                  <path d="M16 12h2" />
-                  <path d="M16 8h2" />
-                  <path
-                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
-                  <path d="M6 12h2" />
-                  <path d="M6 8h2" />
-                </svg></span>
-              <p class="results-empty-text">Noch keine Bücher generiert.<br>Wähle deine Filter und klicke auf
-                „Generieren".</p>
+              <span class="results-empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 7v14"/>
+                  <path d="M16 12h2"/><path d="M16 8h2"/>
+                  <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+                  <path d="M6 12h2"/><path d="M6 8h2"/>
+                </svg>
+              </span>
+              <p class="results-empty-text">
+                Noch keine Bücher generiert.<br>
+                Wähle deine Filter und klicke auf „Generieren".
+              </p>
             </div>
 
             <div id="container-generated-books"></div>
@@ -422,179 +240,12 @@
     </div><!-- /.container -->
   </main>
 
-  <!-- Scroll to top -->
+  <!-- Back to top -->
   <button type="button" id="btn-back-to-top" aria-label="Nach oben scrollen">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M18 15l-6-6-6 6" />
+      <path d="M18 15l-6-6-6 6"/>
     </svg>
   </button>
-
-  <!-- ===== UI SCRIPTS ===== -->
-
-		<script src="scripts/getRandomElement.js"></script>
-		<script src="scripts/dice.js"></script>
-		<script src="scripts/book/title/categories/classArray.js"></script>
-		<script src="scripts/book/title/categories/raceArray.js"></script>
-		<script src="scripts/book/title/categories/creatureTypeArray.js"></script>
-		<script src="scripts/book/title/categories/professionArray.js"></script>
-		<script src="scripts/book/title/categories/animalArray.js"></script>
-		<script src="scripts/book/title/categories/armourArray.js"></script>
-		<script src="scripts/book/title/categories/buildingArray.js"></script>
-		<script src="scripts/book/title/categories/eventArray.js"></script>
-		<script src="scripts/book/title/categories/metalArray.js"></script>
-		<script src="scripts/book/title/categories/adventuringGearArray.js"></script>
-		<script src="scripts/book/title/categories/terrainArray.js"></script>
-		<script src="scripts/book/title/categories/religiousArray.js"></script>
-		<script src="scripts/book/title/categories/weaponArray.js"></script>
-		<script src="scripts/book/title/categories/mountainRangeArray.js"></script>
-		<script src="scripts/book/title/categories/adjectiveCardinalDirectionArray.js"></script>
-		<script src="scripts/book/title/categories/adjectivePersonAppereanceArray.js"></script>
-		<!-- ═══════════════════════════════════════════════════════════
-		     Morphologie-DSL Engine  (ersetzt alle alten Grammatikdateien)
-		     Ladereihenfolge: engine → data  (kein templates.js — Templates leben in genre.csv)
-		     ═══════════════════════════════════════════════════════════ -->
-		<script src="scripts/book/title/dsl/engine.js"></script>
-		<script src="scripts/book/title/dsl/data.js"></script>
-
-		<script src="scripts/book/author/generateRandomAuthorGender.js"></script>
-		<script src="scripts/book/author/generateRandomAuthorRace.js"></script>
-		<script src="scripts/book/author/generateRandomAuthorRegion.js"></script>
-		<script src="scripts/book/author/generateRandomAuthorFirstName.js"></script>
-		<script src="scripts/book/author/generateRandomAuthorLastName.js"></script>
-		<script src="scripts/book/author/generateRandomAuthorRegion.js"></script>
-
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDragonbornNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameDwarfNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameElfFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameElfMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameElfNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameGnomeNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalfOrcNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHalflingNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingFemale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingMale.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameTieflingNonBinary.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleArabic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleBantu.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleCeltic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleChinese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleEgyptian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleGermanic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleGreek.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleIndian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleJapanese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleMesoAmerican.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMalePersian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMalePolynesian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleRomanesque.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleScandinavian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanMaleSlavic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleArabic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleBantu.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleCeltic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleChinese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleEgyptian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleGermanic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleGreek.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleIndian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleJapanese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleMesoAmerican.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemalePersian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemalePolynesian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleRomanesque.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleScandinavian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanFemaleSlavic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryArabic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryBantu.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryCeltic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryChinese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryEgyptian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryGermanic.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryGreek.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryIndian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryJapanese.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryMesoAmerican.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryPersian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryPolynesian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryRomanesque.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinaryScandinavian.js"></script>
-		<script src="scripts/book/author/first_name/generateRandomFirstNameHumanNonBinarySlavic.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanArabic.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanBantu.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanCeltic.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanChinese.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanEgyptian.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanGermanic.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanGreek.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanIndian.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanJapanese.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanMesoAmerican.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanPersian.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanPolynesian.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanRomanesque.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanScandinavian.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHumanSlavic.js"></script>
-		<script src="scripts/book/author/syllables_name/dragonbornNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/dwarfNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/elfNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/gnomeNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/halflingNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/halfOrcNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/humanNameSyllables.js"></script>
-		<script src="scripts/book/author/syllables_name/tieflingNameSyllables.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameDragonborn.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameDwarf.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameElf.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameGnome.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHalfling.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHalfOrc.js"></script>
-		<script src="scripts/book/author/last_name/generateRandomLastNameHuman.js"></script>
-    
-		<script src="scripts/book/description/generateRandomPageCount.js"></script>
-		<script src="scripts/book/description/generateRandomPageMaterial.js"></script>
-		<script src="scripts/book/description/generateRandomBookEdition.js"></script>
-		<script src="scripts/book/description/generateRandomBookAge.js"></script>
-		<script src="scripts/book/description/generateRandomBookHeigth.js"></script>
-		<script src="scripts/book/description/generateRandomBookLength.js"></script>
-		<script src="scripts/book/description/generateBookWidth.js"></script>
-		<script src="scripts/book/description/generateBookWeight.js"></script>
-		<script src="scripts/book/description/generateRandomBookCondition.js"></script>
-		<script src="scripts/book/description/generateRandomBookLanguage.js"></script>
-		<script src="scripts/book/description/generateRandomBookBinding.js"></script>
-		<script src="scripts/book/description/generateRandomCoverMaterial.js"></script>
-		<script src="scripts/book/description/color.js"></script>
-		<script src="scripts/book/description/generateRandomCoverColor.js"></script>
-		<script src="scripts/book/description/generateRandomCoverDetails.js"></script>
-		<script src="scripts/book/description/generateRandomTextQuality.js"></script>
-		<script src="scripts/book/description/generateRandomTextProduction.js"></script>
-		<script src="scripts/book/description/numToWords.js"></script>
-		<script src="scripts/book/description/generateRandomImageNumber.js"></script>
-		<script src="scripts/book/description/generateRandomImageSize.js"></script>
-		<script src="scripts/book/description/generateRandomImageColor.js"></script>
-		<script src="scripts/book/description/generateRandomImageStyle.js"></script>
-		<script src="scripts/book/description/generateRandomImageQuality.js"></script>
-		<script src="scripts/book/description/generateRandomBookmark.js"></script>
-		<script src="scripts/book/description/generateRandomQuirk.js"></script>
-		<script src="scripts/book/description/generateRandomBookValue.js"></script>
-		<!-- nounMapping / adjectiveMapping / locationMapping werden nicht mehr
-		     benötigt — Lemma-Bindung erfolgt nun über SLOT_DEFINITIONS in
-		     generateRandomTitle.js und LEMMA_MAP in dsl/data.js. -->
-		<!-- generateRandomTitle.js ist ein ES-Modul; wird über generateBooks.js importiert -->
-		<!-- ES Module entry point — imports all architecture-layer modules -->
-		<script type="module" src="scripts/main.js"></script>
 
 </body>
 </html>
