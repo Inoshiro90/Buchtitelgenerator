@@ -8,8 +8,10 @@
  */
 
 import { loadCsv }                  from '../core/csvLoader.js';
-import { render, LEMMA_MAP, selectRandom } from '../core/engine.js';
+import { render, LEMMA_MAP, selectRandom, norm } from '../core/engine.js';
 import { getRandomElement }         from '../core/rand.js';
+import { DEF_MAP }                  from '../core/engine.js';
+import { selectDefektiv }           from '../core/defektiva-registry.js';
 
 // ─── CSV-Cache ────────────────────────────────────────────────────────────
 
@@ -58,24 +60,50 @@ const SLOT_DEFINITIONS = [
 	{key: 'Ort3',                  lemma: 'Ort'},
 ];
 
+// ─── DEF-Slot-Definitionen (Phase 3) ────────────────────────────────────────
+
+/**
+ * DEF_SLOT_DEFINITIONS — Defektiva-Variablen-Keys für Templates.
+ *
+ * Jeder Key entspricht einem {DEF:Gebirge1|nom}-Token im Template.
+ * Der RuntimeContext speichert das Rendering-Ergebnis (genus + numerus),
+ * damit nachfolgende ART/PRO-Tokens via def:Gebirge1 den richtigen Numerus bekommen.
+ */
+const DEF_SLOT_DEFINITIONS = [
+	{ key: 'Gebirge1', lemma: 'Gebirge' },
+	{ key: 'Gebirge2', lemma: 'Gebirge' },
+];
+
 // ─── Variablen-Befüllung ─────────────────────────────────────────────────
 
-function norm(str) {
-	return typeof str === 'string' ? str.normalize('NFC') : str;
-}
-
+/**
+ * buildVariableMap — Befüllt vMap für NOM-Slots und DEF-Slots.
+ *
+ * Phase 9: DEF-Deduplizierung ergänzt.
+ *   Vorher: Gebirge1 und Gebirge2 konnten dasselbe Gebirge liefern.
+ *   Jetzt: usedPerLemma-Logik gilt auch für DEF_SLOT_DEFINITIONS.
+ *
+ * HINWEIS: DEF-Werte landen NICHT in vMap (sie werden zur Render-Zeit
+ * via resolveDEF() + registerVar(ctx) aufgelöst). Aber die Vorab-Selektion
+ * hier sorgt dafür, dass DEF_MAP pro Render-Aufruf konsistent bleibt
+ * wenn mehrere DEF-Slots auf dieselbe Kategorie zeigen.
+ *
+ * Technisch: DEF-Slots legen einen festen Eintrag in DEF_MAP[varKey] an,
+ * sodass resolveDEF() bei demselben varKey immer denselben Wert bekommt.
+ */
 function buildVariableMap(activeSettings) {
-	const vMap          = {};
-	const usedPerLemma  = {};
+	const vMap         = {};
+	const usedPerLemma = {};
 
+	// ── NOM-Slots ──────────────────────────────────────────────────────────
 	for (const slot of SLOT_DEFINITIONS) {
 		const lemmaKey = norm(slot.lemma);
 		const entry    = LEMMA_MAP[lemmaKey];
 		if (!entry || entry.type === 'name') continue;
 
-		const used    = usedPerLemma[lemmaKey] ?? [];
-		let wordData  = null;
-		let attempts  = 0;
+		const used   = usedPerLemma[lemmaKey] ?? [];
+		let wordData = null;
+		let attempts = 0;
 
 		do {
 			wordData = selectRandom(entry.arrays, activeSettings);
@@ -92,6 +120,37 @@ function buildVariableMap(activeSettings) {
 			usedPerLemma[lemmaKey] = [...used, wordData];
 		}
 	}
+
+	// ── DEF-Slots (Phase 9: Deduplizierung) ────────────────────────────────
+	// DEF_MAP[varKey] wird mit einem vorab selektierten Eintrag belegt,
+	// damit beim späteren resolveDEF() Gebirge1 ≠ Gebirge2 gilt.
+	for (const slot of DEF_SLOT_DEFINITIONS) {
+		const lemmaKey = norm(slot.lemma);
+		const entry    = DEF_MAP[lemmaKey];
+		if (!entry?.arrays?.length) continue;
+
+		const used   = usedPerLemma[lemmaKey] ?? [];
+		let wordData = null;
+		let attempts = 0;
+
+		do {
+			wordData = selectRandom(entry.arrays, activeSettings);
+			attempts++;
+		} while (
+			wordData &&
+			used.length < entry.arrays.length &&
+			used.some(w => w.noun === wordData.noun) &&
+			attempts < 50
+		);
+
+		if (wordData) {
+			// Direkter Eintrag im DEF_MAP unter dem Variablen-Key:
+			// resolveDEF() liest DEF_MAP[token.varKey] = DEF_MAP['Gebirge1']
+			DEF_MAP[norm(slot.key)] = { type: 'defektiv', arrays: [wordData] };
+			usedPerLemma[lemmaKey] = [...used, wordData];
+		}
+	}
+
 	return vMap;
 }
 

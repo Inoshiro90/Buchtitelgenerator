@@ -3,19 +3,22 @@
 /**
  * dataRegistry.js — Datenregistrierung
  *
- * Lädt alle CSV-Dateien asynchron und befüllt die LEMMA_MAP der DSL-Engine.
- * Erster Aufruf löst das Laden aus; danach ist LEMMA_MAP dauerhaft befüllt.
+ * Lädt alle CSV-Dateien asynchron und befüllt die LEMMA_MAP und DEF_MAP der DSL-Engine.
+ * Erster Aufruf löst das Laden aus; danach sind LEMMA_MAP und DEF_MAP dauerhaft befüllt.
+ *
+ * Phase 3: Defektiva-Lader integriert.
  *
  * Ersetzt: data.js + alle categoryArray.js-Dateien
  */
 
 import { loadCsv } from './csvLoader.js';
 import { LEMMA_MAP } from './engine.js';
+import { initDefektivaRegistry } from './defektiva-registry.js';
 
 let _initialized = false;
 
 /**
- * Lädt alle Wortlisten und registriert sie in der LEMMA_MAP.
+ * Lädt alle Wortlisten und registriert sie in der LEMMA_MAP und DEF_MAP.
  * Idempotent — mehrfache Aufrufe laden die Daten nur einmal.
  */
 export async function initDataRegistry() {
@@ -64,5 +67,9 @@ export async function initDataRegistry() {
 	LEMMA_MAP['Vorname']  = { type: 'name' };
 	LEMMA_MAP['Nachname'] = { type: 'name' };
 
-	await Promise.all(loadTasks);
+	// Phase 3: Defektiva parallel laden
+	await Promise.all([
+		...loadTasks,
+		initDefektivaRegistry(base),
+	]);
 }

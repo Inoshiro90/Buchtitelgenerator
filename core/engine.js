@@ -3,472 +3,72 @@
 /**
  * engine.js — Morphologie-DSL Engine
  *
- * FIX v2:
- *  - resolveNAM / resolveToken / render sind async
- *  - Keine [object Promise] mehr im Output
- *  - Defensive try/catch in resolveNAM
+ * MIGRATION Phase 1+2+3:
+ *  - tokenize()          → core/dsl-tokenizer.js (gemeinsamer Tokenizer mit Editor)
+ *  - parseARTToken()     → schema-basiert via core/slot-schema.js
+ *  - parsePROToken()     → schema-basiert via core/slot-schema.js
+ *  - resolveART/PRO      → slot-Map-Adapter (decline*-Funktionen bleiben)
+ *  - RuntimeContext      → core/runtime-context.js
+ *  - resolveSlotGenus    → resolveGenusExt(value, ctx)
+ *  - resolveSlotNumerus  → resolveNumerusExt(value, ctx)
+ *  - resolveNOM          → registriert var in ctx
+ *  - resolveDEF          → neu: Defektiva-Rendering
+ *  - render()            → sequenziell (DEF→var: Abhängigkeit)
  */
 
-import {getRandomElement} from './rand.js';
+import { getRandomElement } from './rand.js';
+
+// Phase 1: Gemeinsamer Tokenizer (Editor-kompatibel, mit start/end-Positionen)
+import { tokenize } from './dsl-tokenizer.js';
+
+// Phase 2: Slot-Schema-System für ART/PRO
+import {
+  lookupArtSchema,
+  lookupProSchema,
+  bindSlots,
+  VALID_ART_SUBTYPES,
+  VALID_PRO_SUBTYPES,
+} from './slot-schema.js';
+
+// Phase 3: RuntimeContext für var:/def:-Auflösung
+import * as _rCtx from './runtime-context.js';
+export { createRuntimeContext } from './runtime-context.js';
+
+// Phase 4: flex-tables Rendering-Backend (ersetzt inline decline*-Aufrufe für ART/PRO)
+import { generateSurface } from './flex-tables.js';
+
+// Phase 6: Nomen- und Adjektivflexion ausgelagert
+import { declineNoun, declineAdjective } from './noun-declension.js';
+export { declineNoun, declineAdjective } from './noun-declension.js';
+
+// Phase 8: Geteilte DSL-Hilfsfunktionen ausgelagert
+import {
+  norm, normalizeGenus, normalizeFlag, isVariable as _isVariable,
+  NUM as _NUM, KAS as _KAS, ART as _ART, GEN as _GEN, PER as _PER,
+  STE as _STE, META as _MET,
+  DEM_ART as _DEM_ART, DEM_PRO as _DEM_PRO, QUANT as _QUANT,
+} from './dsl-utils.js';
+export { norm, normalizeGenus, normalizeFlag } from './dsl-utils.js';
+
+// Re-export für Downstream-Nutzung
+export { VAR_PATTERN, DEF_PATTERN } from './slot-schema.js';
+
+/**
+ * Alle validen DSL-Token-Typen.
+ * DEF ist noch nicht vollständig implementiert (Phase 3+), wird aber erkannt.
+ */
+export const VALID_TYPES = new Set(['NOM', 'ADJ', 'ART', 'PRO', 'COM', 'NAM', 'FUN', 'DEF']);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // 1. MORPHOLOGIE
 // ═══════════════════════════════════════════════════════════════════════════
 
-function norm(str) {
-	return typeof str === 'string' ? str.normalize('NFC') : str;
-}
-
-function normalizeGenus(genus) {
-	switch (genus) {
-		case 'maskulinum':
-		case 'msk':
-			return 'msk';
-		case 'femininum':
-		case 'fem':
-			return 'fem';
-		case 'neutrum':
-		case 'neu':
-			return 'neu';
-		default:
-			return 'msk';
-	}
-}
-
-const _DEF = {
-	sgl: {
-		msk: {nom: 'der', gen: 'des', dat: 'dem', akk: 'den'},
-		fem: {nom: 'die', gen: 'der', dat: 'der', akk: 'die'},
-		neu: {nom: 'das', gen: 'des', dat: 'dem', akk: 'das'},
-	},
-	plu: {
-		msk: {nom: 'die', gen: 'der', dat: 'den', akk: 'die'},
-		fem: {nom: 'die', gen: 'der', dat: 'den', akk: 'die'},
-		neu: {nom: 'die', gen: 'der', dat: 'den', akk: 'die'},
-	},
-};
-function declineDefiniteArticle(n, k, g) {
-	return _DEF[n]?.[normalizeGenus(g)]?.[k] ?? '';
-}
-
-const _IND = {
-	msk: {nom: 'ein', gen: 'eines', dat: 'einem', akk: 'einen'},
-	fem: {nom: 'eine', gen: 'einer', dat: 'einer', akk: 'eine'},
-	neu: {nom: 'ein', gen: 'eines', dat: 'einem', akk: 'ein'},
-};
-function declineIndefiniteArticle(k, g) {
-	return _IND[normalizeGenus(g)]?.[k] ?? '';
-}
-
-const _NEG_END = {
-	sgl: {
-		msk: {nom: '', gen: 'es', dat: 'em', akk: 'en'},
-		fem: {nom: 'e', gen: 'er', dat: 'er', akk: 'e'},
-		neu: {nom: '', gen: 'es', dat: 'em', akk: ''},
-	},
-	plu: {
-		msk: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		fem: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		neu: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-	},
-};
-function declineNegativeArticle(n, k, g) {
-	const end = _NEG_END[n]?.[normalizeGenus(g)]?.[k];
-	return end !== undefined ? 'kein' + end : '';
-}
-
-const _STRONG_END = {
-	sgl: {
-		msk: {nom: 'er', gen: 'es', dat: 'em', akk: 'en'},
-		fem: {nom: 'e', gen: 'er', dat: 'er', akk: 'e'},
-		neu: {nom: 'es', gen: 'es', dat: 'em', akk: 'es'},
-	},
-	plu: {
-		msk: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		fem: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		neu: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-	},
-};
-const _WEAK_ADJ_END = {
-	sgl: {
-		msk: {nom: 'e', gen: 'en', dat: 'en', akk: 'en'},
-		fem: {nom: 'e', gen: 'en', dat: 'en', akk: 'e'},
-		neu: {nom: 'e', gen: 'en', dat: 'en', akk: 'e'},
-	},
-	plu: {
-		msk: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-		fem: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-		neu: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-	},
-};
-const _MIXED_ADJ_END = {
-	sgl: {
-		msk: {nom: 'er', gen: 'en', dat: 'en', akk: 'en'},
-		fem: {nom: 'e', gen: 'en', dat: 'en', akk: 'e'},
-		neu: {nom: 'es', gen: 'en', dat: 'en', akk: 'es'},
-	},
-	plu: {
-		msk: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-		fem: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-		neu: {nom: 'en', gen: 'en', dat: 'en', akk: 'en'},
-	},
-};
-function declineAdjective(numerus, kasus, steigerung, attribute, genus, positiv) {
-	const g = normalizeGenus(genus);
-	const stem =
-		steigerung === 'kom' ? positiv + 'er' : steigerung === 'sup' ? positiv + 'st' : positiv;
-	const tbl =
-		attribute === 'schwach'
-			? _WEAK_ADJ_END
-			: attribute === 'gemischt'
-				? _MIXED_ADJ_END
-				: _STRONG_END;
-	return stem + (tbl[numerus]?.[g]?.[kasus] ?? '');
-}
-
-const _POSS_STEM_MAP = {
-	p1sgl: 'mein',
-	p2sgl: 'dein',
-	p3sgl_msk: 'sein',
-	p3sgl_fem: 'ihr',
-	p3sgl_neu: 'sein',
-	p1plu: 'unser',
-	p2plu: 'euer',
-	p3plu: 'ihr',
-	p2form: 'Ihr',
-};
-function _selectPossessiveStem(person, oN, oG) {
-	if (person === 'p2form') return _POSS_STEM_MAP.p2form;
-	const bk = person + oN;
-	if (bk === 'p3sgl') return _POSS_STEM_MAP['p3sgl_' + normalizeGenus(oG ?? 'msk')] ?? 'sein';
-	return _POSS_STEM_MAP[bk] ?? 'mein';
-}
-function _appendEinEnding(stem, n, k, g) {
-	const end = _NEG_END[n]?.[normalizeGenus(g)]?.[k];
-	if (end === undefined) return stem;
-	if (stem === 'euer' && end.length > 0 && end[0] === 'e') return 'eur' + end;
-	return stem + end;
-}
-function declinePossessiveArticle(person, oN, oG, tN, tK, tG) {
-	return _appendEinEnding(_selectPossessiveStem(person, oN, oG), tN, tK, tG);
-}
-
-const _DEM_ART_STEM_MAP = {
-	dieser: 'dies',
-	jener: 'jen',
-	jeder: 'jed',
-	mancher: 'manch',
-	solcher: 'solch',
-};
-function declineDemonstrativeArticle(stemName, n, k, g) {
-	return (
-		(_DEM_ART_STEM_MAP[stemName] ?? stemName) + (_STRONG_END[n]?.[normalizeGenus(g)]?.[k] ?? '')
-	);
-}
-function declineWArticle(n, k, g) {
-	return 'welch' + (_STRONG_END[n]?.[normalizeGenus(g)]?.[k] ?? '');
-}
-const _QUANT_STEM_MAP = {
-	alle: 'all',
-	beide: 'beid',
-	einige: 'einig',
-	manche: 'manch',
-	viele: 'viel',
-	wenige: 'wenig',
-	jeder: 'jed',
-};
-function declineQuantArticle(stemName, n, k, g) {
-	return (
-		(_QUANT_STEM_MAP[stemName] ?? stemName) + (_STRONG_END[n]?.[normalizeGenus(g)]?.[k] ?? '')
-	);
-}
-
-function declineArticle(type, parsed, tN, tK, gen) {
-	const num = tN ?? parsed.targetNumerus ?? 'sgl',
-		kas = tK ?? parsed.targetKasus ?? 'nom';
-	switch (type) {
-		case 'def':
-			return declineDefiniteArticle(num, kas, gen);
-		case 'ind':
-			return declineIndefiniteArticle(kas, gen);
-		case 'neg':
-			return declineNegativeArticle(num, kas, gen);
-		case 'poss':
-			return declinePossessiveArticle(
-				parsed.person,
-				parsed.ownerNumerus,
-				parsed.ownerGenus,
-				num,
-				kas,
-				gen,
-			);
-		case 'dem':
-			return declineDemonstrativeArticle(parsed.stem || 'dieser', num, kas, gen);
-		case 'w':
-			return declineWArticle(num, kas, gen);
-		case 'quant':
-			return declineQuantArticle(parsed.stem || 'alle', num, kas, gen);
-		default:
-			return '';
-	}
-}
-
-const _PERS = {
-	p1sgl: {nom: 'ich', gen: 'meiner', dat: 'mir', akk: 'mich'},
-	p2sgl: {nom: 'du', gen: 'deiner', dat: 'dir', akk: 'dich'},
-	p3sgl_msk: {nom: 'er', gen: 'seiner', dat: 'ihm', akk: 'ihn'},
-	p3sgl_fem: {nom: 'sie', gen: 'ihrer', dat: 'ihr', akk: 'sie'},
-	p3sgl_neu: {nom: 'es', gen: 'seiner', dat: 'ihm', akk: 'es'},
-	p1plu: {nom: 'wir', gen: 'unser', dat: 'uns', akk: 'uns'},
-	p2plu: {nom: 'ihr', gen: 'euer', dat: 'euch', akk: 'euch'},
-	p3plu: {nom: 'sie', gen: 'ihrer', dat: 'ihnen', akk: 'sie'},
-	p2form: {nom: 'Sie', gen: 'Ihrer', dat: 'Ihnen', akk: 'Sie'},
-};
-function declinePersonalPronoun(person, n, k, g) {
-	let key = person === 'p2form' ? 'p2form' : person + n;
-	if (key === 'p3sgl') key = 'p3sgl_' + normalizeGenus(g ?? 'msk');
-	return _PERS[key]?.[k] ?? '';
-}
-function declineReflexivePronoun(person, n, k) {
-	const R = {
-		p1sgl: {dat: 'mir', akk: 'mich'},
-		p2sgl: {dat: 'dir', akk: 'dich'},
-		p3sgl: {dat: 'sich', akk: 'sich'},
-		p1plu: {dat: 'uns', akk: 'uns'},
-		p2plu: {dat: 'euch', akk: 'euch'},
-		p3plu: {dat: 'sich', akk: 'sich'},
-		p2form: {dat: 'sich', akk: 'sich'},
-	};
-	return R[person === 'p2form' ? 'p2form' : person + n]?.[k] ?? '';
-}
-const _POSS_PRO_END = {
-	sgl: {
-		msk: {nom: 'er', gen: 'es', dat: 'em', akk: 'en'},
-		fem: {nom: 'e', gen: 'er', dat: 'er', akk: 'e'},
-		neu: {nom: 'es', gen: 'es', dat: 'em', akk: 'es'},
-	},
-	plu: {
-		msk: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		fem: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-		neu: {nom: 'e', gen: 'er', dat: 'en', akk: 'e'},
-	},
-};
-function declinePossessivePronoun(person, oN, oG, tN, tK, tG) {
-	const stem = _selectPossessiveStem(person, oN, oG),
-		g = normalizeGenus(tG ?? 'msk'),
-		end = _POSS_PRO_END[tN]?.[g]?.[tK] ?? '';
-	if (stem === 'euer' && end.length > 0 && end[0] === 'e') return 'eur' + end;
-	return stem + end;
-}
-const _DER_JENIGE = {
-	sgl: {
-		msk: {nom: 'derjenige', gen: 'desjenigen', dat: 'demjenigen', akk: 'denjenigen'},
-		fem: {nom: 'diejenige', gen: 'derjenigen', dat: 'derjenigen', akk: 'diejenige'},
-		neu: {nom: 'dasjenige', gen: 'desjenigen', dat: 'demjenigen', akk: 'dasjenige'},
-	},
-	plu: {
-		msk: {nom: 'diejenigen', gen: 'derjenigen', dat: 'denjenigen', akk: 'diejenigen'},
-		fem: {nom: 'diejenigen', gen: 'derjenigen', dat: 'denjenigen', akk: 'diejenigen'},
-		neu: {nom: 'diejenigen', gen: 'derjenigen', dat: 'denjenigen', akk: 'diejenigen'},
-	},
-};
-const _DER_SELBE = {
-	sgl: {
-		msk: {nom: 'derselbe', gen: 'desselben', dat: 'demselben', akk: 'denselben'},
-		fem: {nom: 'dieselbe', gen: 'derselben', dat: 'derselben', akk: 'dieselbe'},
-		neu: {nom: 'dasselbe', gen: 'desselben', dat: 'demselben', akk: 'dasselbe'},
-	},
-	plu: {
-		msk: {nom: 'dieselben', gen: 'derselben', dat: 'denselben', akk: 'dieselben'},
-		fem: {nom: 'dieselben', gen: 'derselben', dat: 'denselben', akk: 'dieselben'},
-		neu: {nom: 'dieselben', gen: 'derselben', dat: 'denselben', akk: 'dieselben'},
-	},
-};
-function declineDemonstrativePronoun(stemName, n, k, g) {
-	const gg = normalizeGenus(g ?? 'msk');
-	switch (stemName) {
-		case 'dieser':
-			return declineDemonstrativeArticle('dieser', n, k, gg);
-		case 'jener':
-			return declineDemonstrativeArticle('jener', n, k, gg);
-		case 'derjenige':
-			return _DER_JENIGE[n]?.[gg]?.[k] ?? '';
-		case 'derselbe':
-			return _DER_SELBE[n]?.[gg]?.[k] ?? '';
-		default:
-			return '';
-	}
-}
-const _REL = {
-	sgl: {
-		msk: {nom: 'der', gen: 'dessen', dat: 'dem', akk: 'den'},
-		fem: {nom: 'die', gen: 'deren', dat: 'der', akk: 'die'},
-		neu: {nom: 'das', gen: 'dessen', dat: 'dem', akk: 'das'},
-	},
-	plu: {
-		msk: {nom: 'die', gen: 'deren', dat: 'denen', akk: 'die'},
-		fem: {nom: 'die', gen: 'deren', dat: 'denen', akk: 'die'},
-		neu: {nom: 'die', gen: 'deren', dat: 'denen', akk: 'die'},
-	},
-};
-function declineRelativePronoun(n, k, g) {
-	return _REL[n]?.[normalizeGenus(g ?? 'msk')]?.[k] ?? '';
-}
-const _JEMAND = {nom: 'jemand', gen: 'jemandes', dat: 'jemandem', akk: 'jemanden'};
-const _NIEMAND = {nom: 'niemand', gen: 'niemandes', dat: 'niemandem', akk: 'niemanden'};
-function declineQuantPronoun(stemName, n, k, g) {
-	if (stemName === 'jemand') return _JEMAND[k] ?? 'jemand';
-	if (stemName === 'niemand') return _NIEMAND[k] ?? 'niemand';
-	return declineQuantArticle(stemName, n, k, g);
-}
-function declinePronoun(type, parsed, n, k, g) {
-	switch (type) {
-		case 'pers':
-			return declinePersonalPronoun(parsed.person, n, k, g);
-		case 'poss':
-			return declinePossessivePronoun(
-				parsed.person,
-				parsed.ownerNumerus,
-				parsed.ownerGenus,
-				n,
-				k,
-				g,
-			);
-		case 'refl':
-			return declineReflexivePronoun(parsed.person, n, k);
-		case 'dem':
-			return declineDemonstrativePronoun(parsed.stem || 'dieser', n, k, g);
-		case 'rel':
-			return declineRelativePronoun(n, k, g);
-		case 'quant':
-			return declineQuantPronoun(parsed.stem || 'alle', n, k, g);
-		default:
-			return '';
-	}
-}
-
-function declineNoun(
-	numerus,
-	kasus,
-	attribute,
-	singular,
-	plural,
-	adjective,
-	prefix,
-	suffix,
-	gender,
-	declinationRule,
-	declinationPattern,
-	tags,
-) {
-	const g = normalizeGenus(gender ?? 'maskulinum');
-	if (numerus === 'tags') return tags ?? '';
-	if (numerus === 'genus') return gender ?? '';
-	const base = numerus === 'plu' ? plural : singular;
-	let declined;
-	if (declinationRule === 'substantiviertesAdjektiv') {
-		const stem = base.endsWith('e') ? base.slice(0, -1) : base;
-		declined = declineAdjective(numerus, kasus, 'pos', attribute, g, stem);
-	} else {
-		declined = _applyNounTable(numerus, kasus, g, declinationRule, declinationPattern, base);
-	}
-	let adjStr = '';
-	if (adjective && adjective.trim().length > 0)
-		adjStr =
-			declineAdjective(numerus, kasus, 'pos', attribute, g, adjective.replace(/e$/, '')) +
-			' ';
-	return (prefix ? prefix + ' ' : '') + adjStr + declined + (suffix ? ' ' + suffix : '');
-}
-
-function _applyNounTable(numerus, kasus, genus, rule, pattern, stem) {
-	const eE = (s) => s.endsWith('e'),
-		eN = (s) => s.endsWith('n'),
-		eSS = (s) => s.endsWith('el') || s.endsWith('er') || s.endsWith('en');
-	if (numerus === 'plu' && kasus === 'dat' && rule === 'starkeDeklination')
-		return eN(stem) ? stem : stem + 'n';
-	if (rule === 'schwacheDeklination') {
-		if (pattern === 'W2') return stem;
-		if (numerus === 'sgl' && kasus !== 'nom') {
-			if (eE(stem)) return stem + 'n';
-			if (eSS(stem)) return stem + 'n';
-			return stem + 'en';
-		}
-		return stem;
-	}
-	if (
-		numerus === 'sgl' &&
-		kasus === 'gen' &&
-		(genus === 'msk' || genus === 'neu') &&
-		rule === 'starkeDeklination'
-	) {
-		if (pattern === 'S2') return stem + 'es';
-		if (pattern === 'S4') return stem + 's';
-		return stem + 's'; // fallback
-	}
-	if (rule === 'gemischteDeklination' && pattern === 'W4' && kasus === 'dat') {
-		if (eE(stem)) return stem + 'n';
-		if (eN(stem)) return stem;
-		return stem + 'en';
-	}
-	return stem;
-}
+// ── Phase 8: norm / normalizeGenus / normalizeFlag / _isVariable / Flag-Mengen ──
+// Ausgelagert in core/dsl-utils.js (importiert oben).
 
 // ═══════════════════════════════════════════════════════════════════════════
 // 2. NORMALIZER + PARSER
 // ═══════════════════════════════════════════════════════════════════════════
-
-const _FLAG_MAP = {
-	slg: 'sgl',
-	sng: 'sgl',
-	sing: 'sgl',
-	singular: 'sgl',
-	pl: 'plu',
-	pull: 'plu',
-	plural: 'plu',
-	pluural: 'plu',
-	nominativ: 'nom',
-	genitiv: 'gen',
-	dativ: 'dat',
-	akkusativ: 'akk',
-	m: 'msk',
-	maskulin: 'msk',
-	maskulinum: 'msk',
-	f: 'fem',
-	feminin: 'fem',
-	femininum: 'fem',
-	n: 'neu',
-	neutrum: 'neu',
-};
-const _VARIABLE_PATTERN = /^\p{Lu}\p{L}+[0-9]+$/u;
-function _isVariable(f) {
-	return _VARIABLE_PATTERN.test(f);
-}
-function normalizeFlag(flag) {
-	if (_isVariable(flag)) return flag;
-	const n = _FLAG_MAP[flag.toLowerCase()];
-	return n !== undefined && n !== flag.toLowerCase() ? n : flag;
-}
-
-const _NUM = new Set(['sgl', 'plu']),
-	_KAS = new Set(['nom', 'gen', 'dat', 'akk']),
-	_ART = new Set(['def', 'ind', 'neg', '-']),
-	_GEN = new Set(['msk', 'fem', 'neu']),
-	_PER = new Set(['p1', 'p2', 'p3', 'p2form']),
-	_STE = new Set(['pos', 'kom', 'sup']),
-	_MET = new Set(['tags', 'genus']);
-const _DEM_PRO = new Set(['dieser', 'jener', 'derjenige', 'derselbe']),
-	_QUANT = new Set([
-		'alle',
-		'beide',
-		'einige',
-		'manche',
-		'viele',
-		'wenige',
-		'jeder',
-		'jemand',
-		'niemand',
-	]),
-	_DEM_ART = new Set(['dieser', 'jener', 'jeder', 'mancher', 'solcher']);
 const _VOLK = new Set([
 	'Mensch',
 	'Elf',
@@ -506,36 +106,8 @@ function _findRenderFlagIdx(flags) {
 	return -1;
 }
 
-function tokenize(template) {
-	const result = [];
-	let i = 0;
-	while (i < template.length) {
-		if (template[i] === '{') {
-			const end = template.indexOf('}', i);
-			if (end === -1) {
-				result.push({type: 'literal', text: template.slice(i)});
-				break;
-			}
-			const raw = template.slice(i + 1, end);
-			let mod = null,
-				next = end + 1;
-			if (template[next] === '^' || template[next] === '_') {
-				mod = template[next];
-				next++;
-			}
-			result.push({type: 'token', raw, mod});
-			i = next;
-		} else {
-			const nb = template.indexOf('{', i);
-			result.push({
-				type: 'literal',
-				text: nb === -1 ? template.slice(i) : template.slice(i, nb),
-			});
-			i = nb === -1 ? template.length : nb;
-		}
-	}
-	return result;
-}
+// tokenize() ist in core/dsl-tokenizer.js und wird oben importiert.
+// Alle Renderpfade nutzen den importierten Tokenizer.
 
 function parseNOMToken(r) {
 	const p = r.split('|'),
@@ -577,151 +149,110 @@ function parseNOMToken(r) {
 	}
 	return t;
 }
+/**
+ * parseARTToken — Schema-basierter Parser für ART-Token (Phase 2)
+ *
+ * VORHER (Set-basiert):
+ *   Flags wurden gegen flache Sets geprüft, Reihenfolge egal.
+ *   Rückgabe: {type, subtype, variable, person, ownerNumerus, targetKasus, ...}
+ *
+ * JETZT (Schema-basiert):
+ *   Flags werden positional gegen ART_SCHEMAS gebunden.
+ *   Rückgabe: {type, subtype, slots: Map<slotName, value>}
+ *
+ * BREAKING CHANGE:
+ *   {ART:poss|msk|p1|sgl|nom} (alte Reihenfolge) → Parsing-Fehler + console.warn
+ *   {ART:poss|p1|sgl|nom|msk|sgl} (neue Reihenfolge) → korrekt
+ *
+ * ADAPTER: resolveART() übersetzt das neue Format zurück auf die alten decline*()-Funktionen.
+ */
 function parseARTToken(r) {
-	const p = r.split('|'),
-		subtype = p[0].split(':')[1],
-		flags = p.slice(1);
-	const t = {
-		type: 'ART',
-		subtype,
-		variable: null,
-		person: 'p1',
-		ownerNumerus: 'sgl',
-		ownerGenus: 'msk',
-		targetNumerus: 'sgl',
-		targetKasus: 'nom',
-		targetGenus: null,
-		stem: '',
-	};
-	if (subtype === 'poss') {
-		let oNS = false,
-			oGS = false,
-			tP = false;
-		for (const raw of flags) {
-			const f = normalizeFlag(raw);
-			if (_isVariable(f)) {
-				t.variable = f;
-			} else if (_PER.has(f)) {
-				t.person = f;
-			} else if (_KAS.has(f)) {
-				t.targetKasus = f;
-				tP = true;
-			} else if (_NUM.has(f)) {
-				if (!oNS) {
-					t.ownerNumerus = f;
-					oNS = true;
-				} else {
-					t.targetNumerus = f;
-					tP = true;
-				}
-			} else if (_GEN.has(f)) {
-				if (!tP && !oGS && t.person === 'p3') {
-					t.ownerGenus = f;
-					oGS = true;
-				} else {
-					t.targetGenus = f;
-					tP = true;
-				}
-			}
-		}
-	} else {
-		for (const raw of flags) {
-			const f = normalizeFlag(raw);
-			if (_isVariable(f)) {
-				t.variable = f;
-			} else if (_NUM.has(f)) {
-				t.targetNumerus = f;
-			} else if (_KAS.has(f)) {
-				t.targetKasus = f;
-			} else if (_GEN.has(f)) {
-				t.targetGenus = f;
-			} else if (_DEM_ART.has(f) || _QUANT.has(f)) {
-				t.stem = f;
-			}
-		}
+	const parts   = r.split('|');
+	const subtype = parts[0].split(':')[1];
+	const rawFlags = parts.slice(1);
+
+	const schema = lookupArtSchema(subtype);
+
+	if (!schema) {
+		const valid = [...VALID_ART_SUBTYPES].join(', ');
+		console.warn(
+			`[parseARTToken] Unbekannter ART-Subtyp: "${subtype}". ` +
+			`Erlaubt: ${valid}`,
+		);
+		return {
+			type:       'ART',
+			subtype:    subtype ?? 'unknown',
+			slots:      new Map(),
+			parseError: `Unbekannter Subtyp "${subtype}"`,
+		};
 	}
-	return t;
+
+	const { resolved, errors, warnings } = bindSlots(rawFlags, schema.slots);
+
+	// Diagnostik: Reihenfolge-Fehler oder fehlende Pflicht-Slots
+	if (errors.length > 0) {
+		errors.forEach(e =>
+			console.warn(`[parseARTToken] {ART:${subtype}|${rawFlags.join('|')}}: ${e}`),
+		);
+	}
+	if (warnings.length > 0) {
+		warnings.forEach(w =>
+			console.warn(`[parseARTToken] {ART:${subtype}|${rawFlags.join('|')}}: ${w}`),
+		);
+	}
+
+	return {
+		type:    'ART',
+		subtype,
+		slots:   resolved,
+	};
 }
+
+/**
+ * parsePROToken — Schema-basierter Parser für PRO-Token (Phase 2)
+ * Analog zu parseARTToken. Rückgabe: {type, subtype, slots: Map}
+ */
 function parsePROToken(r) {
-	const p = r.split('|'),
-		subtype = p[0].split(':')[1],
-		flags = p.slice(1);
-	const t = {
-		type: 'PRO',
-		subtype,
-		variable: null,
-		person: 'p1',
-		ownerNumerus: 'sgl',
-		ownerGenus: 'msk',
-		numerus: 'sgl',
-		kasus: 'nom',
-		genus: null,
-		stem: '',
-	};
-	if (subtype === 'pers' || subtype === 'refl') {
-		for (const raw of flags) {
-			const f = normalizeFlag(raw);
-			if (_isVariable(f)) {
-				t.variable = f;
-			} else if (_PER.has(f)) {
-				t.person = f;
-			} else if (_NUM.has(f)) {
-				t.numerus = f;
-			} else if (_KAS.has(f)) {
-				t.kasus = f;
-			} else if (_GEN.has(f)) {
-				t.genus = f;
-			}
-		}
-	} else if (subtype === 'poss') {
-		let oNS = false,
-			oGS = false,
-			tP = false;
-		for (const raw of flags) {
-			const f = normalizeFlag(raw);
-			if (_isVariable(f)) {
-				t.variable = f;
-			} else if (_PER.has(f)) {
-				t.person = f;
-			} else if (_KAS.has(f)) {
-				t.kasus = f;
-				tP = true;
-			} else if (_NUM.has(f)) {
-				if (!oNS) {
-					t.ownerNumerus = f;
-					oNS = true;
-				} else {
-					t.numerus = f;
-					tP = true;
-				}
-			} else if (_GEN.has(f)) {
-				if (!tP && !oGS && t.person === 'p3') {
-					t.ownerGenus = f;
-					oGS = true;
-				} else {
-					t.genus = f;
-					tP = true;
-				}
-			}
-		}
-	} else {
-		for (const raw of flags) {
-			const f = normalizeFlag(raw);
-			if (_isVariable(f)) {
-				t.variable = f;
-			} else if (_NUM.has(f)) {
-				t.numerus = f;
-			} else if (_KAS.has(f)) {
-				t.kasus = f;
-			} else if (_GEN.has(f)) {
-				t.genus = f;
-			} else if (_DEM_PRO.has(f) || _QUANT.has(f)) {
-				t.stem = f;
-			}
-		}
+	const parts    = r.split('|');
+	const subtype  = parts[0].split(':')[1];
+	const rawFlags = parts.slice(1);
+
+	const schema = lookupProSchema(subtype);
+
+	if (!schema) {
+		const valid = [...VALID_PRO_SUBTYPES].join(', ');
+		console.warn(
+			`[parsePROToken] Unbekannter PRO-Subtyp: "${subtype}". ` +
+			`Erlaubt: ${valid}`,
+		);
+		return {
+			type:       'PRO',
+			subtype:    subtype ?? 'unknown',
+			slots:      new Map(),
+			parseError: `Unbekannter Subtyp "${subtype}"`,
+		};
 	}
-	return t;
+
+	const { resolved, errors, warnings } = bindSlots(rawFlags, schema.slots);
+
+	if (errors.length > 0) {
+		errors.forEach(e =>
+			console.warn(`[parsePROToken] {PRO:${subtype}|${rawFlags.join('|')}}: ${e}`),
+		);
+	}
+	if (warnings.length > 0) {
+		warnings.forEach(w =>
+			console.warn(`[parsePROToken] {PRO:${subtype}|${rawFlags.join('|')}}: ${w}`),
+		);
+	}
+
+	return {
+		type:    'PRO',
+		subtype,
+		slots:   resolved,
+	};
 }
+
 function parseADJToken(r) {
 	const p = r.split('|'),
 		lemma = p[0].split(':')[1],
@@ -791,11 +322,46 @@ function parseFUNToken(r) {
 	return {type: 'FUN', fn: p[0].split(':')[1], arg: p.slice(1).join('|') || null};
 }
 
+/**
+ * parseDEFToken — Parser für Defektiva-Token (Phase 3)
+ *
+ * Format: {DEF:Gebirge1|nom} oder {DEF:Gebirge1|nom|adj}
+ *
+ * DEF-Token repräsentieren Nomen die nur in einem Numerus existieren:
+ *   Pluraliatantum: "die Alpen", "die Rauvinberge" (immer Plural)
+ *   Singulariatantum: "der Mut", "das Gold" (immer Singular)
+ *
+ * Der Numerus ist NICHT im Token gesetzt — er ergibt sich aus den Defektiva-Daten.
+ * Das ist der Grund warum def:Gebirge1 in anderen Token nicht direkt 'sgl'/'plu'
+ * eintragen kann: erst nach resolveDEF() ist der Numerus bekannt.
+ *
+ * @param {string} raw - 'DEF:Gebirge1|nom'
+ */
+function parseDEFToken(raw) {
+	const parts  = raw.split('|');
+	const varKey = norm(parts[0].split(':')[1]); // 'Gebirge1'
+	const kasus  = normalizeFlag(parts[1] ?? 'nom');
+	const flags  = parts.slice(2);
+	return {
+		type:   'DEF',
+		varKey,               // z.B. 'Gebirge1' — entspricht dem def:X-Schlüssel
+		kasus:  _KAS.has(kasus) ? kasus : 'nom',
+		art:    flags.find(f => _ART.has(f)) ?? '-',
+		renderArticle: flags.includes('art'),
+	};
+}
+
 function parseToken(rawInner, mod) {
 	const ci = rawInner.indexOf(':');
 	if (ci === -1) return {type: 'UNKNOWN', raw: rawInner, mod: mod ?? null};
+	const typePart = rawInner.slice(0, ci);
+	// Unbekannte Typen diagnostizieren (nicht still akzeptieren)
+	if (!VALID_TYPES.has(typePart)) {
+		console.warn(`[parseToken] Unbekannter Token-Typ: "${typePart}". Erlaubt: ${[...VALID_TYPES].join(', ')}`);
+		return {type: 'UNKNOWN', raw: rawInner, mod: mod ?? null};
+	}
 	let token;
-	switch (rawInner.slice(0, ci)) {
+	switch (typePart) {
 		case 'NOM':
 			token = parseNOMToken(rawInner);
 			break;
@@ -817,8 +383,11 @@ function parseToken(rawInner, mod) {
 		case 'FUN':
 			token = parseFUNToken(rawInner);
 			break;
+		case 'DEF':
+			token = parseDEFToken(rawInner);
+			break;
 		default:
-			console.warn('[parseToken] Unbekannt:', rawInner.slice(0, ci));
+			console.warn('[parseToken] Unbekannt:', typePart);
 			token = {type: 'UNKNOWN', raw: rawInner};
 	}
 	token.mod = mod ?? null;
@@ -829,6 +398,63 @@ function parseToken(rawInner, mod) {
 // 3. RESOLVER
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ── Slot-Auflösungs-Helpers (Phase 2) ─────────────────────────────────────────
+
+/**
+ * resolveSlotGenus — Löst einen GENUS_EXT-Wert auf (Phase 6: vMap-Legacy entfernt).
+ *
+ * @param {string|undefined} value
+ * @param {RuntimeContext}   ctx
+ */
+function resolveSlotGenus(value, ctx) {
+	if (!value) return 'msk';
+	if (ctx && value.startsWith('var:')) {
+		const { resolved, error } = _rCtx.resolveGenusExt(value, ctx);
+		if (resolved) return normalizeGenus(resolved);
+		console.warn(`[resolveSlotGenus] ${error} — Fallback: msk`);
+		return 'msk';
+	}
+	if (value.startsWith('var:')) {
+		// var: ohne ctx → unauflösbar, Fallback mit Diagnose
+		console.warn(`[resolveSlotGenus] Genus-Variable "${value.slice(4)}" ohne RuntimeContext — Fallback: msk`);
+		return 'msk';
+	}
+	return normalizeGenus(value);
+}
+
+/**
+ * resolveSlotNumerus — Löst einen NUMERUS_EXT-Wert auf (Phase 3 implementiert).
+ *
+ * VORHER (Phase 2): def:X → console.warn + 'sgl' (Fallback, TODO)
+ * JETZT (Phase 3):  def:X → ctx.vars.get(X).numerus (echter Wert)
+ *
+ * @param {string|undefined}  value
+ * @param {RuntimeContext}    ctx
+ */
+function resolveSlotNumerus(value, ctx) {
+	if (!value) return 'sgl';
+	if (value.startsWith('def:')) {
+		if (ctx) {
+			const { resolved, error } = _rCtx.resolveNumerusExt(value, ctx);
+			if (resolved) return resolved;
+			// Variable noch nicht registriert — Warnmeldung mit Kontext
+			console.warn(`[resolveSlotNumerus] ${error} — Fallback: sgl`);
+		} else {
+			console.warn(
+				`[resolveSlotNumerus] DEF-Variable "${value}" ohne RuntimeContext — Fallback: sgl`,
+			);
+		}
+		return 'sgl';
+	}
+	return value;
+}
+
+// ── Genus-Resolver für ADJ (alt, bleibt erhalten) ─────────────────────────────
+
+/**
+ * resolveGenus — Für ADJ-Token und NOM-Render-Override-Kontext.
+ * NICHT für ART/PRO-Tokens verwenden (die nutzen resolveSlotGenus).
+ */
 function resolveGenus(parsed, ctxG, vMap) {
 	if (parsed.variable) {
 		const e = (vMap ?? {})[parsed.variable];
@@ -839,23 +465,78 @@ function resolveGenus(parsed, ctxG, vMap) {
 	if (parsed.genus) return normalizeGenus(parsed.genus);
 	return 'msk';
 }
+
 function _artAttr(a) {
 	return a === 'def' ? 'schwach' : a === 'ind' || a === 'neg' ? 'gemischt' : 'stark';
 }
+
+/**
+ * _artStr — Artikel-String für NOM-Rendering (Phase 5 migriert)
+ *
+ * VORHER (Phase 1-4): declineDefiniteArticle / declineIndefiniteArticle / declineNegativeArticle
+ * JETZT (Phase 5):    generateSurface({ type:'ART', subtype:a, numerus:n, kasus:k, genus:g })
+ *
+ * Warum _artStr noch existiert (nicht direkt generateSurface in resolveNOM):
+ *   resolveNOM hat einen guard `if (!token.renderArticle) return ''` der hier
+ *   kompakt abgebildet wird. Die Funktion ist ein Thin-Wrapper ohne eigene Logik.
+ */
 function _artStr(a, n, k, g, render) {
-	if (!render) return '';
-	if (a === 'def') return declineDefiniteArticle(n, k, g);
-	if (a === 'ind') return declineIndefiniteArticle(k, g);
-	if (a === 'neg') return declineNegativeArticle(n, k, g);
-	return '';
+	if (!render || !a || a === '-') return '';
+	const surface = generateSurface({ type: 'ART', subtype: a, numerus: n, kasus: k, genus: g });
+	return (typeof surface === 'string' && surface.startsWith('??')) ? '' : surface;
 }
-function resolveRenderOverride(ov, cN, cK, cG, vMap) {
-	const g = resolveGenus(ov, cG, vMap);
-	if (ov.type === 'ART') return declineArticle(ov.subtype, ov, cN, cK, g);
-	if (ov.type === 'PRO') return declinePronoun(ov.subtype, ov, cN, cK, g);
-	return '';
+
+/**
+ * resolveRenderOverride — Löst ein ART/PRO-Render-Override-Token auf.
+ *
+ * Wird aufgerufen wenn NOM ein eingebettetes ART:/PRO:-Token hat:
+ *   {NOM:Held1|sgl|gen|ART:poss|p1|sgl|nom|msk|sgl}
+ *
+ * cN/cK/cG kommen vom NOM-Token (effektiver Numerus, Kasus, Genus des Nomens).
+ * Für poss: Possessor-Infos kommen aus dem ART/PRO-Token's eigenen Slots.
+ *
+ * @param {object} ov   - Slot-basiertes ART oder PRO Token
+ * @param {string} cN   - NOM-Numerus (Override)
+ * @param {string} cK   - NOM-Kasus (Override)
+ * @param {string} cG   - NOM-Genus (Override)
+ * @param {object} vMap
+ */
+/**
+ * resolveRenderOverride — Phase 4: generateSurface(buildMFBForOverride)
+ *
+ * VORHER (Phase 3): Großer switch pro ART/PRO-Subtyp.
+ * JETZT (Phase 4):  buildMFBForOverride() kombiniert Slot-Info mit NOM-Kontext,
+ *                   generateSurface() rendert das Ergebnis.
+ *
+ * Die NOM-Kongruenz (cN/cK/cG) überschreibt immer die Ziel-Features des MFB.
+ */
+function resolveRenderOverride(ov, cN, cK, cG, vMap, ctx) {
+	if (!ov || !ov.slots) return '';
+	const mfb     = buildMFBForOverride(ov, cN, cK, cG, vMap, ctx);
+	const surface = generateSurface(mfb);
+	if (typeof surface === 'string' && surface.startsWith('??')) {
+		console.warn(`[resolveRenderOverride] generateSurface: "${surface}" für ${ov.type}:${ov.subtype}`);
+		return '';
+	}
+	return surface;
 }
-function resolveNOM(token, settings, vMap) {
+
+// ── Resolver ───────────────────────────────────────────────────────────────────
+
+/**
+ * resolveNOM — Nomen-Resolver (Phase 3 erweitert)
+ *
+ * Neu gegenüber Phase 1+2:
+ *   - Akzeptiert RuntimeContext (ctx) als zusätzlichen Parameter
+ *   - Registriert aufgelöste Variablen in ctx.vars (registerVar),
+ *     damit nachfolgende var:Tier1 / def:Gebirge1-Verweise korrekt auflösen
+ *
+ * @param {object}   token    - Parsed NOM-Token
+ * @param {string[]} settings
+ * @param {object}   vMap     - Legacy variableMap (Abwärtskompatibilität)
+ * @param {import('./runtime-context.js').RuntimeContext} ctx
+ */
+function resolveNOM(token, settings, vMap, ctx) {
 	let wd;
 	const lk = norm(token.lemma);
 	if (_isVariable(lk) && vMap?.[lk]) {
@@ -874,8 +555,19 @@ function resolveNOM(token, settings, vMap) {
 	const eN = wd.number ? normalizeFlag(wd.number) : token.numerus,
 		g = normalizeGenus(wd.gender ?? 'maskulinum'),
 		attr = _artAttr(token.art);
+
+	// Phase 3: Variable im RuntimeContext registrieren, damit downstream
+	// var:Tier1-Verweise in ART/PRO das richtige Genus auflösen können.
+	if (ctx && _isVariable(lk)) {
+		_rCtx.registerVar(ctx, lk, {
+			genus:   g,
+			numerus: eN,
+			lemma:   wd.singular ?? lk,
+		});
+	}
+
 	const artS = token.renderOverride
-		? resolveRenderOverride(token.renderOverride, eN, token.kasus, g, vMap)
+		? resolveRenderOverride(token.renderOverride, eN, token.kasus, g, vMap, ctx)
 		: _artStr(token.art, eN, token.kasus, g, token.renderArticle);
 	const dec = declineNoun(
 		eN,
@@ -893,31 +585,250 @@ function resolveNOM(token, settings, vMap) {
 	);
 	return artS ? artS + ' ' + dec : dec;
 }
-function resolveART(t, vMap) {
-	return declineArticle(
-		t.subtype,
-		t,
-		t.targetNumerus,
-		t.targetKasus,
-		resolveGenus(t, null, vMap),
+/**
+ * resolveART — Slot-basierter Adapter (Phase 2)
+ *
+ * Übersetzt das neue {type:'ART', subtype, slots:Map} Format in Aufrufe der
+ * bestehenden decline*()-Funktionen. Die decline*()-Funktionen selbst bleiben
+ * unverändert (Phase 4+ ersetzt sie durch flex-tables).
+ *
+ * ADAPTER-MUSTER: Neues Format rein → alte Funktion aufrufen → String raus.
+ */
+// ── MFB-Builder (Phase 4) ──────────────────────────────────────────────────────
+
+/**
+ * buildMFB — Konvertiert ein slot-basiertes Token (Phase 2) in ein ResolvedMFB (Phase 4).
+ *
+ * Phase 6: vMap wird intern nicht mehr genutzt (resolveSlotGenus ist ctx-only).
+ *          Parameter bleibt für mögliche zukünftige Extension erhalten.
+ *
+ * @param {'ART'|'PRO'} type
+ * @param {string}      subtype
+ * @param {Map}         slots
+ * @param {RuntimeContext} ctx
+ * @param {object}      _vMap   - Ungenutzt seit Phase 6 (reserviert)
+ */
+function buildMFB(type, subtype, slots, ctx, _vMap) {
+	const mfb = { type, subtype };
+
+	// 1. Alle Slot-Werte direkt ins MFB kopieren
+	for (const [key, val] of slots) {
+		mfb[key] = val;
+	}
+
+	// 2. var:X-Genus-Felder auflösen
+	const GENUS_FIELDS = ['genus', 'ziel_genus', 'p3genus', 'ant_genus'];
+	for (const field of GENUS_FIELDS) {
+		if (mfb[field]) {
+			mfb[field] = resolveSlotGenus(mfb[field], ctx);
+		}
+	}
+
+	// 3. def:X-Numerus-Felder auflösen
+	const NUMERUS_FIELDS = ['numerus', 'poss_num', 'ziel_num', 'ant_num'];
+	for (const field of NUMERUS_FIELDS) {
+		if (mfb[field]) {
+			mfb[field] = resolveSlotNumerus(mfb[field], ctx);
+		}
+	}
+
+	return mfb;
+}
+
+/**
+ * buildMFBForOverride — Baut ein MFB für NOM-Render-Overrides.
+ *
+ * KONTEXT:
+ *   Wenn ein NOM-Token ein eingebettetes ART/PRO-Token trägt:
+ *   {NOM:Held1|sgl|gen|ART:poss|p1|sgl|nom|msk|sgl}
+ *
+ *   Das NOM-Token hat den effektiven Numerus/Kasus/Genus bestimmt (cN/cK/cG).
+ *   Das Override-Token liefert Possesssor-Info (person, p3genus, poss_num).
+ *
+ *   Regel: cN/cK/cG überschreiben immer die "Ziel"-Felder des MFB,
+ *   weil das Nomen die Kongruenz erzwingt.
+ *
+ * @param {object} ov   - Slot-basiertes ART/PRO-Token
+ * @param {string} cN   - Effektiver NOM-Numerus
+ * @param {string} cK   - Effektiver NOM-Kasus
+ * @param {string} cG   - Effektiver NOM-Genus
+ * @param {object} vMap
+ * @param {RuntimeContext} ctx
+ */
+function buildMFBForOverride(ov, cN, cK, cG, vMap, ctx) {
+	const mfb = buildMFB(ov.type, ov.subtype, ov.slots, ctx, vMap);
+
+	// NOM-Kontext überschreibt Ziel-Features — das Nomen bestimmt die Kongruenz
+	mfb.numerus = cN;
+	mfb.kasus   = cK;
+	mfb.genus   = cG;
+
+	// Phase 9: ziel_num / ziel_genus nur für Subtypen setzen, die diese Felder kennen.
+	// Vorher: immer gesetzt → unnötige MFB-Verschmutzung bei genposs/rez/indef/int.
+	const POSSESSIVE_SUBTYPES = new Set(['poss']);
+	if (POSSESSIVE_SUBTYPES.has(ov.subtype)) {
+		mfb.ziel_num   = cN;
+		mfb.ziel_genus = cG;
+	}
+
+	return mfb;
+}
+
+/**
+ * resolveART — Phase 4: generateSurface(buildMFB)
+ *
+ * VORHER (Phase 3): Großer switch mit decline*()-Aufrufen pro Subtyp.
+ * JETZT (Phase 4):  buildMFB() → generateSurface() — unabhängig vom Subtyp.
+ *
+ * Die decline*()-Funktionen werden für ART/PRO nicht mehr direkt aufgerufen.
+ * Sie bleiben für NOM (_artStr, declineNoun) und ADJ (declineAdjective).
+ */
+function resolveART(t, vMap, ctx) {
+	if (t.parseError) {
+		console.warn(`[resolveART] Parse-Fehler bei ART:${t.subtype}: ${t.parseError}`);
+		return '';
+	}
+	const mfb = buildMFB('ART', t.subtype, t.slots, ctx, vMap);
+	const surface = generateSurface(mfb);
+	if (typeof surface === 'string' && surface.startsWith('??')) {
+		console.warn(`[resolveART] generateSurface: "${surface}" für {ART:${t.subtype}}`);
+		return '';
+	}
+	return surface;
+}
+
+/**
+ * resolvePRO — Phase 4: generateSurface(buildMFB)
+ * Analoges Muster zu resolveART.
+ */
+function resolvePRO(t, vMap, ctx) {
+	if (t.parseError) {
+		console.warn(`[resolvePRO] Parse-Fehler bei PRO:${t.subtype}: ${t.parseError}`);
+		return '';
+	}
+	const mfb = buildMFB('PRO', t.subtype, t.slots, ctx, vMap);
+	const surface = generateSurface(mfb);
+	if (typeof surface === 'string' && surface.startsWith('??')) {
+		console.warn(`[resolvePRO] generateSurface: "${surface}" für {PRO:${t.subtype}}`);
+		return '';
+	}
+	return surface;
+}
+
+/**
+ * resolveDEF — Defektiva-Resolver (Phase 3)
+ *
+ * Rendert ein Defektiva-Nomen und registriert es im RuntimeContext,
+ * damit nachfolgende Tokens via def:VarKey den Numerus auflösen können.
+ *
+ * DEF_MAP wird aus defektiva-registry.js geladen (analog zu LEMMA_MAP).
+ * Format eines DEF_MAP-Eintrags: { type:'defektiv', arrays: [{noun, gender, number, ...}] }
+ *
+ * WICHTIG — Numerus-Quelle:
+ *   Der Numerus kommt aus wd.number (CSV-Feld), NICHT aus dem Token.
+ *   Damit wird die Idee hinter Defektiva korrekt abgebildet:
+ *   Das Wort legt seinen Numerus fest, nicht das Template.
+ *
+ * @param {object}           token    - Parsed DEF-Token
+ * @param {string[]}         settings
+ * @param {RuntimeContext}   ctx
+ */
+function resolveDEF(token, settings, ctx) {
+	const entry = DEF_MAP[token.varKey];
+	if (!entry) {
+		console.warn(`[resolveDEF] Unbekannte Defektiva-Variable: "${token.varKey}"`);
+		return '[DEF:' + token.varKey + '?]';
+	}
+
+	const wd = selectRandom(entry.arrays, settings);
+	if (!wd) return '[DEF:' + token.varKey + '?]';
+
+	const numerus = normalizeFlag(wd.number ?? 'sgl');
+	const genus   = normalizeGenus(wd.gender ?? 'maskulinum');
+
+	// Im RuntimeContext registrieren — damit def:Gebirge1 in ART/PRO aufgelöst werden kann
+	if (ctx) {
+		_rCtx.registerVar(ctx, token.varKey, {
+			genus,
+			numerus,
+			lemma: wd.noun ?? token.varKey,
+		});
+	}
+
+	// Artikel rendern via generateSurface (Phase 5)
+	const artType = (token.art === '-' || !token.art) ? 'def' : token.art;
+	const artS = token.renderArticle
+		? generateSurface({ type: 'ART', subtype: artType, numerus, kasus: token.kasus, genus })
+		: '';
+
+	// Nomen flektieren
+	// DEF-Einträge haben nur 'noun' (kein singular/plural-Doppeleintrag)
+	const dec = declineNoun(
+		numerus,
+		token.kasus,
+		_artAttr(token.art === '-' ? 'def' : token.art),
+		wd.noun ?? '',
+		wd.noun ?? '',           // Singular = Plural für Defektiva-Lookups
+		wd.adjective ?? '',
+		wd.prefix ?? '',
+		wd.suffix ?? '',
+		wd.gender,
+		wd.declinationRule,
+		wd.declinationPattern,
 	);
+
+	return artS ? artS + ' ' + dec : dec;
 }
-function resolvePRO(t, vMap) {
-	return declinePronoun(t.subtype, t, t.numerus, t.kasus, resolveGenus(t, null, vMap));
-}
-function resolveADJ(t, vMap) {
+
+/**
+ * resolveADJ — Adjektiv-Resolver (Phase 9: CSV-Steigerungsformen)
+ *
+ * Phase 9-Korrektur:
+ *   VORHER: Immer wd.positive gelesen, dann Komparativ/Superlativ algorithmisch gebaut.
+ *   JETZT:  Je nach t.steigerung die korrekte CSV-Spalte lesen:
+ *             pos → wd.positive
+ *             kom → wd.comparative  (Fallback: wd.positive)
+ *             sup → wd.superlative  (Fallback: wd.positive)
+ *
+ *   declineAdjective() wird immer mit steigerung='pos' aufgerufen, da die
+ *   Steigerungsform bereits vollständig in der CSV-Spalte steht.
+ *   _adjStem() entfernt dabei das trailing -e aus Superlativformen wie
+ *   'anmutigste' → 'anmutigst', damit die Flexionsendung korrekt angehängt wird.
+ *
+ * WARUM KEIN ALGORITHMISCHER FALLBACK FÜR KOM/SUP:
+ *   Der Algorithmus (base + 'er' / base + 'st') erzeugte falsche Superlative
+ *   (anmutigst statt anmutigste) und fehlende Umlaute (gut→güter statt besser).
+ *   CSV-Formen sind explizit und immer korrekt.
+ */
+function resolveADJ(t, vMap, ctx) {
 	const e = LEMMA_MAP[t.lemma];
+
 	if (t.numerus === 'tags') {
 		return e?.type === 'adj' ? (selectRandom(e.arrays, [])?.tags ?? '') : '';
 	}
-	let pos;
+
+	let csvForm;
 	if (e?.type === 'adj') {
 		const wd = selectRandom(e.arrays, []);
-		pos = wd ? (wd.positive ?? wd.positiv ?? t.lemma) : t.lemma;
+		if (wd) {
+			// Phase 9: Richtige CSV-Spalte je nach Steigerungsgrad
+			if (t.steigerung === 'kom') {
+				csvForm = wd.comparative ?? wd.positive ?? wd.positiv ?? t.lemma;
+			} else if (t.steigerung === 'sup') {
+				csvForm = wd.superlative ?? wd.positive ?? wd.positiv ?? t.lemma;
+			} else {
+				csvForm = wd.positive ?? wd.positiv ?? t.lemma;
+			}
+		} else {
+			csvForm = t.lemma;
+		}
 	} else {
-		pos = t.lemma;
+		csvForm = t.lemma;
 	}
-	return declineAdjective(t.numerus, t.kasus, t.steigerung, _artAttr(t.art), t.genus, pos);
+
+	// Steigerungsform ist bereits in csvForm enthalten → steigerung='pos' für
+	// declineAdjective (nur Flexionsendung anhängen, keine Steigerungssuffix mehr)
+	return declineAdjective(t.numerus, t.kasus, 'pos', _artAttr(t.art), t.genus, csvForm);
 }
 function resolveCOM(t, settings, vMap) {
 	let wd;
@@ -1094,28 +1005,43 @@ function resolveFUN(fn, arg) {
 	return '';
 }
 
-/** FIX: async — awaitet resolveNAM */
-async function resolveToken(token, settings, vMap) {
+/**
+ * resolveToken — Dispatcht ein geparstes Token an den passenden Resolver.
+ *
+ * Phase 3 Änderungen:
+ *  - Akzeptiert RuntimeContext (ctx)
+ *  - DEF-Token werden vollständig gerendert via resolveDEF()
+ *  - ctx wird an alle Resolver weitergegeben
+ *
+ * @param {object}   token
+ * @param {string[]} settings
+ * @param {object}   vMap     - Legacy variableMap
+ * @param {RuntimeContext} ctx
+ */
+async function resolveToken(token, settings, vMap, ctx) {
 	let result;
 	switch (token.type) {
 		case 'NOM':
-			result = resolveNOM(token, settings, vMap);
+			result = resolveNOM(token, settings, vMap, ctx);
+			break;
+		case 'DEF':
+			result = resolveDEF(token, settings, ctx);
 			break;
 		case 'ART':
-			result = resolveART(token, vMap);
+			result = resolveART(token, vMap, ctx);
 			break;
 		case 'PRO':
-			result = resolvePRO(token, vMap);
+			result = resolvePRO(token, vMap, ctx);
 			break;
 		case 'ADJ':
-			result = resolveADJ(token, vMap);
+			result = resolveADJ(token, vMap, ctx);
 			break;
 		case 'COM':
 			result = resolveCOM(token, settings, vMap);
 			break;
 		case 'NAM':
 			result = await resolveNAM(token);
-			break; // ← await
+			break;
 		case 'FUN':
 			result = resolveFUN(token.fn, token.arg);
 			break;
@@ -1147,20 +1073,61 @@ export function registerAuthorFunctions(fns) {
 	Object.assign(_authorFns, fns);
 }
 
+// DEF_MAP: befüllt von defektiva-registry.js (analog zu LEMMA_MAP für Defektiva)
+export const DEF_MAP = {};
+
 /**
- * FIX: render() ist async — alle Token werden parallel aufgelöst via Promise.all.
+ * render() — Async-Renderer für DSL-Templates (Phase 3)
+ *
+ * KRITISCHE ÄNDERUNG: Promise.all → sequenzielle for-of-Schleife
+ *
+ * WARUM SEQUENZIELL (nicht mehr Promise.all):
+ *   DEF-Token müssen VOR dem ersten Verweis auf ihre Variable (def:X) verarbeitet
+ *   werden. Mit Promise.all wäre die Reihenfolge nicht garantiert:
+ *
+ *   Template: "{DEF:Gebirge1|nom} {ART:def|def:Gebirge1|nom|msk}"
+ *   Promise.all → ART könnte vor DEF auflösen → def:Gebirge1 nicht im ctx → Fallback
+ *   for-of    → DEF immer zuerst → def:Gebirge1 ist registriert → korrekte Auflösung
+ *
+ *   NOM-Token mit var:X funktionieren genauso: die Variable wird beim NOM-Rendering
+ *   registriert, danach können ART/PRO-Tokens sie via var:X lesen.
+ *
+ *   PERFORMANCE-HINWEIS: Der einzige async Resolver ist resolveNAM (Namensgenerator).
+ *   Alle anderen Resolver sind synchron. Die sequenzielle Schleife ist daher in 99%
+ *   der Fälle nicht langsamer als Promise.all.
+ *
+ * @param {string}   template
+ * @param {object}   variableMap   - { Tier1: {gender,singular,...}, ... }
+ * @param {string[]} activeSettings
  * @returns {Promise<string>}
  */
 export async function render(template, variableMap, activeSettings) {
 	Object.keys(nameCtx).forEach((k) => delete nameCtx[k]);
-	const vMap = variableMap ?? {},
-		settings = activeSettings ?? ['Universal'];
-	const parts = await Promise.all(
-		tokenize(template).map((el) =>
-			el.type === 'literal'
-				? Promise.resolve(el.text)
-				: resolveToken(parseToken(el.raw, el.mod), settings, vMap),
-		),
-	);
+	const vMap     = variableMap ?? {};
+	const settings = activeSettings ?? ['Universal'];
+
+	// Phase 3: Frischer RuntimeContext pro render()-Aufruf
+	// Kein globaler Mutable State — Kontext lebt nur für diesen Template-Durchlauf
+	const ctx = _rCtx.createRuntimeContext();
+
+	const tokens = tokenize(template);
+	const parts  = [];
+
+	// SEQUENZIELL — notwendig für DEF→var:/def:-Abhängigkeiten
+	for (const el of tokens) {
+		if (el.type === 'literal') {
+			parts.push(el.text);
+			continue;
+		}
+		if (el.type === 'unclosed') {
+			console.warn(`[render] Nicht geschlossener Token an Position ${el.start}: "${el.text}"`);
+			parts.push('');
+			continue;
+		}
+		// eslint-disable-next-line no-await-in-loop
+		const resolved = await resolveToken(parseToken(el.raw, el.mod), settings, vMap, ctx);
+		parts.push(resolved);
+	}
+
 	return parts.join('');
 }
